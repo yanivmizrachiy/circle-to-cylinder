@@ -48,6 +48,12 @@ credit2 = 'הדרכה במחוז ירושלים והעיר ירושלים - מנ
 image_credit_pages = {9, 16, 22}
 visual_credit_pages = {11, 29}
 
+# These broken/empty historical assets are preserved only under source/ for provenance.
+# They must not reappear in the active canonical cone package.
+for ref in sorted(forbidden_historical_refs):
+    if (cone / ref).exists():
+        errors.append(f"inactive corrupt historical asset must not exist in canonical cone/: {ref}")
+
 for number in range(1, 47):
     path = cone / f"page-{number}.html"
     if not path.is_file():
