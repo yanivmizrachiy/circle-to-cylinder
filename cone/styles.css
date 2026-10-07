@@ -296,7 +296,6 @@ body {
 .page-6-layout{font-size:12.7px}.page-6-layout .sheet-content{gap:10px}.page-6-layout .q-card{padding:11px 13px 12px}.page-6-layout .q-card h3{margin:-11px -13px 9px;padding:8px 12px 8px 32px}.page-6-layout .work-table th,.page-6-layout .work-table td{padding:8px 9px}.page-6-layout .work-table td{height:42px}.page-6-layout .answer-line{height:1.9em}.page-6-layout .answer-lines .answer-line{height:2em}
 .page-23-layout{font-size:12.7px}.page-23-layout .sheet-content{gap:10px}.page-23-layout .q-card{padding:11px 13px 12px}.page-23-layout .q-card h3{margin:-11px -13px 9px;padding:8px 12px 8px 32px}.page-23-layout .formula-space{min-height:82px}.page-23-layout .answer-line{height:1.8em}.page-23-layout .answer-lines .answer-line{height:2em}.page-23-layout .choice-list{gap:7px}
 
-
 /* Shared layout layer for pages flagged by the 46-page A4 visual audit. */
 .textbook-fill .sheet-content{min-height:224mm;align-content:space-between;gap:10px}.textbook-fill .q-card{padding:10px 12px 11px}.textbook-fill .q-card h3{margin:-10px -12px 8px;padding:7px 11px 7px 31px}.textbook-fill .answer-line{height:1.65em}.textbook-fill .formula-space{min-height:52px}.textbook-fill .work-table th,.textbook-fill .work-table td{padding:7px 8px}.textbook-fill .work-table td:empty{height:38px}.textbook-fill .figure-medium{max-height:180px}.textbook-fill .draw-box{height:94px}.textbook-fill .cols-2{gap:10px}.textbook-fill .choice-list{gap:6px}
 
@@ -314,14 +313,75 @@ main:has(.page-number[aria-label="עמוד 39"]) .answer-line{height:2.1em}
 
 @media print{.textbook-fill .sheet-content,.textbook-fill-visual .sheet-content{min-height:224mm}}
 
-
 .ayelet-page{background:#fff;color:#111;position:relative;overflow:hidden;padding:25mm 26mm 12mm!important;font-family:Arial,"Noto Sans Hebrew","Segoe UI",sans-serif}.ayelet-project-metadata{display:none!important}.ayelet-source-sheet{width:100%;max-width:100%;margin:0 auto;font-size:12.2pt;line-height:1.34;font-weight:400;color:#111}.ayelet-source-sheet p{margin:0}.ayelet-bsd{text-align:right;margin:0 0 4mm!important;font-size:11.5pt}.ayelet-source-title{text-align:center;margin:0 0 10mm;font-size:14.5pt;line-height:1.15;font-weight:800;text-decoration:underline;text-underline-offset:2px}.ayelet-equipment{margin-bottom:4mm!important;font-weight:700}.ayelet-source-steps{display:grid;gap:1.4mm;margin-bottom:5mm;padding-right:6mm}.ayelet-source-steps p{position:relative}.ayelet-question-block{display:grid;gap:2.2mm;margin-top:1mm}.ayelet-answer-line{direction:ltr;text-align:right;font-family:"Courier New",monospace;font-size:11.5pt;line-height:1;margin-top:-.7mm!important;margin-bottom:1.3mm!important;white-space:nowrap}.ayelet-answer-line.wide{letter-spacing:-.15px}.ayelet-middle-source{position:relative;min-height:52mm;margin-top:3mm;padding-left:23mm}.ayelet-middle-text{display:grid;gap:2.1mm}.ayelet-source-emphasis{font-weight:800}.ayelet-original-cone{position:absolute;left:0;top:6.5mm;width:19.3mm;height:auto;display:block}.ayelet-math-source{display:grid;gap:2.2mm;margin-top:1.5mm}.ayelet-math-source h2,.ayelet-definition-source h2{margin:0 0 2.5mm;font-size:13.4pt;line-height:1.15;font-weight:800;text-decoration:underline;text-underline-offset:2px}.ayelet-definition-source{display:grid;gap:2.3mm;margin-top:7mm}.ayelet-definition-source p{line-height:1.45}@media screen{.ayelet-page{box-shadow:0 10px 30px rgba(15,23,42,.12)}}@media print{.ayelet-page{box-shadow:none!important}.ayelet-original-cone{filter:none}}
 
 .visual-a4{padding:7mm 9mm 7mm;background:linear-gradient(180deg,#f8fbff,#eef4fb);display:flex;flex-direction:column;gap:4mm}.visual-head{background:#123f88;color:#fff;border-radius:7mm;padding:5mm 7mm 4.5mm;min-height:27mm;display:flex;align-items:center;justify-content:space-between;gap:5mm}.visual-head-copy{min-width:0}.visual-head h1{margin:0;font-size:22px;line-height:1.15;font-weight:800}.visual-head p{margin:2mm 0 0;color:#dceaff;font-size:11px;line-height:1.35}.visual-badge{width:13mm;height:13mm;flex:0 0 13mm;border-radius:50%;display:grid;place-items:center;background:#ffc107;color:#123f88;border:1mm solid #fff;font-size:18px;font-weight:900}.visual-scene{position:relative;width:100%;aspect-ratio:700/770;border:1px solid #aac3df;border-radius:5mm;overflow:hidden;background:#fff;box-shadow:0 1.5mm 4mm rgba(35,55,85,.12)}.visual-scene>img{display:block;width:100%;height:100%;object-fit:cover}.visual-callout{min-height:19mm;border:1px solid #aac3df;border-radius:5mm;background:#fff;display:grid;place-items:center;text-align:center;padding:3mm 6mm;font-size:15px;font-weight:800}.visual-callout.answer{background:#123f88;color:#fff;border-color:#123f88}.visual-callout small{display:block;margin-top:1.5mm;font-size:9.5px;font-weight:500;color:#dceaff}.visual-credit{margin-top:auto;border-top:1.2mm double #1d4ed8;padding-top:1.5mm;text-align:center;line-height:1.25}.visual-credit .v1{font-size:9.5px;font-weight:700}.visual-credit .v2{font-size:8.5px;color:#5f6b7a}.visual-marker{position:absolute;transform:translate(-50%,-50%);width:8mm;height:8mm;border-radius:50%;display:grid;place-items:center;background:#dc263b;color:#fff;font:800 12px/1 Arial,sans-serif;box-shadow:0 0 0 1mm #fff,0 0 0 2mm #ffd52a;z-index:3}.p1-m1{left:10.43%;top:44.68%}.p1-m2{left:23.64%;top:56.30%}.p1-m3{left:37.00%;top:44.61%}.p1-m4{left:49.79%;top:59.22%}.p1-m5{left:65.93%;top:44.61%}.p1-m6{left:83.79%;top:47.73%}.p1-m7{left:92.14%;top:60.26%}.p1-m8{left:13.93%;top:68.18%}.p1-m9{left:30.86%;top:80.78%}.p1-m10{left:44.00%;top:90.00%}.p1-m11{left:54.64%;top:72.14%}.p1-m12{left:70.57%;top:80.32%}.p1-m13{left:87.36%;top:90.19%}.p1-m14{left:51.29%;top:50.97%}.p1-m15{left:80.00%;top:64.48%}.p2-m1{left:82.29%;top:85.84%}.answer-scene>img{filter:grayscale(1) contrast(.95) brightness(1.05)}.cone-overlay{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}[data-image-only="true"]{padding:0;background:#050505;display:block;gap:0;overflow:hidden;position:relative}[data-image-only="true"]>.image-page-art{display:block;width:100%;height:100%;object-fit:cover}.image-page-contain{object-fit:contain!important;background:#050505}.formula-display{font-size:20px}.visual-a4>.local-page-number{position:absolute;left:9mm;top:7mm;z-index:100;width:34px;height:34px;display:grid;place-items:center;border-radius:50%;background:#1685a8;color:#fff;font:800 15px/1 "Rubik","Heebo",sans-serif;box-shadow:0 4px 12px rgba(22,133,168,.18);border:2px solid rgba(255,255,255,.92)}[data-image-only="true"]>.local-page-number{left:10mm;top:9mm;background:rgba(22,133,168,.94)}@media print{.visual-a4{-webkit-print-color-adjust:exact;print-color-adjust:exact}.visual-scene{box-shadow:none}[data-image-only="true"]{padding:0}}
-
 
 /* Generated print bundle overrides */
 body { background:#fff; }
 .a4-page { margin:0; box-shadow:none; page-break-after:always; break-after:page; }
 .a4-page:last-child { page-break-after:auto; break-after:auto; }
 .sheet-footer { display:none !important; }
+
+/* Canonical district footer: committed source, not a CI-time mutation. */
+.gz-footer {
+  display:grid;
+  grid-template-columns:10mm max-content;
+  grid-template-rows:auto auto;
+  grid-template-areas:"logo f1" "logo f2";
+  justify-content:center;
+  align-items:center;
+  column-gap:2mm;
+  direction:ltr;
+}
+.gz-footer::before {
+  content:"";
+  grid-area:logo;
+  width:10mm;
+  height:10mm;
+  display:block;
+  background:url("../assets/district-logo.png") center/contain no-repeat;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
+.gz-footer .f1 { grid-area:f1; direction:rtl; text-align:center; }
+.gz-footer .f2 { grid-area:f2; direction:rtl; text-align:center; }
+.visual-credit { position:relative; }
+.visual-credit::before {
+  content:"";
+  position:absolute;
+  right:0;
+  top:1mm;
+  width:8mm;
+  height:8mm;
+  background:url("../assets/district-logo.png") center/contain no-repeat;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
+.image-credit {
+  position:absolute;
+  right:0;
+  left:0;
+  bottom:0;
+  z-index:20;
+  min-height:10mm;
+  padding:1.5mm 13mm 1.5mm 3mm;
+  border-top:1px solid rgba(30,58,138,.75);
+  background:rgba(255,255,255,.90);
+  color:#1f2a44;
+  text-align:center;
+  line-height:1.15;
+  backdrop-filter:blur(2px);
+}
+.image-credit::before {
+  content:"";
+  position:absolute;
+  right:3mm;
+  top:50%;
+  transform:translateY(-50%);
+  width:8mm;
+  height:8mm;
+  background:url("../assets/district-logo.png") center/contain no-repeat;
+}
+.image-credit .f1 { font-size:9px; font-weight:600; }
+.image-credit .f2 { margin-top:1px; font-size:8px; color:#475569; }
