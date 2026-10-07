@@ -5,6 +5,8 @@ import re
 import sys
 from collections import Counter
 
+from pypdf import PdfReader
+
 root = pathlib.Path(__file__).resolve().parents[1]
 manifest = json.loads((root / "content-manifest.json").read_text(encoding="utf-8"))
 circle = json.loads((root / "maagal/manifest.json").read_text(encoding="utf-8"))
@@ -60,21 +62,25 @@ missing = [page for page in listed if not (root / page).is_file()]
 if missing:
     errors.extend(f"missing listed page: {page}" for page in missing)
 
-# Release lock: the current downloadable PDF and RULES.md both define a 146-page
-# live workbook. Do not activate staged cone pages (or otherwise change section
-# counts) unless the PDF, RULES and this lock are updated atomically in one change.
-expected_active_counts = {"circle": 99, "cylinder": 46, "cone": 1}
+# Canonical 192-page release lock.
+expected_active_counts = {"circle": 99, "cylinder": 46, "cone": 47}
 for section_id, expected in expected_active_counts.items():
     actual = len(section_pages.get(section_id, []))
     if actual != expected:
         errors.append(
             f"active {section_id} page count changed: {actual} != release lock {expected}; "
-            "update PDF + RULES + integrity lock atomically before changing the live sequence"
+            "update manifest + PDF + RULES atomically before changing the live sequence"
         )
-if len(listed) != 146:
+if len(listed) != 192:
     errors.append(
-        f"active workbook page count changed: {len(listed)} != release lock 146; "
-        "the downloadable PDF must be rebuilt and verified in the same change"
+        f"active workbook page count changed: {len(listed)} != release lock 192; "
+        "the downloadable PDF and RULES must be rebuilt/updated in the same change"
+    )
+
+expected_cone = [f"cone/page-{n}.html" for n in range(1, 47)] + ["gold/page-8.html"]
+if section_pages.get("cone") != expected_cone:
+    errors.append(
+        "cone section must be cone/page-1..46 followed by gold/page-8.html"
     )
 
 # Every gold page must be represented in the canonical manifest.
@@ -89,6 +95,31 @@ for page in sorted(actual_gold - expected_gold):
 for page in listed:
     if "://" in page or page.startswith("/") or ".." in pathlib.PurePosixPath(page).parts:
         errors.append(f"non-local manifest path is forbidden: {page}")
+
+# The downloadable PDF must be derived from and match the active manifest page count.
+pdf_path = root / "assets/circle-to-cylinder.pdf"
+if not pdf_path.is_file():
+    errors.append("downloadable PDF is missing: assets/circle-to-cylinder.pdf")
+else:
+    try:
+        pdf_pages = len(PdfReader(str(pdf_path)).pages)
+    except Exception as exc:
+        errors.append(f"downloadable PDF cannot be read: {exc}")
+    else:
+        if pdf_pages != len(listed):
+            errors.append(
+                f"downloadable PDF page count mismatch: {pdf_pages} != active manifest {len(listed)}"
+            )
+
+# Keep human-readable SSOT docs aligned with the release count.
+for doc_name in ["RULES.md", "README.md"]:
+    doc_path = root / doc_name
+    if not doc_path.is_file():
+        errors.append(f"{doc_name} is missing")
+    else:
+        text = doc_path.read_text(encoding="utf-8")
+        if "192" not in text:
+            errors.append(f"{doc_name} does not document the 192-page release")
 
 # Preserve the recovered 46-page cone source byte-for-byte inside the canonical repo.
 preserved = root / "source/razpages-cone-5f67398"
@@ -139,6 +170,7 @@ def git_blob_sha(path):
     header = f"blob {len(data)}\0".encode("ascii")
     return hashlib.sha1(header + data).hexdigest()
 
+
 protected_blobs = {
     "workbooks/cone/index.html": "8c2ce749d644e4e37e48b83f86a39f6460927ef4",
     "workbooks/cone/styles.css": "567b9465c41b69f4207b82cddc8d143ef022eaa2",
@@ -170,7 +202,7 @@ print(
     f"circle={counts.get('circle', 0)}, "
     f"cylinder={counts.get('cylinder', 0)}, "
     f"cone={counts.get('cone', 0)}; "
-    "146-page release lock intact; SSOT is local; "
+    "192-page release lock and PDF count match; SSOT is local; "
     "recovered 46-page cone source is preserved byte-for-byte; "
     "no missing, duplicate, external or unlisted gold pages."
 )
