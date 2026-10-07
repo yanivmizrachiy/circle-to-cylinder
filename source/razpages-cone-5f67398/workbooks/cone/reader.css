@@ -1,0 +1,93 @@
+.cone-reader-toolbar[hidden] { display:none; }
+.cone-reader-toolbar {
+  position:sticky;
+  top:0;
+  z-index:200;
+  color:#172033;
+  background:#fff;
+  border-bottom:1px solid #d7e1ea;
+  box-shadow:0 3px 16px rgb(23 32 51 / 6%);
+  padding:8px max(12px, env(safe-area-inset-right)) 8px max(12px, env(safe-area-inset-left));
+}
+.cone-reader-toolbar-inner { max-width:1100px; margin-inline:auto; display:flex; flex-wrap:wrap; gap:8px 18px; align-items:center; justify-content:space-between; }
+.cone-reader-heading { display:flex; align-items:center; justify-content:space-between; gap:18px; }
+.cone-reader-heading h1 { margin:0; font-size:20px; line-height:1.2; }
+.cone-reader-heading a { display:inline-flex; align-items:center; min-height:44px; padding-inline:8px; color:#0e6785; text-decoration:none; font-size:14px; }
+.cone-reader-navigation,.cone-reader-actions { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:6px; }
+.cone-reader-navigation { font-size:14px; }
+.cone-reader-toolbar button,.cone-reader-toolbar input {
+  min-width:44px;
+  min-height:44px;
+  border:1px solid #c5d2de;
+  border-radius:10px;
+  color:#172033;
+  background:#fff;
+  font:inherit;
+}
+.cone-reader-toolbar button { padding:8px 11px; cursor:pointer; font-size:14px; }
+.cone-reader-toolbar button:hover:not(:disabled) { border-color:#1685a8; background:#eaf7fb; }
+.cone-reader-toolbar button:disabled { opacity:.42; cursor:default; }
+.cone-reader-toolbar :focus-visible { outline:3px solid #1685a8; outline-offset:2px; }
+.cone-reader-toolbar input { width:62px; padding:6px 4px; text-align:center; direction:ltr; }
+#cone-next { background:#0e6785; color:#fff; border-color:#0e6785; }
+#cone-next:hover:not(:disabled) { background:#084f68; }
+.cone-reader-status { position:absolute; width:1px; height:1px; margin:0; padding:0; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+@media screen {
+  body { background:#edf2f6; }
+  body:not(.cone-reader-enabled) .a4-page { margin:16px auto; box-shadow:0 5px 24px rgb(23 32 51 / 12%); }
+  .cone-reader-enabled { overflow:hidden; }
+  .cone-reader-enabled .cone-reader-viewport {
+    height:var(--cone-viewport-height, 80vh);
+    width:100%;
+    padding:14px max(12px, env(safe-area-inset-right)) max(14px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+    overflow:auto;
+    overscroll-behavior:contain;
+    touch-action:pan-x pan-y pinch-zoom;
+    direction:ltr;
+  }
+  .cone-reader-enabled .cone-reader-stage {
+    position:relative;
+    width:var(--cone-scaled-width, 210mm);
+    height:var(--cone-scaled-height, 297mm);
+    margin-inline:auto;
+  }
+  .cone-reader-enabled .cone-reader-paper {
+    position:absolute;
+    top:0;
+    left:0;
+    width:210mm;
+    transform:scale(var(--cone-scale, 1));
+    transform-origin:top left;
+    direction:rtl;
+    box-shadow:0 5px 24px rgb(23 32 51 / 12%);
+  }
+  .cone-reader-enabled .a4-page:not(.is-current) { display:none; }
+  .cone-reader-enabled .a4-page { margin:0; }
+}
+@media (max-width:640px) {
+  .cone-reader-toolbar-inner { justify-content:center; gap:6px; }
+  .cone-reader-heading { width:100%; }
+  .cone-reader-heading h1 { font-size:18px; }
+  .cone-reader-navigation { width:100%; }
+  .cone-reader-actions { width:100%; gap:5px; }
+  .cone-reader-actions button { padding-inline:8px; font-size:13px; }
+}
+@media (max-height:500px) and (min-width:641px) {
+  .cone-reader-toolbar-inner { gap:4px 10px; }
+  .cone-reader-heading h1 { font-size:17px; }
+}
+@media print {
+  .cone-reader-toolbar { display:none !important; }
+  .cone-reader-viewport,.cone-reader-stage,.cone-reader-paper {
+    position:static !important;
+    width:auto !important;
+    height:auto !important;
+    margin:0 !important;
+    padding:0 !important;
+    overflow:visible !important;
+    transform:none !important;
+    box-shadow:none !important;
+  }
+  body[data-cone-print="current"] .a4-page:not(.is-current) { display:none !important; }
+  body[data-cone-print="current"] .a4-page.is-current { break-after:auto !important; page-break-after:auto !important; }
+}

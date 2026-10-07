@@ -1,7 +1,9 @@
 name: Content integrity
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - 'consolidate/**'
   pull_request:
 jobs:
   verify-content:
@@ -12,3 +14,4 @@ jobs:
         with:
           python-version: '3.x'
       - run: python scripts/check-content.py
+      - run: python scripts/check-cone-package.py
