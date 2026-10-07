@@ -9,17 +9,18 @@
 *{box-sizing:border-box}
 body{margin:0;background:#f3f6fb;font-family:'Rubik','Heebo','Noto Sans Hebrew',Arial,sans-serif;color:#152033}
 .nav{position:sticky;top:0;z-index:50;display:flex;justify-content:center;background:#fff;border-bottom:3px solid #1e3a8a;box-shadow:0 2px 12px rgba(30,58,138,.15)}
-.nav button{flex:1 1 0;max-width:300px;font-family:inherit;font-size:22px;font-weight:800;color:#1e3a8a;background:#fff;border:0;padding:18px 12px;cursor:pointer;transition:background .15s;letter-spacing:.5px}
+.nav button{flex:1 1 0;max-width:360px;font-family:inherit;font-size:29px;font-weight:800;color:#1e3a8a;background:#fff;border:0;padding:26px 14px;cursor:pointer;transition:background .2s ease,color .2s ease;letter-spacing:.6px}
 .nav button + button{border-inline-start:3px solid #1e3a8a}
-.nav button:hover{background:#eaf1fc}
-.nav button:active{background:#d7e4f7}
+.nav button:hover{background:#1e3a8a;color:#fff}
+.nav button:active{background:#17306e;color:#fff}
+.book{transition:opacity .3s ease}
 .book{max-width:1060px;margin:0 auto 24px;padding:0 10px;display:flex;flex-direction:column;align-items:center;gap:0}
 .slot{position:relative;width:794px;max-width:100%;background:#fff;overflow:hidden;scroll-margin-top:84px}
 .slot + .slot{border-top:3px solid #1e3a8a}
 .slot iframe{display:block;width:100%;height:100%;border:0;background:#fff;overflow:hidden;pointer-events:none}
 html,body{overflow-x:hidden;max-width:100%}
 .slot .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#9aa8bc;font-weight:700;font-size:15px}
-@media(max-width:760px){.book{margin-top:8px;padding:0 6px;gap:12px}.slot{border-radius:8px}.nav button{font-size:17px;padding:14px 6px}}
+@media(max-width:760px){.book{margin-top:0;padding:0 6px;gap:0}.nav button{font-size:21px;padding:18px 6px}}
 @media print{
  .nav{display:none}
  body{background:#fff}
@@ -40,7 +41,7 @@ const PAGE_W=794,PAGE_H=1123,GOLD_CYL=7,GALIL=39;
 const book=document.getElementById('book');
 let pages=[],slots=[];
 let SEC={circle:1,cylinder:100,cone:146};
-function jump(sec){const n=SEC[sec]||1;const t=document.getElementById('p'+n);if(!t)return;if(!t._loaded)loadSlot(t);t.scrollIntoView({behavior:'smooth',block:'start'});}
+function jump(sec){const n=SEC[sec]||1;const t=document.getElementById('p'+n);if(!t)return;if(!t._loaded)loadSlot(t);book.style.opacity='0';setTimeout(function(){t.scrollIntoView({block:'start'});requestAnimationFrame(function(){book.style.opacity='1';});},230);}
 function displayWidth(){const cs=getComputedStyle(book);const pad=parseFloat(cs.paddingLeft)+parseFloat(cs.paddingRight);return Math.max(200,Math.min(PAGE_W,Math.floor(book.clientWidth-pad)));}
 function sizeSlot(slot){const dw=displayWidth(),scale=dw/PAGE_W;slot.style.width=dw+'px';slot.style.height=Math.round(PAGE_H*scale)+'px';}
 function fitIframe(slot){const f=slot._frame;if(!f)return false;try{const doc=f.contentDocument;if(!doc)return false;const p=doc.querySelector('.a4-page');if(!p)return false;const target=f.clientWidth||displayWidth(),pw=p.offsetWidth||PAGE_W,ph=p.offsetHeight||PAGE_H,scale=target/pw;const de=doc.documentElement,bd=doc.body;de.style.overflow='hidden';de.style.margin='0';de.style.padding='0';if(bd){bd.style.margin='0';bd.style.padding='0';bd.style.position='relative';bd.style.overflow='hidden';bd.style.width=target+'px';bd.style.height=Math.ceil(ph*scale)+'px';}p.style.margin='0';p.style.position='absolute';p.style.left='0';p.style.top='0';p.style.transformOrigin='top left';p.style.transform='scale('+scale+')';slot.style.height=Math.round(ph*scale)+'px';const el=slot.querySelector('.ph');if(el)el.remove();return true;}catch(e){return false;}}
