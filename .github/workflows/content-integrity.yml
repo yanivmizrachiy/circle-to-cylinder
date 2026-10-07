@@ -25,6 +25,19 @@ jobs:
         run: |
           python -m pip install --disable-pip-version-check pypdf playwright
           python -m playwright install --with-deps chromium
+      - name: Repair known truncated Anis JPEG when safe
+        shell: python
+        run: |
+          from pathlib import Path
+          path = Path('cone/visual-assets/anis-basics.jpg')
+          data = path.read_bytes()
+          if not data.startswith(b'\xff\xd8'):
+              raise SystemExit('anis-basics.jpg is not a JPEG; refusing automatic repair')
+          if data.endswith(b'\xff\xd9'):
+              print('anis-basics.jpg already has a valid JPEG end marker')
+          else:
+              path.write_bytes(data + b'\xff\xd9')
+              print('Appended missing JPEG EOI marker to anis-basics.jpg')
       - name: Apply canonical district footer to cone
         shell: python
         run: |
@@ -81,6 +94,7 @@ jobs:
             .qa/release-report.json
             assets/circle-to-cylinder.pdf
             cone/styles.css
+            cone/visual-assets/anis-basics.jpg
           if-no-files-found: error
           retention-days: 14
       - name: Commit verified generated assets
@@ -88,14 +102,14 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          git add cone/styles.css assets/circle-to-cylinder.pdf
+          git add cone/styles.css cone/visual-assets/anis-basics.jpg assets/circle-to-cylinder.pdf
           if git diff --cached --quiet; then
             echo 'No generated release changes to commit.'
             exit 0
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit -m 'build(release): verified 192-page PDF and cone footer'
+          git commit -m 'build(release): verified 192-page PDF, cone footer and repaired image'
           git push origin HEAD:${GITHUB_REF_NAME}
 
   verify-content:
