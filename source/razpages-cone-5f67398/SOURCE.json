@@ -1,0 +1,10 @@
+{
+  "repository": "yanivmizrachiy/razpages",
+  "commit": "5f67398bcb100dd36e2275b34f4312e7f145e14e",
+  "sourcePaths": [
+    "workbooks/cone",
+    "workbooks/visual-assets"
+  ],
+  "conePages": 46,
+  "purpose": "Immutable preservation copy before canonical integration into yanivmizrachiy/circle-to-cylinder"
+}
