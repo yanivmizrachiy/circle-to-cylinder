@@ -63,12 +63,22 @@ for number, block in found:
 metadata = {
     "canonicalRepository": "yanivmizrachiy/circle-to-cylinder",
     "canonicalRoot": "cone",
-    "sourceOfTruth": True,
+    "canonicalPackage": True,
+    "releaseSequenceAuthority": "../content-manifest.json",
+    "contentEditingAuthority": "page-N.html",
+    "historicalSourceImmutable": True,
     "pageCount": 46,
     "generatedFrom": "source/razpages-cone-5f67398/workbooks/cone/index.html",
     "sourceRepository": "yanivmizrachiy/razpages",
     "sourceCommit": "5f67398bcb100dd36e2275b34f4312e7f145e14e",
-    "generationPolicy": "Initial lossless page split only. Future edits belong in cone/; preserved source remains immutable.",
+    "inactiveHistoricalAssets": [
+        "visual-assets/anis-basics.jpg",
+        "visual-assets/anis-basics.svg",
+    ],
+    "generationPolicy": (
+        "Historical recovery split only. Future edits belong in cone/page-N.html; "
+        "preserved source remains immutable. content-manifest.json alone controls release order."
+    ),
 }
 (TARGET / "manifest.json").write_text(
     json.dumps(metadata, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
@@ -89,4 +99,8 @@ for required in [
     if not required.is_file():
         fail(f"required generated asset missing: {required.relative_to(ROOT)}")
 
-print("OK: generated canonical cone/ with 46 standalone A4 pages and local assets; no existing content overwritten.")
+print(
+    "OK: generated the 46-page historical recovery split without overwriting existing content. "
+    "This output is not release-ready until canonical edits are reapplied and "
+    "scripts/check-cone-package.py plus the full release renderer pass."
+)
