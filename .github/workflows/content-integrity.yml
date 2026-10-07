@@ -23,21 +23,43 @@ jobs:
           python-version: '3.x'
       - name: Install release QA dependencies
         run: |
-          python -m pip install --disable-pip-version-check pypdf playwright
+          python -m pip install --disable-pip-version-check pypdf playwright pillow
           python -m playwright install --with-deps chromium
       - name: Repair known truncated Anis JPEG when safe
         shell: python
         run: |
           from pathlib import Path
+          from PIL import Image, ImageFile
+
           path = Path('cone/visual-assets/anis-basics.jpg')
           data = path.read_bytes()
           if not data.startswith(b'\xff\xd8'):
               raise SystemExit('anis-basics.jpg is not a JPEG; refusing automatic repair')
-          if data.endswith(b'\xff\xd9'):
-              print('anis-basics.jpg already has a valid JPEG end marker')
+
+          valid = False
+          try:
+              with Image.open(path) as image:
+                  image.verify()
+              valid = data.endswith(b'\xff\xd9')
+          except Exception:
+              valid = False
+
+          if valid:
+              print('anis-basics.jpg is already a complete decodable JPEG')
           else:
-              path.write_bytes(data + b'\xff\xd9')
-              print('Appended missing JPEG EOI marker to anis-basics.jpg')
+              ImageFile.LOAD_TRUNCATED_IMAGES = True
+              with Image.open(path) as image:
+                  image.load()
+                  width, height = image.size
+                  if width < 500 or height < 500:
+                      raise SystemExit(f'anis-basics.jpg decoded to implausible size {width}x{height}; refusing repair')
+                  repaired = image.convert('RGB')
+                  repaired.save(path, format='JPEG', quality=95, optimize=True)
+              with Image.open(path) as check:
+                  check.verify()
+              if not path.read_bytes().endswith(b'\xff\xd9'):
+                  raise SystemExit('repaired anis-basics.jpg is still incomplete')
+              print(f'Salvaged anis-basics.jpg from existing JPEG pixels ({width}x{height})')
       - name: Apply canonical district footer to cone
         shell: python
         run: |
