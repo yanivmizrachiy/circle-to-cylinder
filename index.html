@@ -1,48 +1,44 @@
-<!doctype html>
-<html lang="he" dir="rtl">
-<head>
+<!doctype html><html lang="he" dir="rtl"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>מעגל אל גליל</title>
 <style>
-  :root{--blue:#1d4ed8;--ink:#1e3a8a;--muted:#475569;--line:#cbd5e1;--panel:#eff4ff}
-  *{box-sizing:border-box}
-  body{margin:0;min-height:100vh;font-family:"Rubik","Heebo","Noto Sans Hebrew",Arial,sans-serif;
-       background:linear-gradient(160deg,#eef2f7,#dbe6fb);color:#111827;display:grid;place-items:center;padding:24px}
-  .wrap{width:100%;max-width:720px}
-  header{text-align:center;margin-bottom:26px}
-  h1{font-size:34px;margin:0;color:var(--ink)}
-  .cards{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-  @media(max-width:560px){.cards{grid-template-columns:1fr}h1{font-size:28px}}
-  a.card{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);
-         border-radius:16px;padding:28px 20px;text-align:center;box-shadow:0 2px 10px rgba(30,58,138,.07);transition:transform .12s,box-shadow .12s}
-  a.card:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(30,58,138,.15);border-color:var(--blue)}
-  .tag{display:inline-block;font-size:13px;font-weight:600;color:var(--blue);background:var(--panel);
-       border:1px solid #c7d7fb;border-radius:999px;padding:2px 11px;margin-bottom:10px}
-  .card h2{margin:0;font-size:23px;color:var(--ink)}
-  footer{text-align:center;margin-top:26px;color:var(--muted);font-size:12.5px;line-height:1.6}
-  footer a{color:var(--blue)}
+*{box-sizing:border-box}
+body{margin:0;background:#f3f6fb;font-family:'Rubik','Heebo','Noto Sans Hebrew',Arial,sans-serif;color:#152033}
+.book{max-width:1060px;margin:14px auto;padding:0 10px;display:flex;flex-direction:column;align-items:center;gap:16px}
+.slot{position:relative;width:794px;max-width:100%;background:#fff;border:1px solid #cdd9e8;border-radius:12px;box-shadow:0 10px 34px rgba(36,56,86,.08);overflow:hidden}
+.slot iframe{display:block;width:100%;height:100%;border:0;background:#fff;overflow:hidden;pointer-events:none}
+html,body{overflow-x:hidden;max-width:100%}
+.slot .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#9aa8bc;font-weight:700;font-size:15px}
+@media(max-width:760px){.book{margin-top:8px;padding:0 6px;gap:12px}.slot{border-radius:8px}}
+@media print{
+ body{background:#fff}
+ .book{margin:0;padding:0;max-width:none;gap:0}
+ .slot{width:100%!important;border:none;border-radius:0;box-shadow:none;break-after:page;page-break-after:always}
+}
 </style>
-</head>
-<body>
-<div class="wrap">
-  <header>
-    <h1>מעגל אל גליל</h1>
-  </header>
-  <div class="cards">
-    <a class="card" href="maagal/index.html">
-      <span class="tag">99 עמודים</span>
-      <h2>חוברת המעגל</h2>
-    </a>
-    <a class="card" href="galil/index.html">
-      <span class="tag">39 עמודים</span>
-      <h2>חוברת הגליל</h2>
-    </a>
-  </div>
-  <footer>
-    יניב רז — מדריך מחוזי חט״ב · מנח״י, ירושלים<br>
-    <a href="https://github.com/yanivmizrachiy/circle-to-cylinder">github.com/yanivmizrachiy/circle-to-cylinder</a>
-  </footer>
-</div>
-</body>
-</html>
+</head><body>
+<main class="book" id="book" aria-label="כל עמודי החוברת"></main>
+<script>
+const PAGE_W=794,PAGE_H=1123,GALIL=39;
+const book=document.getElementById('book');
+let pages=[],slots=[];
+function displayWidth(){const cs=getComputedStyle(book);const pad=parseFloat(cs.paddingLeft)+parseFloat(cs.paddingRight);return Math.max(200,Math.min(PAGE_W,Math.floor(book.clientWidth-pad)));}
+function sizeSlot(slot){const dw=displayWidth(),scale=dw/PAGE_W;slot.style.width=dw+'px';slot.style.height=Math.round(PAGE_H*scale)+'px';}
+function fitIframe(slot){const f=slot._frame;if(!f)return false;try{const doc=f.contentDocument;if(!doc)return false;const p=doc.querySelector('.a4-page');if(!p)return false;const target=f.clientWidth||displayWidth(),pw=p.offsetWidth||PAGE_W,ph=p.offsetHeight||PAGE_H,scale=target/pw;const de=doc.documentElement,bd=doc.body;de.style.overflow='hidden';de.style.margin='0';de.style.padding='0';if(bd){bd.style.margin='0';bd.style.padding='0';bd.style.position='relative';bd.style.overflow='hidden';bd.style.width=target+'px';bd.style.height=Math.ceil(ph*scale)+'px';}p.style.margin='0';p.style.position='absolute';p.style.left='0';p.style.top='0';p.style.transformOrigin='top left';p.style.transform='scale('+scale+')';slot.style.height=Math.round(ph*scale)+'px';const el=slot.querySelector('.ph');if(el)el.remove();return true;}catch(e){return false;}}
+function scheduleFit(slot){let n=0;const iv=setInterval(()=>{n++;if(fitIframe(slot)||n>60)clearInterval(iv);},50);}
+function loadSlot(slot){if(slot._loaded)return;slot._loaded=true;const n=slot._page;const f=document.createElement('iframe');f.title=`עמוד ${n}`;f.loading='eager';f.scrolling='no';f.setAttribute('scrolling','no');slot._frame=f;f.addEventListener('load',()=>scheduleFit(slot));slot.appendChild(f);f.src=slot._src;}
+function startLoading(){
+ if('IntersectionObserver' in window){
+  const io=new IntersectionObserver(function(ents){ents.forEach(function(e){if(e.isIntersecting){loadSlot(e.target);io.unobserve(e.target);}});},{root:null,rootMargin:'1400px 0px',threshold:0});
+  slots.forEach(function(sl){io.observe(sl);});
+ }
+ let qi=0;(function pump(){let did=0;while(qi<slots.length&&did<2){const sl=slots[qi++];if(!sl._loaded){loadSlot(sl);did++;}}if(qi<slots.length)setTimeout(pump,110);})();
+}
+function build(){book.replaceChildren();slots=[];for(let i=0;i<pages.length;i++){const n=i+1;const slot=document.createElement('section');slot.className='slot';slot.id='p'+n;slot._page=n;slot._src=pages[i];slot.setAttribute('data-page',n);const ph=document.createElement('div');ph.className='ph';ph.textContent=`עמוד ${n}`;slot.appendChild(ph);book.appendChild(slot);sizeSlot(slot);slots.push(slot);}startLoading();if(location.hash){let k=0;const jump=function(){const t=document.getElementById(location.hash.slice(1));if(t)t.scrollIntoView();if(++k<8)setTimeout(jump,90);};setTimeout(jump,60);}}
+window.addEventListener('hashchange',function(){const t=document.getElementById(location.hash.slice(1));if(t)t.scrollIntoView();});
+let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{slots.forEach(sl=>{sizeSlot(sl);if(sl._loaded)fitIframe(sl);});},150);});
+function assemble(maagalCount){pages=[];for(let n=1;n<=maagalCount;n++)pages.push(`maagal/page-${n}.html`);for(let n=1;n<=GALIL;n++)pages.push(`galil/page-${n}.html`);build();}
+fetch('maagal/manifest.json',{cache:'no-store'}).then(r=>r.json()).then(m=>{assemble(Number(m.pageCount)||99);}).catch(e=>{assemble(99);});
+</script>
+</body></html>
