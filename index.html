@@ -5,22 +5,29 @@
 <meta name="description" content="מעגל אל גליל — חוברת עבודה מתמטית מדורגת בעברית מהמעגל אל הגליל">
 <meta property="og:title" content="מעגל אל גליל">
 <meta property="og:description" content="מעגל אל גליל — חוברת עבודה מתמטית מדורגת בעברית מהמעגל אל הגליל">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Rubik:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box}
-body{margin:0;padding-top:92px;background:#f3f6fb;font-family:'Rubik','Heebo','Noto Sans Hebrew',Arial,sans-serif;color:#152033}
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:center;background:#fff;border-bottom:3px solid #1e3a8a;box-shadow:0 2px 12px rgba(30,58,138,.18)}
-.nav button{flex:1 1 0;max-width:360px;font-family:inherit;font-size:29px;font-weight:800;color:#1e3a8a;background:#fff;border:0;padding:26px 14px;cursor:pointer;transition:background .2s ease,color .2s ease;letter-spacing:.6px}
-.nav button + button{border-inline-start:3px solid #1e3a8a}
-.nav button:hover{background:#1e3a8a;color:#fff}
-.nav button:active{background:#17306e;color:#fff}
+body{margin:0;padding-top:98px;background:#f3f6fb;font-family:'Rubik','Heebo','Noto Sans Hebrew',Arial,sans-serif;color:#152033}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:center;background:rgba(255,255,255,.82);-webkit-backdrop-filter:saturate(1.5) blur(14px);backdrop-filter:saturate(1.5) blur(14px);border-top:3px solid #c9a227;border-bottom:1px solid #e0e6f1;box-shadow:0 8px 30px rgba(30,58,138,.12)}
+.nav button{position:relative;flex:1 1 0;max-width:380px;font-family:'Frank Ruhl Libre','Rubik',serif;font-size:31px;font-weight:700;color:#17306e;background:transparent;border:0;padding:24px 14px 26px;cursor:pointer;letter-spacing:.6px;transition:color .28s ease}
+.nav button + button{border-inline-start:2px solid #1e3a8a}
+.nav button::after{content:"";position:absolute;bottom:13px;left:50%;transform:translateX(-50%);width:0;height:3px;border-radius:3px;background:linear-gradient(90deg,#c9a227,#ecd07a 50%,#c9a227);transition:width .4s cubic-bezier(.2,.7,.2,1)}
+.nav button:hover{color:#1e3a8a}
+.nav button:hover::after{width:54%}
+.nav button.active{color:#1e3a8a}
+.nav button.active::after{width:54%}
 .book{transition:opacity .3s ease}
 .book{max-width:1060px;margin:0 auto 24px;padding:0 10px;display:flex;flex-direction:column;align-items:center;gap:0}
-.slot{position:relative;width:794px;max-width:100%;background:#fff;overflow:hidden;scroll-margin-top:104px}
+.slot{position:relative;width:794px;max-width:100%;background:#fff;overflow:hidden;scroll-margin-top:110px}
 .slot + .slot{border-top:3px solid #1e3a8a}
 .slot iframe{display:block;width:100%;height:100%;border:0;background:#fff;overflow:hidden;pointer-events:none}
 html,body{overflow-x:hidden;max-width:100%}
-.slot .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#9aa8bc;font-weight:700;font-size:15px}
-@media(max-width:760px){body{padding-top:64px}.book{margin-top:0;padding:0 6px;gap:0}.nav button{font-size:21px;padding:18px 6px}.slot{scroll-margin-top:74px}}
+.slot .ph{position:absolute;inset:0;background:linear-gradient(100deg,#f7f9fc 30%,#eceff7 50%,#f7f9fc 70%);background-size:200% 100%;animation:ph-sh 1.4s linear infinite}
+@keyframes ph-sh{0%{background-position:200% 0}100%{background-position:-200% 0}}
+@media(max-width:760px){body{padding-top:66px}.book{margin-top:0;padding:0 6px;gap:0}.nav button{font-size:22px;padding:17px 6px 19px}.nav button::after{bottom:9px}.slot{scroll-margin-top:78px}}
 @media print{
  .nav{display:none}
  body{background:#fff;padding-top:0}
@@ -31,9 +38,9 @@ html,body{overflow-x:hidden;max-width:100%}
 </style>
 </head><body>
 <nav class="nav" aria-label="ניווט מהיר בין חלקי החוברת">
- <button type="button" onclick="jump('circle')">מעגל</button>
- <button type="button" onclick="jump('cylinder')">גליל</button>
- <button type="button" onclick="jump('cone')">חרוט</button>
+ <button type="button" data-sec="circle" onclick="jump('circle')">מעגל</button>
+ <button type="button" data-sec="cylinder" onclick="jump('cylinder')">גליל</button>
+ <button type="button" data-sec="cone" onclick="jump('cone')">חרוט</button>
 </nav>
 <main class="book" id="book" aria-label="כל עמודי החוברת"></main>
 <script>
@@ -41,7 +48,14 @@ const PAGE_W=794,PAGE_H=1123,GOLD_CYL=7,GALIL=39;
 const book=document.getElementById('book');
 let pages=[],slots=[];
 let SEC={circle:1,cylinder:100,cone:146};
-function jump(sec){const n=SEC[sec]||1;const t=document.getElementById('p'+n);if(!t)return;if(!t._loaded)loadSlot(t);book.style.opacity='0';setTimeout(function(){t.scrollIntoView({block:'start'});requestAnimationFrame(function(){book.style.opacity='1';});},230);}
+const navBtns=Array.prototype.slice.call(document.querySelectorAll('.nav button'));
+function setActive(sec){navBtns.forEach(function(b){b.classList.toggle('active',b.getAttribute('data-sec')===sec);});}
+function absTop(el){const r=el.getBoundingClientRect();return r.top+window.pageYOffset;}
+function currentSec(){const y=window.pageYOffset+140;const cy=document.getElementById('p'+SEC.cylinder),co=document.getElementById('p'+SEC.cone);if(co&&y>=absTop(co))return 'cone';if(cy&&y>=absTop(cy))return 'cylinder';return 'circle';}
+let spying=false;
+function onScroll(){if(spying)return;spying=true;requestAnimationFrame(function(){setActive(currentSec());spying=false;});}
+window.addEventListener('scroll',onScroll,{passive:true});
+function jump(sec){const n=SEC[sec]||1;const t=document.getElementById('p'+n);if(!t)return;if(!t._loaded)loadSlot(t);setActive(sec);book.style.opacity='0';setTimeout(function(){t.scrollIntoView({block:'start'});requestAnimationFrame(function(){book.style.opacity='1';});},230);}
 function displayWidth(){const cs=getComputedStyle(book);const pad=parseFloat(cs.paddingLeft)+parseFloat(cs.paddingRight);return Math.max(200,Math.min(PAGE_W,Math.floor(book.clientWidth-pad)));}
 function sizeSlot(slot){const dw=displayWidth(),scale=dw/PAGE_W;slot.style.width=dw+'px';slot.style.height=Math.round(PAGE_H*scale)+'px';}
 function fitIframe(slot){const f=slot._frame;if(!f)return false;try{const doc=f.contentDocument;if(!doc)return false;const p=doc.querySelector('.a4-page');if(!p)return false;const target=f.clientWidth||displayWidth(),pw=p.offsetWidth||PAGE_W,ph=p.offsetHeight||PAGE_H,scale=target/pw;const de=doc.documentElement,bd=doc.body;de.style.overflow='hidden';de.style.margin='0';de.style.padding='0';if(bd){bd.style.margin='0';bd.style.padding='0';bd.style.position='relative';bd.style.overflow='hidden';bd.style.width=target+'px';bd.style.height=Math.ceil(ph*scale)+'px';}p.style.margin='0';p.style.position='absolute';p.style.left='0';p.style.top='0';p.style.transformOrigin='top left';p.style.transform='scale('+scale+')';slot.style.height=Math.round(ph*scale)+'px';const el=slot.querySelector('.ph');if(el)el.remove();return true;}catch(e){return false;}}
@@ -54,7 +68,7 @@ function startLoading(){
  }
  let qi=0;(function pump(){let did=0;while(qi<slots.length&&did<2){const sl=slots[qi++];if(!sl._loaded){loadSlot(sl);did++;}}if(qi<slots.length)setTimeout(pump,110);})();
 }
-function build(){book.replaceChildren();slots=[];for(let i=0;i<pages.length;i++){const n=i+1;const slot=document.createElement('section');slot.className='slot';slot.id='p'+n;slot._page=n;slot._src=pages[i];slot.setAttribute('data-page',n);const ph=document.createElement('div');ph.className='ph';ph.textContent=`עמוד ${n}`;slot.appendChild(ph);book.appendChild(slot);sizeSlot(slot);slots.push(slot);}startLoading();if(location.hash){let k=0;const jump=function(){const t=document.getElementById(location.hash.slice(1));if(t)t.scrollIntoView();if(++k<8)setTimeout(jump,90);};setTimeout(jump,60);}}
+function build(){book.replaceChildren();slots=[];for(let i=0;i<pages.length;i++){const n=i+1;const slot=document.createElement('section');slot.className='slot';slot.id='p'+n;slot._page=n;slot._src=pages[i];slot.setAttribute('data-page',n);const ph=document.createElement('div');ph.className='ph';slot.appendChild(ph);book.appendChild(slot);sizeSlot(slot);slots.push(slot);}startLoading();setActive('circle');if(location.hash){let k=0;const j=function(){const t=document.getElementById(location.hash.slice(1));if(t)t.scrollIntoView();if(++k<8)setTimeout(j,90);};setTimeout(j,60);}}
 window.addEventListener('hashchange',function(){const t=document.getElementById(location.hash.slice(1));if(t)t.scrollIntoView();});
 let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{slots.forEach(sl=>{sizeSlot(sl);if(sl._loaded)fitIframe(sl);});},150);});
 function assemble(maagalCount){pages=[];for(let n=1;n<=maagalCount;n++)pages.push(`maagal/page-${n}.html`);for(let n=1;n<=GOLD_CYL;n++)pages.push(`gold/page-${n}.html`);for(let n=1;n<=GALIL;n++)pages.push(`galil/page-${n}.html`);pages.push('gold/page-8.html');SEC={circle:1,cylinder:maagalCount+1,cone:maagalCount+GOLD_CYL+GALIL+1};build();}
