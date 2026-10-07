@@ -88,7 +88,7 @@ def check_viewport(browser, base_url, pages, starts, viewport, jump_section, lab
     page.evaluate(f"jump('{jump_section}')")
     page.wait_for_selector(f"#p{target_number} iframe", timeout=10000)
     page.wait_for_function(
-        f"document.querySelector('#p{target_number} iframe')?.contentDocument?.querySelector('.a4-page') !== null",
+        f"Boolean(document.querySelector('#p{target_number} iframe')?.contentDocument?.querySelector('.a4-page'))",
         timeout=15000,
     )
     target_src = page.locator(f"#p{target_number}").evaluate("el => el._src || ''")
