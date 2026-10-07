@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   release-render:
-    if: github.event_name == 'pull_request' || (github.event_name == 'push' && startsWith(github.ref, 'refs/heads/release/') && github.actor != 'github-actions[bot]')
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/')) && github.actor != 'github-actions[bot]')
     permissions:
       contents: write
     runs-on: ubuntu-latest
@@ -71,7 +71,7 @@ jobs:
           git push origin HEAD:${GITHUB_REF_NAME}
 
   verify-content:
-    if: github.event_name == 'push' && (!startsWith(github.ref, 'refs/heads/release/') || github.actor == 'github-actions[bot]')
+    if: github.event_name == 'push' && (github.actor == 'github-actions[bot]' || (github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/heads/release/')))
     permissions:
       contents: read
     runs-on: ubuntu-latest
