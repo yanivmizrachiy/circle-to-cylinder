@@ -1,4 +1,5 @@
 name: Content integrity
+
 on:
   push:
     branches:
@@ -6,8 +7,97 @@ on:
       - 'consolidate/**'
       - 'release/**'
   pull_request:
+
 jobs:
+  release-render:
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/release/') && github.actor != 'github-actions[bot]'
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Install release QA dependencies
+        run: |
+          python -m pip install --disable-pip-version-check pypdf playwright
+          python -m playwright install --with-deps chromium
+      - name: Apply canonical district footer to cone
+        shell: python
+        run: |
+          from pathlib import Path
+          path = Path('cone/styles.css')
+          text = path.read_text(encoding='utf-8')
+          marker = '/* CANONICAL-DISTRICT-FOOTER-192 */'
+          if marker not in text:
+              text += r'''
+
+          /* CANONICAL-DISTRICT-FOOTER-192 */
+          .gz-footer {
+            right:10mm;
+            left:10mm;
+            bottom:0;
+            min-height:16mm;
+            padding:3mm 0;
+            display:grid;
+            grid-template-columns:max-content 10mm;
+            grid-template-rows:auto auto;
+            grid-template-areas:"f1 logo" "f2 logo";
+            justify-content:center;
+            align-items:center;
+            column-gap:2mm;
+            direction:ltr;
+            border-top:2px solid #1e3a8a;
+          }
+          .gz-footer::before {
+            content:"";
+            grid-area:logo;
+            width:10mm;
+            height:10mm;
+            display:block;
+            background:url("../assets/district-logo.png") center/contain no-repeat;
+          }
+          .gz-footer .f1 { grid-area:f1; direction:rtl; text-align:center; }
+          .gz-footer .f2 { grid-area:f2; direction:rtl; text-align:center; }
+          '''
+              path.write_text(text, encoding='utf-8')
+              print('Added canonical district footer to cone/styles.css')
+          else:
+              print('Canonical district footer already present')
+      - name: Render 192 pages and rebuild PDF
+        run: python scripts/render-release.py
+      - name: Verify generated release
+        run: |
+          python scripts/check-content.py
+          python scripts/check-cone-package.py
+      - name: Upload QA report
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-qa-${{ github.sha }}
+          path: .qa/release-report.json
+          if-no-files-found: error
+          retention-days: 14
+      - name: Commit verified generated assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add cone/styles.css assets/circle-to-cylinder.pdf
+          if git diff --cached --quiet; then
+            echo 'No generated release changes to commit.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'build(release): verified 192-page PDF and cone footer'
+          git push origin HEAD:${GITHUB_REF_NAME}
+
   verify-content:
+    if: github.event_name != 'push' || !startsWith(github.ref, 'refs/heads/release/') || github.actor == 'github-actions[bot]'
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
