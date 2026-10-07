@@ -1,10 +1,10 @@
 <!doctype html><html lang="he" dir="rtl"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>מעגל אל גליל</title>
-<meta name="description" content="מעגל אל גליל — חוברת עבודה מתמטית מדורגת בעברית מהמעגל אל הגליל">
-<meta property="og:title" content="מעגל אל גליל">
-<meta property="og:description" content="מעגל אל גליל — חוברת עבודה מתמטית מדורגת בעברית מהמעגל אל הגליל">
+<title>מעגל, גליל וחרוט</title>
+<meta name="description" content="חוברת עבודה מתמטית מדורגת בעברית: מעגל, גליל וחרוט">
+<meta property="og:title" content="מעגל, גליל וחרוט">
+<meta property="og:description" content="חוברת עבודה מתמטית מדורגת בעברית: מעגל, גליל וחרוט">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Rubik:wght@400;600;800&display=swap" rel="stylesheet">
@@ -64,22 +64,24 @@ function displayWidth(){const cs=getComputedStyle(book);const pad=parseFloat(cs.
 function sizeSlot(slot){const dw=displayWidth(),scale=dw/PAGE_W;slot.style.width=dw+'px';slot.style.height=Math.round(PAGE_H*scale)+'px';}
 function fitIframe(slot){const f=slot._frame;if(!f)return false;try{const doc=f.contentDocument;if(!doc)return false;const p=doc.querySelector('.a4-page');if(!p)return false;const target=f.clientWidth||displayWidth(),pw=p.offsetWidth||PAGE_W,ph=p.offsetHeight||PAGE_H,scale=target/pw;const de=doc.documentElement,bd=doc.body;de.style.overflow='hidden';de.style.margin='0';de.style.padding='0';if(bd){bd.style.margin='0';bd.style.padding='0';bd.style.position='relative';bd.style.overflow='hidden';bd.style.width=target+'px';bd.style.height=Math.ceil(ph*scale)+'px';}p.style.margin='0';p.style.position='absolute';p.style.left='0';p.style.top='0';p.style.transformOrigin='top left';p.style.transform='scale('+scale+')';slot.style.height=Math.round(ph*scale)+'px';const el=slot.querySelector('.ph');if(el)el.remove();return true;}catch(e){return false;}}
 function scheduleFit(slot){let n=0;const iv=setInterval(()=>{n++;if(fitIframe(slot)||n>60)clearInterval(iv);},50);}
-function loadSlot(slot){if(slot._loaded)return;slot._loaded=true;const n=slot._page;const f=document.createElement('iframe');f.title=`עמוד ${n}`;f.loading='eager';f.scrolling='no';f.setAttribute('scrolling','no');slot._frame=f;f.addEventListener('load',()=>scheduleFit(slot));slot.appendChild(f);f.src=slot._src;}
+function loadSlot(slot){if(slot._loaded)return;slot._loaded=true;const n=slot._page;const f=document.createElement('iframe');f.title=`עמוד ${n}`;f.loading='lazy';f.scrolling='no';f.setAttribute('scrolling','no');slot._frame=f;f.addEventListener('load',()=>scheduleFit(slot));slot.appendChild(f);f.src=slot._src;}
 function startLoading(){
+ slots.slice(0,2).forEach(loadSlot);
  if('IntersectionObserver' in window){
-  const io=new IntersectionObserver(function(ents){ents.forEach(function(e){if(e.isIntersecting){loadSlot(e.target);io.unobserve(e.target);}});},{root:null,rootMargin:'1400px 0px',threshold:0});
-  slots.forEach(function(sl){io.observe(sl);});
+  const io=new IntersectionObserver(function(ents){ents.forEach(function(e){if(e.isIntersecting){loadSlot(e.target);io.unobserve(e.target);}});},{root:null,rootMargin:'1800px 0px',threshold:0});
+  slots.slice(2).forEach(function(sl){io.observe(sl);});
+ }else{
+  slots.slice(2,6).forEach(loadSlot);
  }
- let qi=0;(function pump(){let did=0;while(qi<slots.length&&did<2){const sl=slots[qi++];if(!sl._loaded){loadSlot(sl);did++;}}if(qi<slots.length)setTimeout(pump,110);})();
 }
-function build(){book.replaceChildren();slots=[];for(let i=0;i<pages.length;i++){const n=i+1;const slot=document.createElement('section');slot.className='slot';slot.id='p'+n;slot._page=n;slot._src=pages[i];slot.setAttribute('data-page',n);const ph=document.createElement('div');ph.className='ph';slot.appendChild(ph);book.appendChild(slot);sizeSlot(slot);slots.push(slot);}startLoading();setActive('circle');if(location.hash){let k=0;const j=function(){const t=document.getElementById(location.hash.slice(1));if(t)t.scrollIntoView();if(++k<8)setTimeout(j,90);};setTimeout(j,60);}}
-window.addEventListener('hashchange',function(){const t=document.getElementById(location.hash.slice(1));if(t)t.scrollIntoView();});
+function build(){book.replaceChildren();slots=[];for(let i=0;i<pages.length;i++){const n=i+1;const slot=document.createElement('section');slot.className='slot';slot.id='p'+n;slot._page=n;slot._src=pages[i];slot.setAttribute('data-page',n);const ph=document.createElement('div');ph.className='ph';slot.appendChild(ph);book.appendChild(slot);sizeSlot(slot);slots.push(slot);}startLoading();setActive('circle');if(location.hash){let k=0;const j=function(){const t=document.getElementById(location.hash.slice(1));if(t){if(!t._loaded)loadSlot(t);t.scrollIntoView();}if(++k<8)setTimeout(j,90);};setTimeout(j,60);}}
+window.addEventListener('hashchange',function(){const t=document.getElementById(location.hash.slice(1));if(t){if(!t._loaded)loadSlot(t);t.scrollIntoView();}});
 let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{slots.forEach(sl=>{sizeSlot(sl);if(sl._loaded)fitIframe(sl);});},150);});
-function expandRange(r,maagalCount){const end=r.toManifest?maagalCount:Number(r.to);const out=[];for(let n=Number(r.from);n<=end;n++)out.push(r.prefix+n+(r.suffix||''));return out;}
-function assembleFromManifest(manifest,maagalCount){pages=[];SEC={};manifest.sections.forEach(function(sec){SEC[sec.id]=pages.length+1;(sec.ranges||[]).forEach(function(r){pages.push.apply(pages,expandRange(r,maagalCount));});(sec.pages||[]).forEach(function(p){pages.push(p);});});if(!SEC.cone||!manifest.sections.find(s=>s.id==='cone'&&(s.pages||[]).length)){throw new Error('Cone section is missing or empty');}build();}
-Promise.all([
- fetch('content-manifest.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('content manifest');return r.json();}),
- fetch('maagal/manifest.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('circle manifest');return r.json();})
-]).then(([content,circle])=>assembleFromManifest(content,Number(circle.pageCount)||99)).catch(function(e){book.innerHTML='<p style="padding:32px;font-size:20px">שגיאה בטעינת החוברת. מבנה התוכן אינו תקין.</p>';console.error(e);});
+function expandRange(r){if(r.toManifest||r.to==null)throw new Error('Release ranges must be self-contained');const out=[];for(let n=Number(r.from);n<=Number(r.to);n++)out.push(r.prefix+n+(r.suffix||''));return out;}
+function assembleFromManifest(manifest){pages=[];SEC={};const expected=['circle','cylinder','cone'];const ids=(manifest.sections||[]).map(s=>s.id);if(ids.length!==expected.length||ids.some((id,i)=>id!==expected[i]))throw new Error('Unexpected release sections');manifest.sections.forEach(function(sec){SEC[sec.id]=pages.length+1;(sec.ranges||[]).forEach(function(r){pages.push.apply(pages,expandRange(r));});(sec.pages||[]).forEach(function(p){pages.push(p);});});if(pages.length!==192)throw new Error('Unexpected release page count');build();}
+fetch('content-manifest.json',{cache:'no-store'})
+ .then(r=>{if(!r.ok)throw new Error('content manifest');return r.json();})
+ .then(assembleFromManifest)
+ .catch(function(e){book.innerHTML='<p style="padding:32px;font-size:20px">שגיאה בטעינת החוברת. מבנה התוכן אינו תקין.</p>';console.error(e);});
 </script>
 </body></html>
