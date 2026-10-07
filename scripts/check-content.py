@@ -32,8 +32,8 @@ listed = []
 section_pages = {}
 for section in sections:
     expanded = []
-    for page in section.get("pages", []):
-        expanded.append(page)
+    # Canonical manifest semantics are ranges first, then explicit pages.
+    # Keep this identical to index.html and scripts/render-release.py.
     for page_range in section.get("ranges", []):
         end = page_range.get("to")
         if page_range.get("toManifest"):
@@ -50,6 +50,8 @@ for section in sections:
             expanded.append(
                 f"{page_range['prefix']}{number}{page_range.get('suffix', '')}"
             )
+    for page in section.get("pages", []):
+        expanded.append(page)
     section_pages[section.get("id")] = expanded
     listed.extend(expanded)
 
