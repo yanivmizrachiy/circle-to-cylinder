@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+<script src="render.js" defer></script>
+</head>
+<body>
+<script type="application/json" id="page">
+{
+  "n": 33,
+  "title": "כמה נוזל נכנס?",
+  "anchor": "מידות המכלים סינתטיות לצורכי תרגול. חשבו את הנפח והמירו לקיבול. בחרו מ״ל או ליטר לפי הנוחות.",
+  "tasks": [
+    {
+      "q": "השלימו.",
+      "blocks": [
+        { "t": "table",
+          "head": ["מידות", "נפח מקורב", "קיבול", "יחידה נוחה"],
+          "rows": [
+            ["<span dir='ltr'>r=5</span> ס״מ, <span dir='ltr'>h=10</span> ס״מ", "≈ ______ ס״מ³", "≈ ______", "מ״ל / ליטר"],
+            ["<span dir='ltr'>r=4</span> ס״מ, <span dir='ltr'>h=20</span> ס״מ", "≈ ______ ס״מ³", "≈ ______", "מ״ל / ליטר"],
+            ["קוטר <span dir='ltr'>10</span> ס״מ, <span dir='ltr'>h=12</span> ס״מ", "≈ ______ ס״מ³", "≈ ______", "מ״ל / ליטר"]
+          ]
+        }
+      ]
+    },
+    {
+      "q": "במכל B השלימו שתי צורות קיבול.",
+      "blocks": [
+        { "t": "think", "html": "≈ ______ מ״ל &nbsp;≈&nbsp; ______ ליטר" }
+      ]
+    },
+    {
+      "q": "לכמות של כ־785 ס״מ³, בחרו את הכתיבה הישירה במ״ל.",
+      "think": true,
+      "blocks": [
+        { "t": "choice", "opts": ["≈ 785 מ״ל", "≈ 7.85 מ״ל", "≈ 7850 מ״ל"] }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>

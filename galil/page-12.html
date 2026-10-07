@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+<script src="render.js" defer></script>
+</head>
+<body>
+<script type="application/json" id="page">
+{
+  "n": 12,
+  "title": "שטח בסיס מנתון רדיוס",
+  "example": {"lab":"דוגמה: שטח בסיס מרדיוס","given":"נתון: r = 3 ס״מ","steps":["B = π × r²","B = π × 3² = π × 9"],"answer":"B = 9π ס״מ²  (≈ 28.26 ס״מ²)"},
+  "anchor": "שטח בסיס הגליל הוא שטח עיגול: <span dir='ltr'>\\(B=\\pi\\times r^2\\)</span>. שומרים תשובה מדויקת עם <span dir='ltr'>\\(\\pi\\)</span> ויחידות שטח.",
+  "tasks": [
+    {
+      "q": "השלימו את שני החישובים המודרכים.",
+      "blocks": [
+        { "t": "table",
+          "head": ["<span dir='ltr'>\\(r\\)</span>", "<span dir='ltr'>\\(r^2\\)</span>", "<span dir='ltr'>\\(B\\)</span>"],
+          "rows": [
+            ["2 ס״מ", "<span dir='ltr'>\\(2^2=\\underline{\\hspace{10mm}}\\)</span>", "<span dir='ltr'>\\(B=\\underline{\\hspace{10mm}}\\pi\\)</span> ס״מ²"],
+            ["3 ס״מ", "<span dir='ltr'>\\(3^2=\\underline{\\hspace{10mm}}\\)</span>", "<span dir='ltr'>\\(B=\\underline{\\hspace{10mm}}\\pi\\)</span> ס״מ²"]
+          ]
+        }
+      ]
+    },
+    {
+      "q": "חשבו את שטח הבסיס.",
+      "blocks": [
+        { "t": "table",
+          "head": ["<span dir='ltr'>\\(r\\)</span>", "<span dir='ltr'>\\(B\\)</span>"],
+          "rows": [
+            ["4 ס״מ", ""],
+            ["5 ס״מ", ""],
+            ["7 ס״מ", ""],
+            ["10 ס״מ", ""]
+          ]
+        }
+      ]
+    },
+    {
+      "q": "בחרו את הנוסחה הנכונה.",
+      "think": true,
+      "blocks": [
+        { "t": "choice", "opts": ["<span dir='ltr'>\\(B=\\pi\\times r\\)</span>", "<span dir='ltr'>\\(B=\\pi\\times r^2\\)</span>"] }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>

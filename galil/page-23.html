@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+<script src="render.js" defer></script>
+</head>
+<body>
+<script type="application/json" id="page">
+{
+  "n": 23,
+  "title": "יחידות נפח",
+  "anchor": "השתמשו בעובדות: <span dir='ltr'>1 דצ״מ³ = 1000 ס״מ³</span> ו־<span dir='ltr'>1 מ׳³ = 1000 דצ״מ³</span>.",
+  "tasks": [
+    {
+      "q": "השלימו את ההמרות.",
+      "blocks": [
+        { "t": "table",
+          "head": ["כמות נתונה", "יחידה מבוקשת", "ערך מומר"],
+          "rows": [
+            ["2 דצ״מ³", "ס״מ³", ""],
+            ["3.5 דצ״מ³", "ס״מ³", ""],
+            ["500 ס״מ³", "דצ״מ³", ""],
+            ["4 מ׳³", "דצ״מ³", ""],
+            ["2500 דצ״מ³", "מ׳³", ""]
+          ]
+        }
+      ]
+    },
+    {
+      "q": "בחרו את ההמרה הנכונה.",
+      "think": true,
+      "blocks": [
+        { "t": "html", "html": "<div class='choice-list'><div class='choice-row'><span>1 דצ״מ³</span><span>, </span><span class='choice-pill'>1000 ס״מ³</span></div><div class='choice-row'><span>1 מ׳³</span><span>, </span><span class='choice-pill'>1000 דצ״מ³</span></div></div>" }
+      ]
+    },
+    {
+      "q": "בחרו את היחידה המתאימה לנפח.",
+      "blocks": [
+        { "t": "choice", "opts": ["מ׳", "מ׳²", "מ׳³"] }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>

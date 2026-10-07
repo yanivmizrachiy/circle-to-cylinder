@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>חוברת הגליל</title>
+  <style>
+    *{box-sizing:border-box}
+    html,body{max-width:100%;overflow-x:hidden}
+    body{margin:0;background:#f4f7fb;font-family:Arial,sans-serif;color:#172033}
+    .bar{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid #d9e2ef;padding:10px 14px;display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap}
+    .title{font-weight:800;font-size:18px;margin-inline-end:12px}.sub{font-size:13px;color:#52627a}
+    button,a,input{font:inherit}
+    button,.link{border:1px solid #b9c8da;background:#fff;border-radius:10px;padding:8px 12px;cursor:pointer;text-decoration:none;color:#172033}
+    button:hover,.link:hover{background:#eef4fb}
+    button[aria-pressed="true"]{background:#172033;color:#fff;border-color:#172033}
+    input{width:72px;border:1px solid #b9c8da;border-radius:9px;padding:8px;text-align:center}
+    .frame-wrap{max-width:1050px;margin:14px auto;padding:0 10px}
+    iframe{display:block;width:100%;max-width:100%;border:1px solid #ced9e8;border-radius:14px;background:#fff;box-shadow:0 8px 30px rgba(42,61,89,.08)}
+    #singleView iframe{height:calc(100vh - 92px);min-height:760px}
+    #continuousView{display:none;max-width:1050px;margin:14px auto;padding:0 10px 32px}
+    .sheet-card{margin:0 0 18px;scroll-margin-top:92px;max-width:100%;overflow:hidden}
+    .sheet-label{font-weight:700;text-align:center;margin:0 0 7px;color:#52627a}
+    .sheet-card iframe{min-height:760px;height:1120px}
+    @media(max-width:700px){
+      .bar{padding:8px 6px;gap:6px}
+      .title{width:100%;text-align:center;margin-inline-end:0}.sub{display:none}
+      button,.link{padding:7px 9px}
+      .frame-wrap,#continuousView{width:100%;max-width:100%;padding-left:4px;padding-right:4px;margin-top:8px}
+      #singleView iframe,.sheet-card iframe{min-height:0;height:150px;border-radius:8px}
+      .sheet-card{scroll-margin-top:142px;margin-bottom:10px}
+    }
+  </style>
+</head>
+<body>
+  <nav class="bar" aria-label="ניווט בחוברת">
+    <span class="title">חוברת הגליל</span><span class="sub">39 דפי A4</span>
+    <button id="singleMode" type="button" aria-pressed="true">דף בודד</button>
+    <button id="continuousMode" type="button" aria-pressed="false">דפדוף מלמעלה למטה ↓</button>
+    <button id="prev" type="button">הקודם</button>
+    <span>עמוד <input id="page" type="number" min="1" max="39" value="1" inputmode="numeric"> מתוך 39</span>
+    <button id="next" type="button">הבא</button>
+    <a id="open" class="link" href="page-1.html" target="_blank" rel="noopener">פתח דף מלא</a>
+    <a class="link" href="https://yanivmizrachiy.github.io/razpages/workbooks/index.html">כל החוברות</a>
+  </nav>
+
+  <div id="singleView" class="frame-wrap">
+    <iframe id="sheet" title="חוברת הגליל — עמוד 1" src="page-1.html"></iframe>
+  </div>
+  <main id="continuousView" aria-label="חוברת הגליל — צפייה רציפה"></main>
+
+  <script>
+    const total=39;
+    const input=document.getElementById('page');
+    const frame=document.getElementById('sheet');
+    const open=document.getElementById('open');
+    const singleView=document.getElementById('singleView');
+    const continuousView=document.getElementById('continuousView');
+    const singleMode=document.getElementById('singleMode');
+    const continuousMode=document.getElementById('continuousMode');
+    const mobileQuery=window.matchMedia('(max-width:700px)');
+    let mode='single';
+    let continuousBuilt=false;
+
+    function clampPage(n){return Math.max(1,Math.min(total,Number(n)||1));}
+
+    function updateCurrent(n,updateHash=true){
+      n=clampPage(n);
+      input.value=n;
+      open.href=`page-${n}.html`;
+      if(updateHash) history.replaceState(null,'',`#page=${n}`);
+      return n;
+    }
+
+    function go(n){
+      n=updateCurrent(n);
+      if(mode==='continuous'){
+        const card=document.getElementById(`sheet-${n}`);
+        if(card) card.scrollIntoView({behavior:'smooth',block:'start'});
+        return;
+      }
+      const u=`page-${n}.html`;
+      frame.src=u;
+      frame.title=`חוברת הגליל — עמוד ${n}`;
+    }
+
+    function fitFrame(iframe){
+      try{
+        const doc=iframe.contentDocument;
+        if(!doc||!doc.body) return;
+        const page=doc.querySelector('.a4-page');
+        if(!page) return;
+
+        const html=doc.documentElement;
+        const body=doc.body;
+        const pageWidth=page.offsetWidth;
+        const pageHeight=page.offsetHeight;
+        const available=Math.max(1,iframe.clientWidth-2);
+        const fitMobile=mobileQuery.matches && available<pageWidth;
+
+        html.style.overflowX='hidden';
+        body.style.overflowX='hidden';
+
+        if(fitMobile){
+          const scale=Math.min(1,available/pageWidth);
+          html.style.overflow='hidden';
+          body.style.overflow='hidden';
+          body.style.width=`${pageWidth}px`;
+          body.style.maxWidth='none';
+          body.style.margin='0';
+          page.style.margin='0';
+          page.style.transformOrigin='top left';
+          page.style.transform=`scale(${scale})`;
+          iframe.style.height=`${Math.ceil(pageHeight*scale)+2}px`;
+          iframe.setAttribute('scrolling','no');
+        }else{
+          html.style.overflow='';
+          body.style.overflow='';
+          body.style.overflowX='hidden';
+          body.style.width='';
+          body.style.maxWidth='';
+          body.style.margin='';
+          page.style.margin='0 auto';
+          page.style.transform='';
+          page.style.transformOrigin='';
+          iframe.removeAttribute('scrolling');
+          const h=Math.max(html.scrollHeight,body.scrollHeight,pageHeight);
+          if(h>300) iframe.style.height=`${h+2}px`;
+        }
+      }catch(e){}
+    }
+
+    function fitVisibleFrames(){
+      if(!singleView.hidden && singleView.style.display!=='none') fitFrame(frame);
+      if(continuousBuilt) continuousView.querySelectorAll('iframe').forEach(fitFrame);
+    }
+
+    function buildContinuous(){
+      if(continuousBuilt) return;
+      const frag=document.createDocumentFragment();
+      for(let n=1;n<=total;n++){
+        const card=document.createElement('section');
+        card.className='sheet-card';
+        card.id=`sheet-${n}`;
+        card.dataset.page=n;
+
+        const label=document.createElement('div');
+        label.className='sheet-label';
+        label.textContent=`עמוד ${n} מתוך ${total}`;
+
+        const iframe=document.createElement('iframe');
+        iframe.src=`page-${n}.html`;
+        iframe.title=`חוברת הגליל — עמוד ${n}`;
+        iframe.loading=n<=2?'eager':'lazy';
+        iframe.addEventListener('load',()=>fitFrame(iframe));
+
+        card.append(label,iframe);
+        frag.appendChild(card);
+      }
+      continuousView.appendChild(frag);
+      continuousBuilt=true;
+    }
+
+    function setMode(nextMode){
+      mode=nextMode==='continuous'?'continuous':'single';
+      const continuous=mode==='continuous';
+      singleView.style.display=continuous?'none':'block';
+      continuousView.style.display=continuous?'block':'none';
+      singleMode.setAttribute('aria-pressed',String(!continuous));
+      continuousMode.setAttribute('aria-pressed',String(continuous));
+
+      const n=clampPage(input.value);
+      if(continuous){
+        buildContinuous();
+        requestAnimationFrame(()=>{
+          fitVisibleFrames();
+          const card=document.getElementById(`sheet-${n}`);
+          if(card) card.scrollIntoView({block:'start'});
+        });
+      }else{
+        frame.src=`page-${n}.html`;
+        frame.title=`חוברת הגליל — עמוד ${n}`;
+        window.scrollTo({top:0,behavior:'smooth'});
+      }
+    }
+
+    frame.addEventListener('load',()=>fitFrame(frame));
+    document.getElementById('prev').onclick=()=>go(Number(input.value)-1);
+    document.getElementById('next').onclick=()=>go(Number(input.value)+1);
+    input.onchange=()=>go(input.value);
+    singleMode.onclick=()=>setMode('single');
+    continuousMode.onclick=()=>setMode('continuous');
+
+    const observer=new IntersectionObserver(entries=>{
+      if(mode!=='continuous') return;
+      const visible=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
+      if(visible) updateCurrent(visible.target.dataset.page,false);
+    },{rootMargin:'-20% 0px -55% 0px',threshold:[0,.25,.5,.75,1]});
+
+    const originalBuild=buildContinuous;
+    buildContinuous=function(){
+      if(continuousBuilt) return;
+      originalBuild();
+      document.querySelectorAll('.sheet-card').forEach(card=>observer.observe(card));
+    };
+
+    let resizeTimer;
+    window.addEventListener('resize',()=>{
+      clearTimeout(resizeTimer);
+      resizeTimer=setTimeout(fitVisibleFrames,120);
+    });
+    window.addEventListener('orientationchange',()=>setTimeout(fitVisibleFrames,180));
+
+    const m=location.hash.match(/page=(\d+)/);
+    if(m) go(m[1]);
+  </script>
+</body>
+</html>

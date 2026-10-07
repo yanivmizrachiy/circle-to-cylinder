@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+<script src="render.js" defer></script>
+</head>
+<body>
+<script type="application/json" id="page">
+{
+  "n": 27,
+  "title": "נפח מרדיוס וגובה",
+  "anchor": "חשבו לפי <span dir='ltr'>V = π × r² × h</span>. בכל שורה חשבו קודם <span dir='ltr'>r²</span> ושמרו תשובה מדויקת עם π.",
+  "tasks": [
+    {
+      "q": "השלימו את שתי השורות המודרכות.",
+      "blocks": [
+        { "t": "table",
+          "head": ["רדיוס <span dir='ltr'>(r)</span>", "<span dir='ltr'>r²</span>", "גובה <span dir='ltr'>(h)</span>", "נפח <span dir='ltr'>(V)</span>"],
+          "rows": [
+            ["2 ס״מ", "____", "5 ס״מ", "____π ס״מ³"],
+            ["3 ס״מ", "____", "4 ס״מ", "____π ס״מ³"]
+          ]
+        }
+      ]
+    },
+    {
+      "q": "השלימו את ארבע השורות.",
+      "blocks": [
+        { "t": "table",
+          "head": ["רדיוס <span dir='ltr'>(r)</span>", "<span dir='ltr'>r²</span>", "גובה <span dir='ltr'>(h)</span>", "נפח <span dir='ltr'>(V)</span>"],
+          "rows": [
+            ["4 ס״מ", "", "3 ס״מ", ""],
+            ["5 ס״מ", "", "2 ס״מ", ""],
+            ["6 ס״מ", "", "5 ס״מ", ""],
+            ["7 ס״מ", "", "2 ס״מ", ""]
+          ]
+        }
+      ]
+    },
+    {
+      "q": "גליל שהרדיוס שלו 4 ס״מ וגובהו 5 ס״מ. חשבו את נפחו.",
+      "blocks": [
+        { "t": "solve", "sentence": "נפח הגליל הוא __ π ס״מ³." }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+<script src="render.js" defer></script>
+</head>
+<body>
+<script type="application/json" id="page">
+{
+  "n": 29,
+  "title": "נפח עם מספרים עשרוניים",
+  "anchor": "חשבו לפי <span dir='ltr'>V = π×r²×h</span>. בעמוד זה משאירים את π בתשובה המדויקת.",
+  "tasks": [
+    {
+      "q": "השלימו את הטבלה.",
+      "blocks": [
+        { "t": "table",
+          "head": ["רדיוס <span dir='ltr'>(r)</span>", "<span dir='ltr'>r²</span>", "גובה <span dir='ltr'>(h)</span>", "נפח <span dir='ltr'>(V)</span>"],
+          "rows": [
+            ["1.5 ס״מ", "", "4 ס״מ", ""],
+            ["2.5 ס״מ", "", "2 ס״מ", ""],
+            ["1.2 ס״מ", "", "5 ס״מ", ""],
+            ["3.5 ס״מ", "", "2 ס״מ", ""],
+            ["0.5 ס״מ", "", "10 ס״מ", ""]
+          ]
+        }
+      ]
+    },
+    {
+      "q": "עבור <span dir='ltr'>r = 1.5</span> ו־<span dir='ltr'>h = 4</span>, השלימו את השרשרת.",
+      "blocks": [
+        { "t": "think", "html": "<span dir='ltr'>r² = 1.5² = ____, V = ____×4×π = ____π</span>" }
+      ]
+    },
+    {
+      "q": "בחרו את הנפח עבור <span dir='ltr'>r = 0.5</span> ס״מ ו־<span dir='ltr'>h = 10</span> ס״מ.",
+      "think": true,
+      "blocks": [
+        { "t": "choice", "opts": ["2.5π ס״מ³", "5π ס״מ³", "25π ס״מ³"] }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+<script src="render.js" defer></script>
+</head>
+<body>
+<script type="application/json" id="page">
+{
+  "n": 25,
+  "title": "מן הבסיס אל הנפח",
+  "anchor": "כאשר שטח הבסיס <span dir='ltr'>B</span> והגובה <span dir='ltr'>h</span> נתונים, השתמשו בקשר <span dir='ltr'>V = B×h</span>.",
+  "tasks": [
+    {
+      "q": "חשבו את נפח ארבעת הגלילים.",
+      "blocks": [
+        { "t": "table",
+          "head": ["שטח בסיס <span dir='ltr'>(B)</span>", "גובה <span dir='ltr'>(h)</span>", "חישוב", "נפח <span dir='ltr'>(V)</span>"],
+          "rows": [
+            ["12 ס״מ²", "5 ס״מ", "<span dir='ltr'>12×5 = ____</span>", "____ ס״מ³"],
+            ["25 ס״מ²", "4 ס״מ", "<span dir='ltr'>25×4 = ____</span>", "____ ס״מ³"],
+            ["18 ס״מ²", "7 ס״מ", "<span dir='ltr'>18×7 = ____</span>", "____ ס״מ³"],
+            ["40 ס״מ²", "2.5 ס״מ", "<span dir='ltr'>40×2.5 = ____</span>", "____ ס״מ³"]
+          ]
+        }
+      ]
+    },
+    {
+      "q": "בחרו את השרשרת המתאימה.",
+      "blocks": [
+        { "t": "choice", "opts": ["B, h, V", "V = B×h", "B + h", "B ÷ h"] }
+      ]
+    },
+    {
+      "q": "כאשר <span dir='ltr'>B = 40</span> ס״מ² ו־<span dir='ltr'>h = 2.5</span> ס״מ, בחרו את הנפח.",
+      "think": true,
+      "blocks": [
+        { "t": "choice", "opts": ["16 ס״מ³", "42.5 ס״מ³", "100 ס״מ³"] }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>

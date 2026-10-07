@@ -1,0 +1,183 @@
+/* styles/topics/bbb-geometry8.css — עיצוב משותף לנושא "גאומטריה לכיתה ח'" (ייבוא bbb)
+   כל ה-selectors scoped ל-.bbb-geometry8-page בלבד (CLAUDE.md §2).
+   הטקסט הלימודי מגיע 1:1 מ-sources/bbb/geometry8/worksheet.html — כאן עיצוב בלבד. */
+
+.bbb-geometry8-page { color: var(--text-main); }
+/* ניצול גובה A4 (SSOT "תרווח"): השאלות נפרשות על כל גובה העמוד עם ריווח אחיד
+   למעלה/באמצע/למטה — בלי רצועה ריקה בתחתית מעל הפוטר. חל על כל עמודי ה-bbb (1–9).
+   space-evenly מחלק רק מרחב פנוי, לכן עמוד מלא נשאר כפי שהוא (אין חריגה). */
+.bbb-geometry8-page .question-block { justify-content: space-evenly; gap: 9px; }
+
+/* כותרת אחידה: שם החוברת ("מעגל") בגדול, ומתחתיו כיתוב המקטע בקטן (SSOT) */
+.bbb-geometry8-page .title-stack { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; }
+.bbb-geometry8-page .page-title { font-size: 33px; font-weight: 600; line-height: 1.05; }
+.bbb-geometry8-page .page-subtitle { font-size: 14.5px; font-weight: 400; color: #475569; }
+
+/* כותרת מקטע בתוך הדף: "שאלות מתוך תוכנית הלימודים" מעל שאלות התוכנית בלבד, כאשר
+   השאלה הראשונה בדף היא שאלה מקורית (לא מהתוכנית). קו מפריד דק מעל הכותרת. */
+.bbb-geometry8-page .section-cap { font-size: 15px; font-weight: 500; color: #1e3a8a; margin: 6px 0 2px; padding-top: 8px; border-top: 1px solid #dbe3f0; }
+
+/* כותרות דמו (chapter-bar/breadcrumb) — מוסרות מהמקור ומנוטרלות גלובלית (SSOT: אין כותרות דמו) */
+.bbb-geometry8-page .chapter-bar { display: none !important; }
+
+/* שאלה — ללא מסגרת (SSOT: אין מסגרות סביב שאלות). הנקודה יושבת מימין לכיתוב. */
+.bbb-geometry8-page .q { background: transparent; padding: 2px 0 9px; break-inside: avoid; page-break-inside: avoid; }
+.bbb-geometry8-page .qhead { float: right; display: flex; align-items: center; gap: 6px; margin: 5px 0 0; margin-inline-end: 9px; }
+.bbb-geometry8-page .qdot { width: 10px; height: 10px; border-radius: 50%; background: #1e3a8a; flex: 0 0 auto; }
+.bbb-geometry8-page .qtags { display: flex; gap: 6px; }
+.bbb-geometry8-page .pill { border: 1px solid var(--border-light); background: var(--bg-subtle); color: var(--title-blue); border-radius: 999px; padding: 1px 10px; font-size: 11px; font-weight: 500 !important; }
+.bbb-geometry8-page .qbody { font-size: 15px; line-height: 1.5; }
+.bbb-geometry8-page .qbody p { margin: 4px 0; }
+
+/* LTR למתמטיקה ולמספרים — CSS בלבד (CLAUDE.md §4) */
+.bbb-geometry8-page .ltr, .bbb-geometry8-page .math { direction: ltr; unicode-bidi: isolate; }
+/* זוג סדור (x,y) עם תיבות תשובה — לא נשבר באמצע השורה */
+.bbb-geometry8-page .pair { white-space: nowrap; }
+/* שורת "דוגמה לנקודה ...: (x,y)" — התווית מימין, והזוג הסדור נעוץ בקצה שמאל,
+   כך שכל הזוגות מיושרים בעמודה מדויקת אחת (מיקום קבוע לנקודות). */
+.bbb-geometry8-page .exline { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.bbb-geometry8-page .exline .exlab { flex: 0 1 auto; }
+.bbb-geometry8-page .exline .pair { flex: 0 0 auto; }
+/* סלאש כחול להפרדת אפשרויות בתוך משפט אחד (בלי תווית "הקיפו:" האוטומטית של .mc) */
+.bbb-geometry8-page .slh { color: #1e3a8a; font-weight: 600; margin: 0 7px; }
+
+/* סעיפים — ללא מספור/אותיות: נקודה כחולה מימין בלבד (SSOT: אין מספור לסעיפים) */
+.bbb-geometry8-page ol.parts { list-style: none; margin: 5px 0 0; padding: 0; }
+.bbb-geometry8-page ol.parts > li { display: flex; gap: 9px; align-items: flex-start; margin: 7px 0; }
+.bbb-geometry8-page .plab { font-size: 0 !important; color: transparent !important; flex: 0 0 auto; min-width: 15px; }
+.bbb-geometry8-page .plab::before { content: ""; display: block; width: 8px; height: 8px; border-radius: 50%; background: #1e3a8a; margin-top: 7px; }
+.bbb-geometry8-page .ptext { flex: 1; }
+
+/* רב-ברירה — אינליין עם סלאשים: "בתוך המעגל / על המעגל / מחוץ למעגל" (התלמיד מקיף אחת) */
+.bbb-geometry8-page .mc { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 0; margin: 5px 0 2px; }
+.bbb-geometry8-page .opt { display: inline-flex; align-items: baseline; }
+.bbb-geometry8-page .ol { display: none; }
+.bbb-geometry8-page .ot { flex: 0 0 auto; }
+.bbb-geometry8-page .opt:not(:last-child) .ot::after { content: "/"; color: #1e3a8a; font-weight: 600; margin: 0 8px; }
+/* תווית "הקיפו:" לפני אפשרויות רב-ברירה (SSOT: התלמיד מקיף אחת) */
+.bbb-geometry8-page .mc::before { content: "הקיפו:"; color: #1e3a8a; font-weight: 500; margin-inline-end: 8px; flex: 0 0 auto; }
+
+/* שורות תשובה עם תיבה */
+.bbb-geometry8-page .ansrow { display: inline-flex; align-items: baseline; gap: 6px; margin: 0 2px; vertical-align: baseline; }
+.bbb-geometry8-page .alab { font-weight: 500 !important; white-space: nowrap; }
+.bbb-geometry8-page .abox { display: inline-block; height: 26px; min-width: 64px; border: 1px solid var(--grid-line); border-radius: 6px; background: #fff; vertical-align: middle; }
+.bbb-geometry8-page .unit { color: inherit; font-size: inherit; font-family: inherit; font-weight: inherit; }
+
+/* רוחבי תיבות תשובה מהמקור (הומר מ-style מוטמע — html-validate אוסר inline style) */
+.bbb-geometry8-page .abox-w40 { min-width: 40px; }
+.bbb-geometry8-page .abox-w46 { min-width: 46px; }
+.bbb-geometry8-page .abox-w48 { min-width: 48px; }
+.bbb-geometry8-page .abox-w52 { min-width: 52px; }
+.bbb-geometry8-page .abox-w56 { min-width: 56px; }
+.bbb-geometry8-page .abox-w60 { min-width: 60px; }
+.bbb-geometry8-page .abox-w64 { min-width: 64px; }
+.bbb-geometry8-page .abox-w70 { min-width: 70px; }
+.bbb-geometry8-page .abox-w80 { min-width: 80px; }
+.bbb-geometry8-page .abox-w90 { min-width: 90px; }
+.bbb-geometry8-page .abox-w100 { min-width: 100px; }
+.bbb-geometry8-page .abox-w110 { min-width: 110px; }
+.bbb-geometry8-page .abox-w120 { min-width: 120px; }
+.bbb-geometry8-page .abox-w150 { min-width: 150px; }
+
+/* אזור עבודה (תרגיל/הסבר) — מלבן "דף משבצות" יוקרתי, אחיד בכל הפרויקט (SSOT) */
+.bbb-geometry8-page .just { margin: 6px 0 3px; }
+.bbb-geometry8-page .jlab { display: block; color: #1e3a8a; font-weight: 500; margin-bottom: 5px; }
+.bbb-geometry8-page .lines { margin: 6px 0 4px; padding: 8px 10px; border: 1px solid #d6deec; border-radius: 10px; background-color: #fcfdff; background-image: repeating-linear-gradient(to right, rgba(30,58,138,.09) 0 1px, transparent 1px 22px), repeating-linear-gradient(to bottom, rgba(30,58,138,.09) 0 1px, transparent 1px 22px); box-shadow: 0 1px 2px rgba(15,23,42,.05); min-height: 48px; }
+.bbb-geometry8-page .ln { height: 22px; border-bottom: none; }
+
+/* קו השלמה בתוך משפט */
+.bbb-geometry8-page .blank { display: inline-block; min-width: 46px; height: 15px; border-bottom: 2px solid #1e3a8a; vertical-align: baseline; }
+
+/* תרגיל → תשובה (SSOT: קודם מקום לפתרון, בסוף שורת תשובה) */
+.bbb-geometry8-page .solve { clear: both; margin: 9px 0 2px; }
+.bbb-geometry8-page .solve-lab { color: #1e3a8a; font-weight: 500; margin-bottom: 5px; }
+.bbb-geometry8-page .answer { clear: both; margin-top: 10px; display: flex; align-items: flex-end; gap: 8px; }
+/* שורת תשובה אינלַיין (בתוך משפט, למשל "ההיקף הוא בערך ___ ס"מ") — קצרה, מקום למספר בלבד; לא נמתחת לכל הרוחב */
+.bbb-geometry8-page .answer .ansline { flex: 0 0 auto; display: inline-block; width: 96px; min-width: 96px; max-width: 96px; height: 22px; border-bottom: 2.5px solid #1e3a8a; vertical-align: baseline; }
+
+/* טבלאות עבודה */
+.bbb-geometry8-page table.tbl, .bbb-geometry8-page table.wtbl { border-collapse: collapse; margin: 8px auto; font-size: 14px; }
+.bbb-geometry8-page table.tbl th, .bbb-geometry8-page table.tbl td,
+.bbb-geometry8-page table.wtbl th, .bbb-geometry8-page table.wtbl td { border: 1px solid #111827; padding: 5px 12px; text-align: center; vertical-align: middle; }
+.bbb-geometry8-page table.tbl thead th, .bbb-geometry8-page table.wtbl thead th { background: var(--bg-subtle); font-weight: 500 !important; }
+.bbb-geometry8-page table.tbl .abox, .bbb-geometry8-page table.wtbl .abox { display: block; margin: 0 auto; }
+
+/* איורים וגרפים וקטוריים (CLAUDE.md §4) */
+.bbb-geometry8-page .figure { margin: 6px auto 2px; text-align: center; break-inside: avoid; page-break-inside: avoid; }
+.bbb-geometry8-page .cap { font-size: 12.5px; color: #475569; margin-top: 2px; font-weight: 500 !important; }
+.bbb-geometry8-page svg.chart { display: block; margin: 2px auto; max-width: 100%; height: auto; max-height: 235mm; shape-rendering: geometricPrecision; text-rendering: geometricPrecision; }
+.bbb-geometry8-page svg.chart line,
+.bbb-geometry8-page svg.chart path,
+.bbb-geometry8-page svg.chart rect,
+.bbb-geometry8-page svg.chart circle,
+.bbb-geometry8-page svg.chart polygon,
+.bbb-geometry8-page svg.chart polyline { vector-effect: non-scaling-stroke; }
+.bbb-geometry8-page svg.chart text { font-family: 'Rubik', sans-serif; paint-order: stroke; stroke: #ffffff; stroke-width: 2.6px; stroke-linejoin: round; }
+/* ליטוש גרפי אחיד — פלטת רשת/ציר פרימיום לכל התרשימים (SSOT: גרפיקה יוקרתית) */
+.bbb-geometry8-page svg.chart line[stroke="#e7eaf1"] { stroke: #e9eef8; }
+.bbb-geometry8-page svg.chart line[stroke="#1f2a44"] { stroke: #1e3a8a; }
+.bbb-geometry8-page svg.chart path[fill="#1f2a44"] { fill: #1e3a8a; }
+.bbb-geometry8-page img.embed { max-width: 100%; height: auto; border: 1px solid var(--border-light); border-radius: 8px; padding: 4px; background: #fff; }
+
+/* רוחבי figure מהמקור (הומר מ-style מוטמע) */
+.bbb-geometry8-page .fig-w40 { max-width: 40%; margin-inline: auto; }
+.bbb-geometry8-page .fig-w42 { max-width: 42%; margin-inline: auto; }
+.bbb-geometry8-page .fig-w50 { max-width: 50%; margin-inline: auto; }
+.bbb-geometry8-page .fig-w52 { max-width: 52%; margin-inline: auto; }
+.bbb-geometry8-page .fig-w54 { max-width: 54%; margin-inline: auto; }
+.bbb-geometry8-page .fig-w56 { max-width: 56%; margin-inline: auto; }
+.bbb-geometry8-page .fig-w58 { max-width: 58%; margin-inline: auto; }
+.bbb-geometry8-page .fig-w60 { max-width: 60%; margin-inline: auto; }
+.bbb-geometry8-page .fig-w66 { max-width: 66%; margin-inline: auto; }
+
+/* הערת מסגרת (note) */
+.bbb-geometry8-page .note { background: var(--bg-subtle); border: 1px solid var(--border-light); border-right: 4px solid var(--title-blue); border-radius: 8px; padding: 7px 12px; font-size: 14px; break-inside: avoid; page-break-inside: avoid; }
+
+/* ───── פריסת "ציור משמאל, שאלות מימין" — לכל שאלה עם ציור (SSOT משותף) ─────
+   הציור בעמודת שמאל (qfig), כל הכיתובים בעמודת ימין (qmain). נקודת השאלה
+   אינליין מימין לשורת ה-lead ומיושרת עם נקודות הסעיפים. */
+.bbb-geometry8-page .q:has(> .qbody-split) { position: relative; }
+.bbb-geometry8-page .qbody-split { display: flex; align-items: flex-start; gap: 18px; }
+.bbb-geometry8-page .qbody-split > .qmain { flex: 1 1 58%; min-width: 0; }
+.bbb-geometry8-page .qbody-split > .qfig { flex: 0 0 38%; align-self: flex-start; margin-top: 2px; }
+.bbb-geometry8-page .qbody-split > .qfig .figure { max-width: 100%; margin: 0; }
+.bbb-geometry8-page .qbody-split .lead { margin: 0 0 8px; padding-inline-start: 20px; }
+.bbb-geometry8-page .q:has(> .qbody-split) > .qhead { position: absolute; top: 9px; right: 0; float: none; margin: 0; }
+/* בפריסת פיצול — טבלת נקודות בשתי עמודות, מתאימה לרוחב הצר */
+.bbb-geometry8-page .qbody-split .tbgrid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 7px 10px; }
+
+/* המשך שאלה שפוצלה על פני עמודים (אפס שינוי תוכן) */
+.bbb-geometry8-page .q.q-cont { border-top: none; }
+.bbb-geometry8-page .q.q-cont > .qbody { margin-top: 0; }
+
+/* טבלת סיווג נקודות — "על המעגל / בתוכו" (עיצוב בלבד, אפס שינוי תוכן) */
+.bbb-geometry8-page .tbgrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px 16px; margin: 10px 0 3px; }
+.bbb-geometry8-page .tbcell { display: flex; align-items: center; gap: 8px; background: var(--bg-subtle); border: 1px solid var(--border-light); border-radius: 8px; padding: 5px 9px; }
+.bbb-geometry8-page .tbi { flex: 0 0 auto; min-width: 56px; white-space: nowrap; font-weight: 500 !important; }
+.bbb-geometry8-page .tbcell .abox { flex: 1 1 auto; min-width: 54px; max-width: 96px; margin: 0; }
+
+/* BBB_GENERATED_STYLES — מחלקות מ-inline style של המקור (§3: אין inline style; הצהרות מדויקות) */
+.bbb-geometry8-page .bs-1 { min-width:110px; }
+.bbb-geometry8-page .bs-2 { max-width:47%; margin-inline:auto; }
+.bbb-geometry8-page .bs-3 { min-width:64px; }
+.bbb-geometry8-page .bs-4 { max-width:56%; margin-inline:auto; }
+.bbb-geometry8-page .bs-5 { min-width:72px; }
+.bbb-geometry8-page .bs-6 { min-width:70px; }
+.bbb-geometry8-page .bs-7 { max-width:50%; }
+.bbb-geometry8-page .bs-8 { max-width:46%; margin-inline:auto; }
+.bbb-geometry8-page .bs-9 { max-width:54%; margin-inline:auto; }
+.bbb-geometry8-page .bs-10 { max-width:58%; margin-inline:auto; }
+.bbb-geometry8-page .bs-11 { max-width:44%; margin-inline:auto; }
+.bbb-geometry8-page .bs-12 { max-width:42%; margin-inline:auto; }
+.bbb-geometry8-page .bs-13 { max-width:48%; margin-inline:auto; }
+.bbb-geometry8-page .bs-14 { max-width:66%; margin-inline:auto; }
+.bbb-geometry8-page .bs-15 { max-width:56%; }
+.bbb-geometry8-page .bs-16 { max-width:44%; }
+.bbb-geometry8-page .bs-17 { max-width:70%; }
+.bbb-geometry8-page .bs-18 { max-width:54%; }
+.bbb-geometry8-page .bs-19 { max-width:60%; margin-inline:auto; }
+.bbb-geometry8-page .bs-20 { max-width:42%; }
+.bbb-geometry8-page .bs-21 { max-width:50%; margin-inline:auto; }
+.bbb-geometry8-page .bs-22 { min-width:56px; }
+.bbb-geometry8-page .bs-23 { min-width:90px; }
+.bbb-geometry8-page .bs-24 { min-width:84px; }

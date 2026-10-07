@@ -1,0 +1,16 @@
+@import url('../topics/bbb-geometry8.css');
+
+/* ניצול מלא של גובה ה-A4 (CLAUDE.md §4) — פריסה בלבד, אפס שינוי תוכן:
+   כרטיסי השאלות גדלים למילוי הדף ומעניקים מרחב עבודה לתלמיד */
+.page-199 .question-block > .q, .page-199 .question-block > .note { flex: 1 0 auto; }
+
+/* פריסת "ציור משמאל, שאלות מימינו ולמעלה" (סגנון אחיד לשאלה עם ציור) */
+.page-199 .q { position: relative; }
+.page-199 .qbody-split { display: flex; align-items: flex-start; gap: 18px; }
+.page-199 .qbody-split .qmain { flex: 1 1 58%; min-width: 0; }
+.page-199 .qbody-split .qfig { flex: 0 0 38%; align-self: flex-start; margin-top: 2px; }
+.page-199 .qbody-split .qfig .figure { max-width: 100%; margin: 0; }
+/* הזחת ה-lead בלבד כדי לפנות מקום לנקודת השאלה מימין (הסעיפים נשארים צמודים לקצה) */
+.page-199 .qbody-split .lead { margin: 0 0 8px; padding-inline-start: 20px; }
+/* נקודת השאלה — אינליין מימין לשורת ה-lead (לא בשורה נפרדת מעליה), מיושרת עם נקודות הסעיפים */
+.page-199 .qhead { position: absolute; top: 9px; right: 0; float: none; margin: 0; }

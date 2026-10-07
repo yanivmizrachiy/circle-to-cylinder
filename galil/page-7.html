@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+<script src="render.js" defer></script>
+</head>
+<body>
+<script type="application/json" id="page">
+{
+  "n": 7,
+  "title": "מה באמת ידוע מן השרטוט?",
+  "anchor": "בשרטוט פרספקטיבי משתמשים רק בנתונים שסומנו. לא מודדים מן המראה של הציור.",
+  "tasks": [
+    {
+      "q": "קראו את הנתונים המסומנים בשרטוט.",
+      "blocks": [
+        { "t": "fig", "svg": "<svg viewBox='0 0 430 260' role='img' aria-label='גליל עם רדיוס r וגובה h'><ellipse cx='215' cy='55' rx='92' ry='27' fill='#fff' stroke='#111827' stroke-width='3'/><line x1='123' y1='55' x2='123' y2='215' stroke='#111827' stroke-width='3'/><line x1='307' y1='55' x2='307' y2='215' stroke='#111827' stroke-width='3'/><path d='M123 215 A92 27 0 0 0 307 215' fill='none' stroke='#111827' stroke-width='3'/><path d='M123 215 A92 27 0 0 1 307 215' fill='none' stroke='#64748b' stroke-width='2' stroke-dasharray='7 5'/><circle cx='215' cy='55' r='4' fill='#111827'/><line x1='215' y1='55' x2='307' y2='55' stroke='#1d4ed8' stroke-width='4'/><text x='262' y='43' font-size='18'>r</text><line x1='215' y1='55' x2='215' y2='215' stroke='#d97706' stroke-width='4'/><text x='225' y='143' font-size='18'>h</text></svg>" },
+        { "t": "note", "text": "הנתונים המסומנים: רדיוס <span dir='ltr'>r = 3</span> ס״מ, גובה <span dir='ltr'>h = 8</span> ס״מ." }
+      ]
+    },
+    {
+      "q": "סמנו בכל שורה: ניתן לדעת או לא ניתן לדעת.",
+      "blocks": [
+        { "t": "table",
+          "head": ["מידע", "ניתן לדעת", "לא ניתן לדעת"],
+          "rows": [
+            ["קוטר הבסיס הוא 6 ס״מ.", "<span class='mark-box'></span>", "<span class='mark-box'></span>"],
+            ["גובה הגליל הוא 8 ס״מ.", "<span class='mark-box'></span>", "<span class='mark-box'></span>"],
+            ["רוחב האליפסה כפי שהיא נראית על הדף הוא קוטר הבסיס.", "<span class='mark-box'></span>", "<span class='mark-box'></span>"],
+            ["אורך קטע אלכסוני שלא סומן במספר.", "<span class='mark-box'></span>", "<span class='mark-box'></span>"],
+            ["אפשר לחשב את שטח הבסיס בעזרת ידע קודם במעגל.", "<span class='mark-box'></span>", "<span class='mark-box'></span>"]
+          ]
+        }
+      ]
+    },
+    {
+      "q": "בחרו את הכלל הנכון.",
+      "blocks": [
+        { "t": "fill", "lines": [
+          "<b>מודדים כל קטע שנראה בשרטוט / משתמשים רק בנתונים ובקשרים מתמטיים.</b>",
+          "בסיס שנראה כאליפסה בשרטוט הוא מבחינה מתמטית: <b>אליפסה / עיגול</b>."
+        ] }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>

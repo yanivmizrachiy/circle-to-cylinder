@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+<script src="render.js" defer></script>
+</head>
+<body>
+<script type="application/json" id="page">
+{
+  "n": 37,
+  "title": "מוצאים את הרדיוס",
+  "anchor": "עבדו בסדר: <span dir='ltr'>V ÷ h, B, r</span>. בוחרים את הרדיוס החיובי שמתאים לשטח הבסיס.",
+  "tasks": [
+    {
+      "q": "השלימו.",
+      "blocks": [
+        { "t": "table",
+          "head": ["נפח <span dir='ltr'>(V)</span>", "גובה <span dir='ltr'>(h)</span>", "שטח בסיס <span dir='ltr'>(B)</span>", "רדיוס <span dir='ltr'>(r)</span>"],
+          "rows": [
+            ["<span dir='ltr'>100π ס״מ³</span>", "4 ס״מ", "", ""],
+            ["<span dir='ltr'>72π ס״מ³</span>", "8 ס״מ", "", ""],
+            ["<span dir='ltr'>147π ס״מ³</span>", "3 ס״מ", "", ""],
+            ["<span dir='ltr'>200π ס״מ³</span>", "8 ס״מ", "", ""]
+          ]
+        }
+      ]
+    },
+    {
+      "q": "עבור <span dir='ltr'>V = 100π</span> ס״מ³ ו־<span dir='ltr'>h = 4</span> ס״מ, השלימו את השרשרת.",
+      "blocks": [
+        { "t": "think", "html": "<span dir='ltr'>B = 100π ÷ 4 = ____π</span> ס״מ², <span dir='ltr'>r² = ____</span>, <span dir='ltr'>r = ____</span> ס״מ" }
+      ]
+    },
+    {
+      "q": "בחרו את הרדיוס כאשר <span dir='ltr'>B = 49π</span> ס״מ².",
+      "think": true,
+      "blocks": [
+        { "t": "choice", "opts": ["7 ס״מ", "49 ס״מ", "24.5 ס״מ"] }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>

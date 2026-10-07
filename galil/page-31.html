@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+<script src="render.js" defer></script>
+</head>
+<body>
+<script type="application/json" id="page">
+{
+  "n": 31,
+  "title": "מדויק ומקורב",
+  "anchor": "שמרו π בתשובה המדויקת. לקירוב השתמשו במקש π במחשבון, עגלו למאיות וכתבו ≈.",
+  "tasks": [
+    {
+      "q": "השלימו את התשובה המקורבת.",
+      "blocks": [
+        { "t": "table",
+          "head": ["תשובה מדויקת", "תשובה מקורבת"],
+          "rows": [
+            ["<span dir='ltr'>20π</span> ס״מ³", "≈ ______ ס״מ³"],
+            ["<span dir='ltr'>36π</span> ס״מ³", "≈ ______ ס״מ³"],
+            ["<span dir='ltr'>48π</span> ס״מ³", "≈ ______ ס״מ³"],
+            ["<span dir='ltr'>12.5π</span> ס״מ³", "≈ ______ ס״מ³"],
+            ["<span dir='ltr'>7.2π</span> ס״מ³", "≈ ______ ס״מ³"]
+          ]
+        }
+      ]
+    },
+    {
+      "q": "בחרו את הסימן המתאים.",
+      "blocks": [
+        { "t": "html", "html": "<div class='sentence' style='text-align:center;font-size:22px'><span dir='ltr'>20π &nbsp; ___ &nbsp; 62.83</span></div>" },
+        { "t": "choice", "opts": ["=", "≈"] }
+      ]
+    },
+    {
+      "q": "בחרו את המשפט התקין.",
+      "think": true,
+      "blocks": [
+        { "t": "choice", "opts": ["3.14 הוא הערך המדויק של π", "π ≈ 3.14"] }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>

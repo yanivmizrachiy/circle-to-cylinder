@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+<script src="render.js" defer></script>
+</head>
+<body>
+<script type="application/json" id="page">
+{
+  "n": 14,
+  "title": "אורך, שטח או נפח?",
+  "anchor": "זהו את סוג הגודל לפי היחידה: יחידת אורך, יחידת שטח ריבועית או יחידת נפח מעוקבת.",
+  "tasks": [
+    {
+      "q": "מיינו כל כרטיס לעמודה המתאימה.",
+      "blocks": [
+        { "t": "html", "html": "<table class='classify-table'><tr><th>אורך</th><th>שטח</th><th>נפח</th></tr><tr><td colspan='3'><div class='sentence-list'><div class='sentence'>5 ס״מ &nbsp; | &nbsp; 25 ס״מ² &nbsp; | &nbsp; 60 ס״מ³ &nbsp; | &nbsp; 30 מ״מ</div><div class='sentence'>12 מ״מ² &nbsp; | &nbsp; 2 דצ״מ³ &nbsp; | &nbsp; 1.2 מ׳ &nbsp; | &nbsp; 3 מ׳²</div><div class='sentence'>0.5 מ׳³ &nbsp; | &nbsp; 8 דצ״מ &nbsp; | &nbsp; \\(16\\pi\\) ס״מ² &nbsp; | &nbsp; 1200 מ״מ³</div></div></td></tr><tr><td style='height:45mm'></td><td></td><td></td></tr></table>" }
+      ]
+    },
+    {
+      "q": "בחרו את היחידה המתאימה בכל מצב.",
+      "blocks": [
+        { "t": "html", "html": "<div class='sentence-list'><div class='sentence'>גובה גליל: <b>ס״מ / ס״מ² / ס״מ³</b></div><div class='sentence'>שטח בסיס גליל: <b>ס״מ / ס״מ² / ס״מ³</b></div><div class='sentence'>כמות המקום שגוף תופס: <b>ס״מ / ס״מ² / ס״מ³</b></div></div>" }
+      ]
+    },
+    {
+      "q": "סמנו את הכרטיס שאינו שייך לקבוצה.",
+      "think": true,
+      "blocks": [
+        { "t": "choice", "opts": ["7 מ״מ", "4 ס״מ", "12 מ׳", "9 ס״מ²"] }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>

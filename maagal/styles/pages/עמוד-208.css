@@ -1,0 +1,3 @@
+@import url('../topics/bbb-geometry8.css');
+.page-208 .tbgrid.two { grid-template-columns: repeat(2, minmax(0,1fr)); max-width: 70%; }
+.page-208 .figure.bs-19 { max-width: 92%; }

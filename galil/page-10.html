@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+<script src="render.js" defer></script>
+</head>
+<body>
+<script type="application/json" id="page">
+{
+  "n": 10,
+  "title": "רדיוס וקוטר — חזרה",
+  "anchor": "לפני שמחשבים שטח בסיס, שולטים בקשר בין רדיוס לקוטר: <span dir='ltr'>קוטר = 2×r</span> ו־<span dir='ltr'>r = קוטר ÷ 2</span>.",
+  "tasks": [
+    {
+      "q": "השלימו את הקוטר.",
+      "blocks": [
+        { "t": "table",
+          "head": ["רדיוס <span dir='ltr'>(r)</span>", "קוטר", "רדיוס <span dir='ltr'>(r)</span>", "קוטר"],
+          "rows": [
+            ["1 ס״מ", "", "4.5 ס״מ", ""],
+            ["2 ס״מ", "", "6 ס״מ", ""],
+            ["3 ס״מ", "", "7 ס״מ", ""]
+          ]
+        }
+      ]
+    },
+    {
+      "q": "השלימו את הרדיוס.",
+      "blocks": [
+        { "t": "table",
+          "head": ["קוטר", "רדיוס <span dir='ltr'>(r)</span>", "קוטר", "רדיוס <span dir='ltr'>(r)</span>"],
+          "rows": [
+            ["8 ס״מ", "", "24 ס״מ", ""],
+            ["10 ס״מ", "", "30 ס״מ", ""],
+            ["18 ס״מ", "", "50 ס״מ", ""]
+          ]
+        }
+      ]
+    },
+    {
+      "q": "סמנו את הקשר הנכון.",
+      "blocks": [
+        { "t": "html", "html": "<div class='sentence-list'><div class='sentence'>מרדיוס לקוטר: <b>מכפילים ב־2 / מחלקים ב־2</b>.</div><div class='sentence'>מקוטר לרדיוס: <b>מכפילים ב־2 / מחלקים ב־2</b>.</div></div>" }
+      ]
+    },
+    {
+      "q": "בחרו את התשובה הנכונה.",
+      "blocks": [
+        { "t": "html", "html": "<div class='sentence-list'><div class='sentence'><span dir='ltr'>r = 4.5</span> ס״מ, לכן קוטר = <b>2.25 / 6.5 / 9</b> ס״מ.</div><div class='sentence'>קוטר = 50 ס״מ, לכן <span dir='ltr'>r =</span> <b>25 / 48 / 100</b> ס״מ.</div></div>" }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!doctype html><html lang="he" dir="rtl"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>חוברת המעגל — חוברת אחת מדורגת</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f3f6fb;font-family:'Rubik','Heebo','Noto Sans Hebrew',Arial,sans-serif;color:#152033}
+.toolbar{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #d8e2ef;box-shadow:0 2px 12px rgba(30,50,80,.06);padding:10px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.brand{font-weight:900;font-size:20px;margin-inline-end:auto}
+.btn{font:inherit;font-weight:700;border:1px solid #1e3a8a;background:#1e3a8a;color:#fff;border-radius:10px;padding:9px 16px;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+.btn.secondary{background:#fff;color:#1e3a8a}
+.btn:hover{filter:brightness(.96)}
+.book{max-width:1060px;margin:14px auto;padding:0 10px;display:flex;flex-direction:column;align-items:center;gap:16px}
+.slot{position:relative;width:794px;max-width:100%;background:#fff;border:1px solid #cdd9e8;border-radius:12px;box-shadow:0 10px 34px rgba(36,56,86,.08);overflow:hidden}
+/* העמודים הם iframes לתצוגה בלבד; pointer-events:none כדי שגלילת גלגלת/מגע מעל עמוד
+   תמיד תגלול את החוברת (iframe "בולע" את אירוע הגלילה) — גלילה נוחה בכל מקום. */
+.slot iframe{display:block;width:100%;height:100%;border:0;background:#fff;overflow:hidden;pointer-events:none}
+html,body{overflow-x:hidden;max-width:100%}
+.slot .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#9aa8bc;font-weight:700;font-size:15px}
+@media(max-width:760px){.brand{font-size:18px}.toolbar{gap:8px;padding:8px}.book{margin-top:8px;padding:0 6px;gap:12px}.slot{border-radius:8px}}
+@media print{
+ body{background:#fff}
+ .toolbar{display:none!important}
+ .book{margin:0;padding:0;max-width:none;gap:0}
+ .slot{width:100%!important;border:none;border-radius:0;box-shadow:none;break-after:page;page-break-after:always}
+}
+</style>
+</head><body>
+<nav class="toolbar" aria-label="פעולות החוברת">
+<span class="brand">חוברת המעגל</span>
+<button class="btn" id="print" type="button">🖨 הדפסה</button>
+<button class="btn secondary" id="download" type="button">⬇ הורדת PDF</button>
+</nav>
+<main class="book" id="book" aria-label="כל עמודי החוברת"></main>
+<script>
+const PAGE_W=794,PAGE_H=1123;
+const book=document.getElementById('book');
+let total=1,slots=[];
+function displayWidth(){const cs=getComputedStyle(book);const pad=parseFloat(cs.paddingLeft)+parseFloat(cs.paddingRight);return Math.max(200,Math.min(PAGE_W,Math.floor(book.clientWidth-pad)));}
+function sizeSlot(slot){const dw=displayWidth(),scale=dw/PAGE_W;slot.style.width=dw+'px';slot.style.height=Math.round(PAGE_H*scale)+'px';}
+function fitIframe(slot){const f=slot._frame;if(!f)return false;try{const doc=f.contentDocument;if(!doc)return false;const p=doc.querySelector('.a4-page');if(!p)return false;const target=f.clientWidth||displayWidth(),pw=p.offsetWidth||PAGE_W,ph=p.offsetHeight||PAGE_H,scale=target/pw;const de=doc.documentElement,bd=doc.body;de.style.overflow='hidden';de.style.margin='0';de.style.padding='0';if(bd){bd.style.margin='0';bd.style.padding='0';bd.style.position='relative';bd.style.overflow='hidden';bd.style.width=target+'px';bd.style.height=Math.ceil(ph*scale)+'px';}p.style.margin='0';p.style.position='absolute';p.style.left='0';p.style.top='0';p.style.transformOrigin='top left';p.style.transform='scale('+scale+')';slot.style.height=Math.round(ph*scale)+'px';const el=slot.querySelector('.ph');if(el)el.remove();return true;}catch(e){return false;}}
+function scheduleFit(slot){let n=0;const iv=setInterval(()=>{n++;if(fitIframe(slot)||n>60)clearInterval(iv);},50);}
+function loadSlot(slot){if(slot._loaded)return;slot._loaded=true;const n=slot._page;const f=document.createElement('iframe');f.title=`חוברת המעגל — עמוד ${n}`;f.loading='eager';f.scrolling='no';f.setAttribute('scrolling','no');slot._frame=f;f.addEventListener('load',()=>scheduleFit(slot));slot.appendChild(f);f.src=`page-${n}.html`;}
+function startLoading(){
+ // קפיצה/גלילה: מה שמתקרב לצפייה נטען מיד (IntersectionObserver), כדי שלא נוחת על חלל ריק.
+ if('IntersectionObserver' in window){
+  const io=new IntersectionObserver(function(ents){ents.forEach(function(e){if(e.isIntersecting){loadSlot(e.target);io.unobserve(e.target);}});},{root:null,rootMargin:'1400px 0px',threshold:0});
+  slots.forEach(function(sl){io.observe(sl);});
+ }
+ // רקע: תור הדרגתי שטוען את *כל* העמודים (ולא מתפרקים) — כך אין חללים ריקים בגלילה (SSOT: viewer.ironRule).
+ let qi=0;(function pump(){let did=0;while(qi<slots.length&&did<2){const sl=slots[qi++];if(!sl._loaded){loadSlot(sl);did++;}}if(qi<slots.length)setTimeout(pump,110);})();
+}
+function build(){book.replaceChildren();slots=[];for(let n=1;n<=total;n++){const slot=document.createElement('section');slot.className='slot';slot.id='p'+n;slot._page=n;slot.setAttribute('data-page',n);const ph=document.createElement('div');ph.className='ph';ph.textContent=`עמוד ${n}`;slot.appendChild(ph);book.appendChild(slot);sizeSlot(slot);slots.push(slot);}startLoading();if(location.hash){let k=0;const jump=function(){const t=document.getElementById(location.hash.slice(1));if(t)t.scrollIntoView();if(++k<8)setTimeout(jump,90);};setTimeout(jump,60);}}
+window.addEventListener('hashchange',function(){const t=document.getElementById(location.hash.slice(1));if(t)t.scrollIntoView();});
+let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{slots.forEach(sl=>{sizeSlot(sl);if(sl._loaded)fitIframe(sl);});},150);});
+document.getElementById('print').onclick=()=>window.print();
+document.getElementById('download').onclick=()=>window.print();
+fetch('manifest.json',{cache:'no-store'}).then(r=>r.json()).then(m=>{total=Number(m.pageCount)||1;build();}).catch(e=>{book.textContent='שגיאה בטעינת החוברת';console.error(e);});
+</script>
+</body></html>

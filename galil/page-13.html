@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+<script src="render.js" defer></script>
+</head>
+<body>
+<script type="application/json" id="page">
+{
+  "n": 13,
+  "title": "שטח בסיס מנתון קוטר",
+  "anchor": "כאשר נתון הקוטר: קודם מוצאים \\(r=\\text{קוטר}\\div2\\), ורק אחר כך מחשבים \\(B=\\pi\\times r^2\\).",
+  "tasks": [
+    {
+      "q": "השלימו בכל שורה: קודם רדיוס, אחר כך שטח בסיס.",
+      "blocks": [
+        { "t": "table",
+          "head": ["קוטר", "רדיוס <span dir='ltr'>(r)</span>", "שטח בסיס <span dir='ltr'>(B)</span>"],
+          "rows": [
+            ["6 ס״מ", "", ""],
+            ["8 ס״מ", "", ""],
+            ["10 ס״מ", "", ""],
+            ["14 ס״מ", "", ""],
+            ["18 ס״מ", "", ""]
+          ]
+        }
+      ]
+    },
+    {
+      "q": "בחרו את סדר העבודה הנכון.",
+      "think": true,
+      "blocks": [
+        { "t": "choice", "opts": [
+          "\\(\\text{קוטר}\\rightarrow r\\rightarrow B\\)",
+          "\\(\\text{קוטר}\\rightarrow B\\rightarrow r\\)",
+          "\\(r\\rightarrow\\text{קוטר}\\rightarrow B\\)"
+        ] }
+      ]
+    },
+    {
+      "q": "בדקו את השורה: \\(\\text{קוטר}=12\\) ס״מ.",
+      "blocks": [
+        { "t": "html", "html": "<div class='sentence-list'><div class='sentence'>הרדיוס הוא <b>\\(6\\;/\\;12\\;/\\;24\\)</b> ס״מ.</div><div class='sentence'>שטח הבסיס הוא <b dir='ltr'>\\(12\\pi\\;/\\;36\\pi\\;/\\;144\\pi\\)</b> ס״מ².</div></div>" }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>

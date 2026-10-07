@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+<script src="render.js" defer></script>
+</head>
+<body>
+<script type="application/json" id="page">
+{
+  "n": 6,
+  "title": "גובה הגליל",
+  "anchor": "גובה הגליל הוא המרחק המאונך בין מישורי שני הבסיסים. הוא לא חייב להיראות „למעלה” על הדף.",
+  "tasks": [
+    {
+      "q": "בכל שרטוט סמנו את הקטע שמייצג את גובה הגליל.",
+      "blocks": [
+        { "t": "figrow", "cols": 3, "cards": [
+          { "id": "א", "cap": "A / B / C", "svg": "<svg viewBox='0 0 150 125' role='img' aria-label='גליל עומד עם קטעים A B C'><ellipse cx='75' cy='24' rx='36' ry='10' fill='#fff' stroke='#111827' stroke-width='2'/><line x1='39' y1='24' x2='39' y2='98' stroke='#111827' stroke-width='2'/><line x1='111' y1='24' x2='111' y2='98' stroke='#111827' stroke-width='2'/><ellipse cx='75' cy='98' rx='36' ry='10' fill='#fff' stroke='#111827' stroke-width='2'/><line x1='75' y1='24' x2='75' y2='98' stroke='#1d4ed8' stroke-width='3'/><text x='80' y='64' font-size='12'>A</text><line x1='75' y1='24' x2='106' y2='24' stroke='#64748b' stroke-width='2.5'/><text x='96' y='18' font-size='12'>B</text><line x1='48' y1='31' x2='103' y2='91' stroke='#64748b' stroke-width='2.5'/><text x='108' y='83' font-size='12'>C</text></svg>" },
+          { "id": "ב", "cap": "D / E / F", "svg": "<svg viewBox='0 0 150 125' role='img' aria-label='גליל שוכב עם קטעים D E F'><ellipse cx='35' cy='62' rx='11' ry='34' fill='#fff' stroke='#111827' stroke-width='2'/><line x1='35' y1='28' x2='115' y2='28' stroke='#111827' stroke-width='2'/><line x1='35' y1='96' x2='115' y2='96' stroke='#111827' stroke-width='2'/><ellipse cx='115' cy='62' rx='11' ry='34' fill='#fff' stroke='#111827' stroke-width='2'/><line x1='35' y1='62' x2='115' y2='62' stroke='#1d4ed8' stroke-width='3'/><text x='74' y='55' font-size='12'>D</text><line x1='115' y1='62' x2='115' y2='32' stroke='#64748b' stroke-width='2.5'/><text x='121' y='45' font-size='12'>E</text><line x1='42' y1='38' x2='108' y2='86' stroke='#64748b' stroke-width='2.5'/><text x='91' y='90' font-size='12'>F</text></svg>" },
+          { "id": "ג", "cap": "G / H / I", "svg": "<svg viewBox='0 0 150 125' role='img' aria-label='גליל מסובב עם קטעים G H I'><g transform='rotate(-28 75 62)'><ellipse cx='75' cy='24' rx='34' ry='10' fill='#fff' stroke='#111827' stroke-width='2'/><line x1='41' y1='24' x2='41' y2='98' stroke='#111827' stroke-width='2'/><line x1='109' y1='24' x2='109' y2='98' stroke='#111827' stroke-width='2'/><ellipse cx='75' cy='98' rx='34' ry='10' fill='#fff' stroke='#111827' stroke-width='2'/><line x1='75' y1='24' x2='75' y2='98' stroke='#1d4ed8' stroke-width='3'/><text x='80' y='64' font-size='12'>G</text><line x1='75' y1='24' x2='104' y2='24' stroke='#64748b' stroke-width='2.5'/><text x='95' y='18' font-size='12'>H</text><line x1='49' y1='33' x2='102' y2='89' stroke='#64748b' stroke-width='2.5'/><text x='106' y='84' font-size='12'>I</text></g></svg>" }
+        ] }
+      ]
+    },
+    {
+      "q": "בחרו את המידה שהיא גובה הגליל.",
+      "blocks": [
+        { "t": "html", "html": "<div class='sentence-list'><div class='sentence'>נתון <span dir='ltr'>h = 8</span> ס״מ ו־<span dir='ltr'>r = 3</span> ס״מ. גובה הגליל הוא: <b>3 / 6 / 8</b> ס״מ.</div><div class='sentence'>בגליל שוכב, הגובה הוא: <b>הקטע לאורך ציר הגליל / הקטע האנכי לדף</b>.</div></div>" }
+      ]
+    },
+    {
+      "q": "סמנו נכון או לא נכון.",
+      "blocks": [
+        { "t": "table", "rows": [
+          ["גובה הגליל הוא רדיוס של אחד הבסיסים.", "<b>נכון / לא נכון</b>"],
+          ["בגליל ישר הגובה מאונך למישורי הבסיסים.", "<b>נכון / לא נכון</b>"],
+          ["כיוון הדף קובע מהו גובה הגליל.", "<b>נכון / לא נכון</b>"]
+        ] }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>

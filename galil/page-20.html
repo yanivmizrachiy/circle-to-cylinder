@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+<script src="render.js" defer></script>
+</head>
+<body>
+<script type="application/json" id="page">
+{
+  "n": 20,
+  "title": "אותו בסיס, גבהים שונים",
+  "anchor": "כאשר שטח הבסיס קבוע, שינוי בגובה משנה את הנפח באותו יחס.",
+  "tasks": [
+    {
+      "q": "נתון <span dir='ltr'>B = 20</span> ס״מ². השלימו.",
+      "blocks": [
+        { "t": "table",
+          "head": ["גובה <span dir='ltr'>(h)</span>", "חישוב", "נפח <span dir='ltr'>(V)</span>"],
+          "rows": [
+            ["2 ס״מ", "<span dir='ltr'>20×2 = ____</span>", "____ ס״מ³"],
+            ["5 ס״מ", "<span dir='ltr'>20×5 = ____</span>", "____ ס״מ³"],
+            ["8 ס״מ", "<span dir='ltr'>20×8 = ____</span>", "____ ס״מ³"]
+          ]
+        }
+      ]
+    },
+    {
+      "q": "נתון <span dir='ltr'>B = 15</span> ס״מ². השלימו.",
+      "blocks": [
+        { "t": "table",
+          "head": ["גובה <span dir='ltr'>(h)</span>", "נפח <span dir='ltr'>(V)</span>"],
+          "rows": [
+            ["3 ס״מ", "____ ס״מ³"],
+            ["6 ס״מ", "____ ס״מ³"]
+          ]
+        }
+      ]
+    },
+    {
+      "q": "כאשר <span dir='ltr'>B</span> קבוע והגובה מוכפל פי 2, בחרו מה קורה לנפח.",
+      "think": true,
+      "blocks": [
+        { "t": "choice", "opts": ["פי 2", "פי 3", "ללא שינוי"] }
+      ]
+    },
+    {
+      "q": "השלימו את טבלת לפני/אחרי.",
+      "blocks": [
+        { "t": "table",
+          "head": ["שטח בסיס <span dir='ltr'>(B)</span>", "גובה לפני <span dir='ltr'>(h)</span>", "גובה אחרי <span dir='ltr'>(h)</span>", "נפח לפני <span dir='ltr'>(V)</span>", "נפח אחרי <span dir='ltr'>(V)</span>"],
+          "rows": [
+            ["12 ס״מ²", "4 ס״מ", "8 ס״מ", "____ ס״מ³", "____ ס״מ³"]
+          ]
+        }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>

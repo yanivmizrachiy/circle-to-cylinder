@@ -1,0 +1,135 @@
+/* ============================================================================
+   גליל — גיליון סגנון יחיד (SSOT ויזואלי)
+   כל צבע, מרווח, גודל-גופן ועובי-קו מוגדרים כאן פעם אחת בלבד.
+   לשינוי עיצובי גורף — ערכו משתנה ב-:root בלבד, והשינוי חל על כל 39 העמודים.
+   המבנה והתוכן עצמם נוצרים אוטומטית מ-render.js מתוך אי-הנתונים שבכל עמוד.
+   ============================================================================ */
+
+:root{
+  /* --- צבעי מותג (כחול אחיד יחיד לכל הפרויקט) --- */
+  --blue:#1e3a8a;          /* הכחול הראשי: כותרת, סמן-נקודה, מסגרות הדגשה, קו הפוטר */
+  --blue-soft:#1d4ed8;     /* כחול משני רך (קו תחתון של הכותרת) */
+  --ink:#111827;           /* צבע טקסט/שרטוט ראשי */
+  --muted:#475569;         /* טקסט משני (פוטר, כיתובים) */
+  --line:#cbd5e1;          /* קווי טבלה ומסגרות */
+  --line-soft:#e2e8f0;     /* מפרידים עדינים */
+  --paper:#fff;            /* רקע נייר */
+  --panel:#f8fafc;         /* רקע לוחות/תיבות רכות */
+  --grid-ink:rgba(30,58,138,.09); /* קווי רשת המשבצות באזור העבודה */
+  --footer-blue:#1d4ed8;   /* קו הפוטר המחוזי (נוסח מחייב — ראו .gz-footer) */
+
+  /* --- מידות וקצב --- */
+  --page-pad:10mm 18mm 8mm;   /* שוליים: עליון | צד(18mm) | תחתון */
+  --side-pad:18mm;            /* ריפוד-צד — חייב להתאים ל-margin-inline של הפוטר */
+  --cell:5.5mm;               /* צלע משבצת באזור עבודה */
+  --radius:3mm;               /* רדיוס פינות סטנדרטי */
+}
+
+@page{size:A4;margin:0}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{direction:rtl;font-family:"Rubik","Heebo","Noto Sans Hebrew",Arial,sans-serif;background:#eef2f7;color:var(--ink)}
+
+/* --- דף A4 --- */
+.a4-page{width:210mm;height:297mm;margin:0 auto;padding:var(--page-pad);background:var(--paper);overflow:hidden;position:relative;font-size:16px;line-height:1.36;display:flex;flex-direction:column}
+.a4-page.tight{font-size:14px;line-height:1.24}
+.a4-page.tight .anchor{margin:3mm 0 2.5mm;padding:2mm 3mm}
+.a4-page.tight .task{margin:1.6mm 0}
+.a4-page.tight .instruction{margin-bottom:1.5mm}
+/* כיווצי-עזר למצב דחוס: מאפשרים לעמודים עמוסים להתאים ל-A4 בלי לאבד תוכן */
+.a4-page.tight .shape-card{min-height:23mm;padding:.8mm}
+.a4-page.tight .shape-card svg{height:14mm}
+.a4-page.tight .visual-card{min-height:30mm;padding:1.5mm}
+.a4-page.tight .classify-table{margin-top:2mm}
+.a4-page.tight .classify-table th,.a4-page.tight .classify-table td{padding:1.3mm 2mm}
+.a4-page.tight .sentence{padding:1.2mm 0}
+.a4-page.tight .word-bank{margin:1mm 0;padding:1.5mm 2mm}
+.a4-page.tight .work-grid{height:28mm}
+.a4-page.tight .work-grid.sm{height:20mm}
+
+/* --- פוטר-קרדיט קבוע של המחוז (נוסח מחייב; רק הסגנון ניתן לדריסה) --- */
+/* נמתח edge-to-edge ע"י ביטול ריפוד-הצד; נצמד לתחתית הדף ע"י margin-top:auto */
+.a4-page > .gz-footer{flex:0 0 auto;margin-top:auto;padding-top:3px;margin-inline:calc(-1 * var(--side-pad));border-top:1px solid var(--footer-blue);text-align:center;line-height:1.2}
+.a4-page > .gz-footer .f1{font-size:10.5px;font-weight:500;color:#1f2a44}
+.a4-page > .gz-footer .f2{font-size:9.5px;color:#475569}
+.a4-page > .gz-footer .f1,.a4-page > .gz-footer .f2{padding-inline:var(--side-pad)}
+
+/* --- כותרת עמוד --- */
+.page-header{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding-bottom:4mm;border-bottom:1.5px solid var(--blue-soft)}
+.page-title{margin:0;font-size:26px;line-height:1.15;font-weight:700;color:var(--blue)}
+.page-subtitle{margin:1mm 0 0;font-size:14px;font-weight:500;color:var(--muted)}
+.page-number{width:10mm;height:10mm;border:1.5px solid var(--blue);border-radius:50%;display:grid;place-items:center;font-weight:700;color:var(--blue);flex:0 0 auto}
+
+/* --- תיבת עוגן (הקשר/הגדרה בראש העמוד) --- */
+.anchor{margin:5mm 0 4mm;padding:3mm 4mm;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);font-weight:500}
+
+/* --- דוגמה פתורה: תיבת-מורה לפני מיומנות חדשה --- */
+.example{margin:4mm 0;border:1px solid var(--blue-soft);border-inline-start:3px solid var(--blue);border-radius:var(--radius);background:#eff4ff;padding:3mm 4mm}
+.example-lab{display:inline-block;font-weight:700;color:var(--blue);font-size:12.5px;margin-bottom:1.5mm;padding:.3mm 2mm;border:1px solid var(--blue-soft);border-radius:2mm;background:#fff}
+.example-given{font-weight:600;margin-bottom:1mm}
+.example-steps{margin:1mm 0;padding-inline-start:6mm;line-height:1.5}
+.example-steps li{margin:.4mm 0}
+.example-answer{margin-top:1.5mm;font-weight:700;color:var(--blue)}
+.a4-page.tight .example{margin:2.5mm 0;padding:2mm 3mm}
+.a4-page.tight .example-steps{line-height:1.35}
+
+/* --- משימה + סמן נקודה כחול (מחליף מספור) --- */
+.task{margin:4mm 0}
+.task-row{display:flex;align-items:flex-start;gap:3mm}
+.qmark{flex:0 0 9px;width:9px;height:9px;border-radius:50%;background:var(--blue);margin-top:2.2mm}
+.task-body{flex:1;min-width:0}
+.instruction{margin:0 0 3mm;font-weight:500}
+/* בידוד דו-כיווני: כל ביטוי LTR נשאר יציב בתוך פרוזה RTL (כמו math-ltr במעגל) */
+[dir="ltr"]{unicode-bidi:isolate}
+
+/* --- שרטוטים (כרטיסי SVG) --- */
+.shape-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2.5mm}
+.shape-card{border:1px solid var(--line-soft);border-radius:var(--radius);padding:2mm;text-align:center;background:var(--paper);min-height:39mm}
+.shape-card svg{width:100%;height:24mm;display:block}
+.shape-id{font-weight:700;color:var(--muted);margin-bottom:1mm}
+.visual-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3mm}
+.visual-card{border:1px solid var(--line-soft);border-radius:var(--radius);padding:2.5mm;text-align:center;min-height:40mm;background:var(--paper)}
+.visual-card svg{width:100%;height:26mm;display:block}
+.coord-caption{margin-top:1.5mm;font-weight:600;color:var(--muted)}
+
+/* --- טבלאות --- */
+.classify-table,.work-table{width:100%;border-collapse:collapse;margin-top:3mm}
+.classify-table th,.classify-table td,.work-table th,.work-table td{border:1px solid var(--line);padding:2.2mm 2.5mm;text-align:center;vertical-align:middle}
+.classify-table th,.work-table th{background:var(--panel);font-weight:600}
+.work-table td:empty{height:9mm}
+.mark-box{display:inline-block;width:5mm;height:5mm;border:1.2px solid #64748b;border-radius:1mm;vertical-align:middle}
+
+/* --- מחסן מילים --- */
+.word-bank{display:flex;gap:3mm;flex-wrap:wrap;margin:2mm 0;border:1px solid var(--line);border-radius:var(--radius);padding:2mm 3mm;background:var(--panel);font-weight:500}
+.word{border:1px solid #94a3b8;border-radius:999px;padding:1.2mm 3mm;background:var(--paper)}
+.word-bank .sep{color:var(--muted);font-weight:700;opacity:.6}
+.note{margin:1mm 0}
+
+/* --- משפטי השלמה --- */
+.sentence-list{display:grid;gap:2.5mm}
+.sentence{border-bottom:1px solid var(--line-soft);padding:2mm 0}
+.blank{display:inline-block;min-width:35mm;border-bottom:1px solid #64748b}
+.blankin{display:inline-block;min-width:15mm;border-bottom:1.6px solid var(--blue);height:1em;vertical-align:-2px;margin:0 1mm}
+
+/* --- בחירה מרובה --- */
+.choice-list{display:grid;gap:2mm}
+.choice-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:3mm;border-bottom:1px solid var(--line-soft);padding:2mm 0}
+.choice-pill{display:inline-block;border:1px solid #94a3b8;border-radius:999px;padding:1.3mm 3mm;background:var(--paper);white-space:nowrap}
+.mc-lead::before{content:"הקיפו:";display:block;font-weight:600;color:var(--blue);margin-bottom:1.5mm}
+
+/* --- תיבת חשיבה/הסבר --- */
+.thinking{border:1px solid var(--line);border-radius:var(--radius);padding:3mm 4mm;background:var(--panel)}
+
+/* --- אזור פתרון תקני: "תרגילים:" → רשת משבצות → משפט-השלמה עם יחידה --- */
+.solve{margin:2.5mm 0 1mm}
+.solve-lab{color:var(--blue);font-weight:600;margin-bottom:1.5mm}
+.solve-lab.explain::before{content:""}
+.work-grid{height:36mm;border:1px solid var(--line);border-radius:2mm;background-color:var(--paper);
+  background-image:repeating-linear-gradient(to right,var(--grid-ink) 0 1px,transparent 1px var(--cell)),
+                   repeating-linear-gradient(to bottom,var(--grid-ink) 0 1px,transparent 1px var(--cell))}
+.work-grid.sm{height:26mm}
+.work-grid.lg{height:48mm}
+.answer-sentence{margin-top:2mm;font-weight:500}
+.ansline{display:inline-block;min-width:22mm;height:5.5mm;border-bottom:2px solid var(--blue);vertical-align:baseline;margin:0 2mm}
+
+@media print{body{background:#fff}.a4-page{margin:0;box-shadow:none}}

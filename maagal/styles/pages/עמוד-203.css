@@ -1,0 +1,5 @@
+@import url('../topics/bbb-geometry8.css');
+
+/* ניצול מלא של גובה ה-A4 (CLAUDE.md §4) — פריסה בלבד, אפס שינוי תוכן:
+   כרטיסי השאלות גדלים למילוי הדף ומעניקים מרחב עבודה לתלמיד */
+.page-203 .question-block > .q, .page-203 .question-block > .note { flex: 1 0 auto; }

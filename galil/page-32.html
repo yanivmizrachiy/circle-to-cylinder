@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+<script src="render.js" defer></script>
+</head>
+<body>
+<script type="application/json" id="page">
+{
+  "n": 32,
+  "title": "נפח וקיבול של כלי גלילי",
+  "anchor": "מידות הכלים הן פנימיות וסינתטיות לצורכי תרגול. חשבו נפח מדויק, נפח מקורב ואז קיבול.",
+  "tasks": [
+    {
+      "q": "השלימו את הטבלה. השתמשו במקש π ועגלו למאיות.",
+      "blocks": [
+        { "t": "table",
+          "head": ["מכל", "מידות", "נפח מדויק", "נפח מקורב", "קיבול"],
+          "rows": [
+            ["A", "<span dir='ltr'>r=5</span> ס״מ, <span dir='ltr'>h=10</span> ס״מ", "", "", ""],
+            ["B", "<span dir='ltr'>r=4</span> ס״מ, <span dir='ltr'>h=20</span> ס״מ", "", "", ""],
+            ["C", "קוטר 10 ס״מ, <span dir='ltr'>h=12</span> ס״מ", "", "", ""]
+          ]
+        }
+      ]
+    },
+    {
+      "q": "במכל C השלימו קודם את הרדיוס.",
+      "blocks": [
+        { "t": "think", "html": "קוטר = 10 ס״מ, <span dir='ltr'>r = ____</span> ס״מ, <span dir='ltr'>V = ____π</span> ס״מ³" }
+      ]
+    },
+    {
+      "q": "בחרו את הקשר הנכון בין ס״מ³ למ״ל.",
+      "think": true,
+      "blocks": [
+        { "t": "choice", "opts": ["1 ס״מ³ = 1 מ״ל", "1 ס״מ³ = 1000 מ״ל"] }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>

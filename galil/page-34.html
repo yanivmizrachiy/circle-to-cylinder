@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+<script src="render.js" defer></script>
+</head>
+<body>
+<script type="application/json" id="page">
+{
+  "n": 34,
+  "title": "כמה מקום נשאר?",
+  "anchor": "בכל מכל: חשבו קיבול מלא, אחדו את היחידה של הכמות הקיימת, ואז חשבו כמה מקום נשאר.",
+  "tasks": [
+    {
+      "q": "השלימו את שלוש המשבצות בכל שורה.",
+      "blocks": [
+        { "t": "table",
+          "head": ["נתונים", "קיבול מלא", "כמות קיימת באותה יחידה", "מקום שנשאר"],
+          "rows": [
+            ["<span dir='ltr'>B=100</span> ס״מ², <span dir='ltr'>h=25</span> ס״מ; יש 1.6 ליטר", "", "", ""],
+            ["<span dir='ltr'>B=80</span> ס״מ², <span dir='ltr'>h=15</span> ס״מ; יש 750 מ״ל", "", "", ""],
+            ["<span dir='ltr'>B=60</span> ס״מ², <span dir='ltr'>h=20</span> ס״מ; יש 0.5 ליטר", "", "", ""]
+          ]
+        }
+      ]
+    },
+    {
+      "q": "במכל A השלימו.",
+      "blocks": [
+        { "t": "think", "html": "<span dir='ltr'>V = 100×25 = ____</span> ס״מ³ = ____ ליטר<br>כמות קיימת: 1.6 ליטר<br>נשאר: ____ ליטר = ____ ס״מ³" }
+      ]
+    },
+    {
+      "q": "במכל B, בחרו את הכמות שנשארה.",
+      "think": true,
+      "blocks": [
+        { "t": "choice", "opts": ["450 מ״ל", "750 מ״ל", "1200 מ״ל"] }
+      ]
+    },
+    {
+      "q": "במכל C, השלימו.",
+      "blocks": [
+        { "t": "think", "html": "קיבול מלא: ____ ס״מ³ &nbsp; | &nbsp; קיימים: ____ מ״ל &nbsp; | &nbsp; נשאר: ____ מ״ל" }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>

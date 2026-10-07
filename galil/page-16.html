@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+<script src="render.js" defer></script>
+</head>
+<body>
+<script type="application/json" id="page">
+{
+  "n": 16,
+  "title": "מוצאים רדיוס משטח הבסיס",
+  "example": {"lab":"דוגמה: רדיוס משטח הבסיס","given":"נתון: B = 64π ס״מ²","steps":["π × r² = 64π, r² = 64","r = √64 = 8"],"answer":"r = 8 ס״מ"},
+  "anchor": "כאשר <span dir='ltr'>B = π×r²</span>, המקדם של π הוא <span dir='ltr'>r²</span>. בחרו את הרדיוס החיובי המתאים.",
+  "tasks": [
+    {
+      "q": "השלימו את הרדיוס.",
+      "blocks": [
+        { "t": "table",
+          "head": ["שטח בסיס <span dir='ltr'>(B)</span>", "<span dir='ltr'>r²</span>", "רדיוס <span dir='ltr'>(r)</span>"],
+          "rows": [
+            ["<span dir='ltr'>9π</span> ס״מ²", "9", ""],
+            ["<span dir='ltr'>16π</span> ס״מ²", "16", ""],
+            ["<span dir='ltr'>25π</span> ס״מ²", "25", ""],
+            ["<span dir='ltr'>49π</span> ס״מ²", "49", ""],
+            ["<span dir='ltr'>81π</span> ס״מ²", "81", ""],
+            ["<span dir='ltr'>100π</span> ס״מ²", "100", ""]
+          ]
+        }
+      ]
+    },
+    {
+      "q": "בחרו את הקשר הנכון.",
+      "blocks": [
+        { "t": "choices", "opts": ["<span dir='ltr'>r</span> הוא המקדם של π", "<span dir='ltr'>r²</span> הוא המקדם של π"] }
+      ]
+    },
+    {
+      "q": "נתון <span dir='ltr'>B = 36π</span> ס״מ². בחרו את הרדיוס.",
+      "think": true,
+      "blocks": [
+        { "t": "choice", "opts": ["3 ס״מ", "6 ס״מ", "18 ס״מ", "36 ס״מ"] }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>

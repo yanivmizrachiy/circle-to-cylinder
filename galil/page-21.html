@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+<script src="render.js" defer></script>
+</head>
+<body>
+<script type="application/json" id="page">
+{
+  "n": 21,
+  "title": "אותו גובה, שטחי בסיס שונים",
+  "anchor": "כאשר הגובה קבוע, הנפח משתנה באותו יחס כמו שטח הבסיס. השתמשו בקשר <span dir='ltr'>V = B×h</span>.",
+  "tasks": [
+    {
+      "q": "נתון <span dir='ltr'>h = 5</span> ס״מ. השלימו.",
+      "blocks": [
+        { "t": "table",
+          "head": ["שטח בסיס <span dir='ltr'>(B)</span>", "גובה <span dir='ltr'>(h)</span>", "חישוב", "נפח <span dir='ltr'>(V)</span>"],
+          "rows": [
+            ["12 ס״מ²", "5 ס״מ", "<span dir='ltr'>12×5 = ____</span>", "____ ס״מ³"],
+            ["18 ס״מ²", "5 ס״מ", "<span dir='ltr'>18×5 = ____</span>", "____ ס״מ³"],
+            ["24 ס״מ²", "5 ס״מ", "<span dir='ltr'>24×5 = ____</span>", "____ ס״מ³"]
+          ]
+        }
+      ]
+    },
+    {
+      "q": "נתון <span dir='ltr'>h = 4</span> ס״מ. השלימו.",
+      "blocks": [
+        { "t": "table",
+          "head": ["שטח בסיס <span dir='ltr'>(B)</span>", "גובה <span dir='ltr'>(h)</span>", "נפח <span dir='ltr'>(V)</span>"],
+          "rows": [
+            ["10 ס״מ²", "4 ס״מ", "____ ס״מ³"],
+            ["20 ס״מ²", "4 ס״מ", "____ ס״מ³"]
+          ]
+        }
+      ]
+    },
+    {
+      "q": "כאשר <span dir='ltr'>B</span> מוכפל פי 2 והגובה נשאר קבוע, בחרו מה קורה לנפח.",
+      "think": true,
+      "blocks": [
+        { "t": "choice", "opts": ["מוכפל פי 2", "מוכפל פי 4", "נשאר קבוע"] }
+      ]
+    },
+    {
+      "q": "השלימו את היחס.",
+      "blocks": [
+        { "t": "think", "html": "<span dir='ltr'>B: 10, 20</span> &nbsp;&nbsp; ולכן &nbsp;&nbsp; <span dir='ltr'>V: 40, ____</span>" }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>

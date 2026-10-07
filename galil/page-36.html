@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+<script src="render.js" defer></script>
+</head>
+<body>
+<script type="application/json" id="page">
+{
+  "n": 36,
+  "title": "מוצאים את שטח הבסיס",
+  "anchor": "עבדו לאחור לפי <span dir='ltr'>B = V ÷ h</span>. שטח בסיס נכתב ביחידות ריבועיות.",
+  "tasks": [
+    {
+      "q": "השלימו.",
+      "blocks": [
+        { "t": "table",
+          "head": ["נפח <span dir='ltr'>(V)</span>", "גובה <span dir='ltr'>(h)</span>", "חישוב", "שטח בסיס <span dir='ltr'>(B)</span>"],
+          "rows": [
+            ["<span dir='ltr'>150π ס״מ³</span>", "6 ס״מ", "<span dir='ltr'>150π ÷ 6 = ____</span>", ""],
+            ["<span dir='ltr'>72π ס״מ³</span>", "8 ס״מ", "<span dir='ltr'>72π ÷ 8 = ____</span>", ""],
+            ["<span dir='ltr'>200π ס״מ³</span>", "8 ס״מ", "<span dir='ltr'>200π ÷ 8 = ____</span>", ""],
+            ["<span dir='ltr'>96π ס״מ³</span>", "6 ס״מ", "<span dir='ltr'>96π ÷ 6 = ____</span>", ""]
+          ]
+        }
+      ]
+    },
+    {
+      "q": "בחרו את היחידה המתאימה ל־<span dir='ltr'>B</span>.",
+      "think": true,
+      "blocks": [
+        { "t": "choice", "opts": ["ס״מ", "ס״מ²", "ס״מ³"] }
+      ]
+    },
+    {
+      "q": "עבור <span dir='ltr'>V = 150π</span> ס״מ³ ו־<span dir='ltr'>h = 6</span> ס״מ, בחרו את שטח הבסיס.",
+      "blocks": [
+        { "t": "choice", "opts": ["25π ס״מ²", "25π ס״מ³", "900π ס״מ²"] }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>

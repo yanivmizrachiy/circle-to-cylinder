@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+<script src="render.js" defer></script>
+</head>
+<body>
+<script type="application/json" id="page">
+{
+  "n": 28,
+  "title": "נפח מקוטר וגובה",
+  "anchor": "כאשר נתון הקוטר, עבדו בסדר: <span dir='ltr'>קוטר, r, B, V</span>. אין להציב קוטר במקום רדיוס בנוסחת השטח.",
+  "tasks": [
+    {
+      "q": "השלימו את השרשרת בכל שורה.",
+      "blocks": [
+        { "t": "table",
+          "head": ["קוטר", "רדיוס <span dir='ltr'>(r)</span>", "גובה <span dir='ltr'>(h)</span>", "נפח <span dir='ltr'>(V)</span>"],
+          "rows": [
+            ["6 ס״מ", "", "4 ס״מ", ""],
+            ["10 ס״מ", "", "3 ס״מ", ""],
+            ["14 ס״מ", "", "2 ס״מ", ""],
+            ["8 ס״מ", "", "5 ס״מ", ""],
+            ["12 ס״מ", "", "4 ס״מ", ""]
+          ]
+        }
+      ]
+    },
+    {
+      "q": "עבור גליל שהקוטר שלו <span dir='ltr'>10</span> ס״מ והגובה <span dir='ltr'>3</span> ס״מ, בחרו את השרשרת התקינה.",
+      "think": true,
+      "blocks": [
+        { "t": "choices", "opts": [
+          "<span dir='ltr'>קוטר=10, r=5, B=25π, V=75π</span>",
+          "<span dir='ltr'>קוטר=10, B=100π, V=300π</span>"
+        ] }
+      ]
+    },
+    {
+      "q": "בחרו מה חייבים לעשות לפני הצבה בנוסחת הנפח כאשר נתון הקוטר.",
+      "blocks": [
+        { "t": "choice", "opts": [
+          "לחלק את הקוטר ב־2",
+          "להכפיל את הקוטר ב־2",
+          "להציב את הקוטר במקום r"
+        ] }
+      ]
+    },
+    {
+      "q": "תלמיד חישב נפח של גליל שהקוטר שלו <span dir='ltr'>10</span> ס״מ והגובה <span dir='ltr'>3</span> ס״מ, וקיבל <span dir='ltr'>300π</span> ס״מ³. הסבירו היכן טעה וחשבו את הנפח הנכון.",
+      "blocks": [
+        { "t": "explain", "grid": "sm" }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>

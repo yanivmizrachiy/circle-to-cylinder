@@ -1,0 +1,8 @@
+@import url('../topics/bbb-geometry8.css');
+
+/* שאלת מערכת הצירים (רדיוס 5): ציור גדול יותר — עמודת ציור רחבה יותר */
+.page-196 .qbody-split { gap: 14px; }
+.page-196 .qbody-split > .qfig { flex: 0 0 48%; }
+.page-196 .qbody-split > .qmain { flex: 1 1 48%; }
+
+/* ריווח אנכי מנוהל ב-bbb-geometry8.css (space-evenly) לכל עמודי ה-bbb. */

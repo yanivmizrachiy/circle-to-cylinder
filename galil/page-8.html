@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+<script src="render.js" defer></script>
+</head>
+<body>
+<script type="application/json" id="page">
+{
+  "n": 8,
+  "title": "תכונות הגליל",
+  "anchor": "בדיקת בסיס קצרה: זיהוי גוף, בסיסים, מעטפת, רדיוס, קוטר וגובה.",
+  "tasks": [
+    {
+      "q": "סמנו בכל איור: גליל או לא גליל.",
+      "blocks": [
+        { "t": "figrow", "cols": 3, "cards": [
+          { "svg": "<svg viewBox='0 0 150 105' role='img' aria-label='גליל'><ellipse cx='75' cy='23' rx='42' ry='12' fill='#fff' stroke='#111827' stroke-width='2'/><line x1='33' y1='23' x2='33' y2='82' stroke='#111827' stroke-width='2'/><line x1='117' y1='23' x2='117' y2='82' stroke='#111827' stroke-width='2'/><ellipse cx='75' cy='82' rx='42' ry='12' fill='#fff' stroke='#111827' stroke-width='2'/></svg>", "cap": "גליל / לא גליל" },
+          { "svg": "<svg viewBox='0 0 150 105' role='img' aria-label='חרוט'><ellipse cx='75' cy='82' rx='42' ry='12' fill='#fff' stroke='#111827' stroke-width='2'/><line x1='75' y1='10' x2='33' y2='82' stroke='#111827' stroke-width='2'/><line x1='75' y1='10' x2='117' y2='82' stroke='#111827' stroke-width='2'/></svg>", "cap": "גליל / לא גליל" },
+          { "svg": "<svg viewBox='0 0 150 105' role='img' aria-label='גליל שוכב'><g transform='translate(75 52) rotate(90) translate(-75 -52)'><ellipse cx='75' cy='23' rx='38' ry='11' fill='#fff' stroke='#111827' stroke-width='2'/><line x1='37' y1='23' x2='37' y2='81' stroke='#111827' stroke-width='2'/><line x1='113' y1='23' x2='113' y2='81' stroke='#111827' stroke-width='2'/><ellipse cx='75' cy='81' rx='38' ry='11' fill='#fff' stroke='#111827' stroke-width='2'/></g></svg>", "cap": "גליל / לא גליל" }
+        ] }
+      ]
+    },
+    {
+      "q": "השלימו את שבעת הפריטים.",
+      "blocks": [
+        { "t": "table",
+          "head": ["#", "פריט", "השלמה"],
+          "rows": [
+            ["4", "לגליל ישר יש כמה בסיסים?", ""],
+            ["5", "המשטח הצדדי נקרא:", "<b>בסיס / מעטפת</b>"],
+            ["6", "<span dir='ltr'>r = 4</span> ס״מ. מהו הקוטר?", ""],
+            ["7", "הקוטר הוא <span dir='ltr'>18</span> ס״מ. מהו <span dir='ltr'>r</span>?", ""],
+            ["8", "גובה הגליל מאונך למישורי הבסיסים.", "<b>נכון / לא נכון</b>"],
+            ["9", "בגליל שוכב, הגובה חייב להיות אנכי לדף.", "<b>נכון / לא נכון</b>"],
+            ["10", "אפשר למדוד קוטר אמיתי לפי רוחב האליפסה שנראית בפרספקטיבה.", "<b>כן / לא</b>"]
+          ]
+        }
+      ]
+    },
+    {
+      "q": "סמנו אם אתם מוכנים להמשיך.",
+      "blocks": [
+        { "t": "note", "text": "הצלחתי לפחות ב־8 מתוך 10 פריטים:" },
+        { "t": "choice", "opts": ["כן", "עדיין לא"] },
+        { "t": "note", "text": "אם טעיתי שוב ושוב בגובה מול רדיוס/קוטר, אחזור לעמודים 5–7:" },
+        { "t": "choice", "opts": ["כן", "לא"] }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>

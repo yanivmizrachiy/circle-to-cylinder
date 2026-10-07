@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+<script src="render.js" defer></script>
+</head>
+<body>
+<script type="application/json" id="page">
+{
+  "n": 17,
+  "title": "מהו נפח?",
+  "anchor": "נפח הוא מידת המקום שגוף תלת־ממדי תופס. הבחינו בין אורך, שטח ונפח לפני שמתחילים חישובי גליל.",
+  "tasks": [
+    {
+      "q": "התאימו לכל מצב: אורך / שטח / נפח.",
+      "blocks": [
+        { "t": "table",
+          "head": ["מצב", "אורך / שטח / נפח"],
+          "rows": [
+            ["אורך עיפרון", ""],
+            ["שטח שולחן", ""],
+            ["המקום בתוך קופסה", ""],
+            ["גובה בקבוק", ""],
+            ["שטח בסיס גליל", ""],
+            ["כמות המקום שגוף תופס", ""],
+            ["שטח דף", ""],
+            ["נפח תיבה", ""]
+          ]
+        }
+      ]
+    },
+    {
+      "q": "בחרו את היחידה המתאימה לנפח.",
+      "blocks": [
+        { "t": "choice", "opts": ["ס״מ", "ס״מ²", "ס״מ³"] }
+      ]
+    },
+    {
+      "q": "סמנו את המשפט הנכון.",
+      "think": true,
+      "blocks": [
+        { "t": "choices", "opts": ["נפח מתאר מקום תלת־ממדי", "נפח הוא אורך של קטע"] }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>

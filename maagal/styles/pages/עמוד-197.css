@@ -1,0 +1,21 @@
+@import url('../topics/bbb-geometry8.css');
+
+/* ניצול מלא של גובה ה-A4 (CLAUDE.md §4) — פריסה בלבד, אפס שינוי תוכן:
+   כרטיסי השאלות גדלים למילוי הדף ומעניקים מרחב עבודה לתלמיד */
+.page-197 .question-block > .q, .page-197 .question-block > .note { flex: 1 0 auto; }
+
+/* ציור מערכת הצירים גדול יותר (עוד קצת) — עמודת ציור רחבה יותר, בלי לשנות שאר התוכן */
+.page-197 .qbody-split > .qfig { flex: 0 0 46%; }
+.page-197 .qbody-split > .qmain { flex: 1 1 46%; }
+
+/* השאלה האחרונה (אופניים): הכרטיס כולו עמודת-פלקס — אזור העבודה גדל וממלא את גובה
+   הכרטיס, כך ששורת התשובה יורדת לתחתית והפוטר יושב צמוד אליה, בלי רצועה ריקה מעל הפוטר.
+   הנקודה הכחולה נשארת בפינה הימנית-עליונה (absolute), והפִּסקה הפותחת מוסטת לפַנותה. */
+.page-197 .question-block > .q:last-of-type { position: relative; display: flex; flex-direction: column; }
+.page-197 .question-block > .q:last-of-type > .qhead { position: absolute; top: 9px; right: 0; float: none; margin: 0; }
+.page-197 .question-block > .q:last-of-type > .qbody { flex: 1 1 auto; display: flex; flex-direction: column; }
+.page-197 .question-block > .q:last-of-type > .qbody > .lead { padding-inline-start: 22px; margin: 0 0 6px; }
+/* רוחב מוגדר לאיור האופניים כדי שלא יתמוטט ל-0 בתוך עמודת-פלקס (margin:auto בולע שטח ללא width מפורש) */
+.page-197 .question-block > .q:last-of-type > .qbody > .figure.bs-12 { width: 42%; }
+.page-197 .question-block > .q:last-of-type .solve { flex: 1 1 auto; display: flex; flex-direction: column; }
+.page-197 .question-block > .q:last-of-type .solve .lines { flex: 1 1 auto; }

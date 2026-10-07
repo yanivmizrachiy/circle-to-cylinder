@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+<script src="render.js" defer></script>
+</head>
+<body>
+<script type="application/json" id="page">
+{
+  "n": 15,
+  "title": "משווים שטחי בסיס",
+  "anchor": "כדי להשוות שטחי בסיס, משווים רדיוסים באותה יחידה. אם נתון קוטר — מחלקים ב־2.",
+  "tasks": [
+    {
+      "q": "בכל שורה בחרו: A / B / שווים, והשלימו חישוב קצר.",
+      "blocks": [
+        { "t": "table",
+          "head": ["A", "B", "מי גדול יותר?", "בדיקה קצרה"],
+          "rows": [
+            ["<span dir='ltr'>r = 3</span> ס״מ", "קוטר <span dir='ltr'>= 8</span> ס״מ", "A / B / שווים", ""],
+            ["קוטר <span dir='ltr'>= 10</span> ס״מ", "<span dir='ltr'>r = 4.5</span> ס״מ", "A / B / שווים", ""],
+            ["<span dir='ltr'>r = 2.5</span> ס״מ", "קוטר <span dir='ltr'>= 5</span> ס״מ", "A / B / שווים", ""],
+            ["<span dir='ltr'>r = 35</span> מ״מ", "קוטר <span dir='ltr'>= 6</span> ס״מ", "A / B / שווים", ""]
+          ]
+        }
+      ]
+    },
+    {
+      "q": "בחרו את המשפט הנכון.",
+      "blocks": [
+        { "t": "choices", "opts": ["רדיוס גדול יותר, שטח בסיס גדול יותר", "קוטר גדול יותר תמיד, רדיוס קטן יותר"] }
+      ]
+    },
+    {
+      "q": "סמנו את ההמרה הנכונה עבור קוטר <span dir='ltr'>= 6</span> ס״מ.",
+      "think": true,
+      "blocks": [
+        { "t": "choice", "opts": ["r = 30 מ״מ", "r = 60 מ״מ", "r = 3 מ״מ"] }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>

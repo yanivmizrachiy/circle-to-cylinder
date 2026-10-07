@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+<script src="render.js" defer></script>
+</head>
+<body>
+<script type="application/json" id="page">
+{
+  "n": 26,
+  "title": "נוסחת נפח הגליל",
+  "example": {"lab":"דוגמה: נפח הגליל","given":"נתון: r = 3 ס״מ, h = 2 ס״מ","steps":["B = π × r² = π × 3² = 9π ס״מ²","V = B × h = 9π × 2 = 18π"],"answer":"V = 18π ס״מ³  (≈ 56.52 ס״מ³)"},
+  "anchor": "בונים את הנוסחה משני קשרים שכבר ידועים: <span dir='ltr'>B = π×r²</span> ו־<span dir='ltr'>V = B×h</span>.",
+  "tasks": [
+    {
+      "q": "השלימו את השרשרת.",
+      "blocks": [
+        { "t": "table",
+          "head": ["רדיוס <span dir='ltr'>(r)</span>", "שטח בסיס <span dir='ltr'>(B)</span>", "גובה <span dir='ltr'>(h)</span>", "נפח <span dir='ltr'>(V)</span>"],
+          "rows": [
+            ["2 ס״מ", "<span dir='ltr'>π×2² = ____π</span> ס״מ²", "5 ס״מ", "<span dir='ltr'>____π×5 = ____π</span> ס״מ³"],
+            ["3 ס״מ", "<span dir='ltr'>π×3² = ____π</span> ס״מ²", "4 ס״מ", "<span dir='ltr'>____π×4 = ____π</span> ס״מ³"]
+          ]
+        }
+      ]
+    },
+    {
+      "q": "השלימו מתוך מחסן הקשרים.",
+      "blocks": [
+        { "t": "bank", "plain": true, "words": ["<span dir='ltr'>B = π×r²</span>", "<span dir='ltr'>V = B×h</span>", "<span dir='ltr'>V = π×r²×h</span>"] },
+        { "t": "think", "html": "<span dir='ltr'>B = ______</span><br><span dir='ltr'>V = ______</span><br>לכן <span dir='ltr'>V = ______</span>" }
+      ]
+    },
+    {
+      "q": "בחרו את נוסחת נפח הגליל שנבנתה מן השרשרת.",
+      "think": true,
+      "blocks": [
+        { "t": "choice", "opts": ["V = π×r²×h", "V = 2×π×r×h", "V = π×r²"] }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>

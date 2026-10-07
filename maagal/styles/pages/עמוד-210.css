@@ -1,0 +1,4 @@
+@import url('../topics/bbb-geometry8.css');
+
+/* Q6 (cone) has 4 parts + 3 work boxes; shrink the figure so everything fits one A4 page. */
+.page-210 .figure.bs-12 { max-width: 35%; }

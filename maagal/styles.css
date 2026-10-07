@@ -1,0 +1,59 @@
+/* a4-utilization.css import removed (stale per-page hacks) */
+@page{size:A4;margin:0}*{box-sizing:border-box}html,body{margin:0;padding:0}body{direction:rtl;font-family:"Rubik","Heebo","Noto Sans Hebrew",Arial,sans-serif;background:#eef2f7;color:#111827}.a4-page{width:210mm;height:297mm;margin:0 auto;padding:10mm 18mm 18mm;background:#fff;overflow:hidden;position:relative;font-size:16px;line-height:1.38}.a4-page::after{content:"";position:absolute;right:18mm;left:18mm;bottom:8mm;border-top:2px solid #1e3a8a}.page-header{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding-bottom:4mm;border-bottom:1.5px solid #1d4ed8}.page-title{margin:0;font-size:26px;line-height:1.15;font-weight:600;color:#1d4ed8}.page-number{width:10mm;height:10mm;border:1.5px solid #1d4ed8;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#1d4ed8}.anchor{margin:5mm 0 4mm;padding:3mm 4mm;border:1px solid #cbd5e1;border-radius:3mm;background:#f8fafc;font-weight:500}.task{margin:4mm 0}.task-row{display:flex;align-items:flex-start;gap:3mm}.task-num{flex:0 0 7mm;width:7mm;height:7mm;border:1.2px solid #1d4ed8;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#1d4ed8}.task-body{flex:1}.instruction{margin:0 0 3mm;font-weight:600}.visual-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3mm}.visual-card{border:1px solid #e2e8f0;border-radius:3mm;padding:2.5mm;text-align:center;min-height:42mm;background:#fff}.visual-card svg{width:100%;height:27mm;display:block}.answer-line{height:7mm;border-bottom:1px solid #64748b}.choice-list{display:grid;gap:2.5mm}.choice-row{display:grid;grid-template-columns:1fr auto 1fr;gap:3mm;align-items:center;border-bottom:1px solid #e2e8f0;padding:2mm 0}.choice-pill{border:1px solid #94a3b8;border-radius:999px;padding:1.3mm 3mm;white-space:nowrap;background:#fff}.thinking{border:1px solid #cbd5e1;border-radius:3mm;padding:3mm 4mm;background:#f8fafc}.blank{display:inline-block;min-width:28mm;height:1.2em;border-bottom:1.3px solid #64748b;vertical-align:-.08em}.word-bank{display:inline-block;border:1px solid #cbd5e1;border-radius:999px;padding:1.2mm 3mm;background:#f8fafc;font-weight:600}.work-table{width:100%;border-collapse:collapse;margin-top:2mm}.work-table th,.work-table td{border:1px solid #cbd5e1;padding:2.3mm 3mm;vertical-align:middle}.work-table th{background:#f8fafc;font-weight:700}.work-table.center th,.work-table.center td{text-align:center}.work-table td:empty{height:10mm}.math-ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}.coord-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4mm}.coord-card{border:1px solid #cbd5e1;border-radius:3mm;padding:2.5mm;background:#fff;break-inside:avoid}.coord-card svg{display:block;width:100%;height:auto;max-height:82mm}.coord-card.compact svg{max-height:58mm}.coord-caption{margin-top:1.5mm;font-size:12px;color:#475569;text-align:center}.coord-svg .grid{stroke:#e9eef8;stroke-width:1}.coord-svg .axis{stroke:#1e3a8a;stroke-width:2.2}.coord-svg .circle-shape{fill:none;stroke:#1d4ed8;stroke-width:2.4}.coord-svg .radius-line,.coord-svg .diameter-line{stroke:#0f766e;stroke-width:2}.coord-svg .point{fill:#111827}.coord-svg .highlight{fill:#1d4ed8}.coord-svg .label{font:12px 'Rubik','Heebo',sans-serif;fill:#111827}.coord-svg .tick{font:10px 'Rubik','Heebo',sans-serif;fill:#475569}.coord-svg .guide{stroke:#94a3b8;stroke-width:1.3;stroke-dasharray:4 3}.coord-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:3mm}.coord-strip .coord-card{padding:2mm}.choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2.5mm 4mm}.choice-box{border:1px solid #cbd5e1;border-radius:2.5mm;padding:2.5mm 3mm;background:#fff}.answer-box{min-height:12mm;border:1px solid #cbd5e1;border-radius:2.5mm;background:#fff}.answer-box.tall{min-height:22mm}.mini-note{font-size:12px;color:#475569}.tight .task{margin:2.7mm 0}.tight .instruction{margin-bottom:1.5mm}.puzzle-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4mm}.puzzle-card{border:1px solid #cbd5e1;border-radius:3mm;padding:3mm;min-height:44mm}.table-compact th,.table-compact td{padding:1.8mm 2mm}.axis-choice{display:flex;flex-wrap:wrap;gap:2mm}.axis-choice .choice-pill{font-size:13px}.page-intro{margin:3.5mm 0 3mm;color:#334155;font-weight:500}.ltr-pair{direction:ltr;unicode-bidi:isolate;display:inline-block;font-family:'Rubik','Heebo',sans-serif}
+
+/* workspace-box injection removed (stale A4-utilization hack, caused overflow after redesign) */
+@media print{body{background:#fff}.a4-page{margin:0;box-shadow:none}}
+
+/* ===== כללי עיצוב אחידים — כל הדפים (SSOT: manifest.json → designRules, 2026-10-05) ===== */
+/* אין מסגרות סביב שאלות (מכלי שאלה; תיבות הדגשה כמו anchor/thinking נשמרות) */
+.coord-card,.puzzle-card{border:none;background:transparent;padding:0}
+.coord-card{padding:0 0 1mm}
+/* אין מספור לשאלות — נקודה כחולה מימין לתחילת הסעיף */
+.task-num{width:auto;height:auto;min-height:0;border:none;border-radius:0;background:transparent;color:transparent;font-size:0;flex:0 0 auto}
+.task-num::before{content:"";display:block;width:9px;height:9px;border-radius:50%;background:#1e3a8a;margin-top:6px}
+/* גופנים — בלי הדגשות/משקל כבד מיותרים */
+.instruction{font-weight:500}
+.word-bank{font-weight:500}
+.work-table th{font-weight:600}
+/* שורות כתיבה / השלמה — קו כחול כהה */
+.answer-line{border-bottom:2px solid #1e3a8a}
+.blank{border-bottom:2px solid #1e3a8a}
+/* כותרת אחידה: שם החוברת ("מעגל") בגדול + כיתוב המקטע מתחתיו */
+.page-header .title-stack{display:flex;flex-direction:column;align-items:flex-start;gap:1px;min-width:0}
+.page-header .page-title{font-size:30px;line-height:1.05}
+.page-header .page-subtitle{font-size:14px;font-weight:500;color:#475569;line-height:1.15}
+/* ===== Overflow fixes — keyed to FINAL sequence numbering (SSOT), 2026-10-05 deep-clean ===== */
+/* Replaces the stale a4-utilization.css + workspace-box layer: only pages that still overflowed. */
+.a4-page:has(.page-number[aria-label="עמוד 59"]){font-size:15.9px!important;line-height:1.4!important}
+.a4-page:has(.page-number[aria-label="עמוד 59"]) .task{margin-block:3.4mm!important}
+.a4-page:has(.page-number[aria-label="עמוד 86"]) .coord-strip{gap:3mm!important}
+.a4-page:has(.page-number[aria-label="עמוד 86"]) .coord-strip svg{max-height:41mm!important}
+.a4-page:has(.page-number[aria-label="עמוד 86"]) .choice-grid{gap:2.4mm!important}
+.a4-page:has(.page-number[aria-label="עמוד 86"]) .choice-box{padding:2.6mm!important}
+.a4-page:has(.page-number[aria-label="עמוד 86"]) .task{margin-block:2.4mm!important}
+.a4-page:has(.page-number[aria-label="עמוד 86"]) .page-intro{margin-block:1.5mm!important}
+.a4-page:has(.page-number[aria-label="עמוד 90"]) .coord-card svg{max-height:68mm!important}
+.a4-page:has(.page-number[aria-label="עמוד 90"]) .choice-grid{gap:2.8mm!important}
+.a4-page:has(.page-number[aria-label="עמוד 90"]) .choice-box{padding:2.8mm!important}
+/* === district footer + SSOT compliance (ssot, legacy pages) === */
+.a4-page::after{content:none !important}            /* neutralize old empty credit line; gz-footer draws it */
+.a4-page > .gz-footer{position:absolute;left:0;right:0;bottom:6mm;padding-top:3px;border-top:1px solid #1d4ed8;text-align:center;line-height:1.2}
+.a4-page > .gz-footer .f1{font-size:10.5px;font-weight:500;color:#1f2a44;padding-inline:18mm}
+.a4-page > .gz-footer .f2{font-size:9.5px;color:#475569;padding-inline:18mm}
+.task-row > .qmark{flex:0 0 9px;width:9px;height:9px;border-radius:50%;background:#1e3a8a;margin-top:2.4mm}
+.solve{margin:2.5mm 0 1mm}.solve-lab{color:#1e3a8a;font-weight:600;margin-bottom:1.5mm}
+.work-grid{height:34mm;border:1px solid #cbd5e1;border-radius:2mm;background-color:#fff;background-image:repeating-linear-gradient(to right,rgba(30,58,138,.09) 0 1px,transparent 1px 5.5mm),repeating-linear-gradient(to bottom,rgba(30,58,138,.09) 0 1px,transparent 1px 5.5mm)}
+.work-grid.sm{height:24mm}
+.ansline{display:inline-block;min-width:22mm;height:5.5mm;border-bottom:2px solid #1e3a8a;vertical-align:baseline;margin:0 2mm}
+.answer-sentence{margin-top:2mm;font-weight:500}
+
+/* === tight density helpers for dense legacy pages (ssot) === */
+.a4-page.tight .coord-card svg{max-height:60mm}
+.a4-page.tight .coord-card.compact svg{max-height:46mm}
+.a4-page.tight .coord-strip .coord-card svg{max-height:50mm}
+.a4-page.tight .choice-grid{gap:2mm 3mm}
+.a4-page.tight .choice-box{padding:2mm 2.5mm}
+.a4-page.tight .task{margin:2.2mm 0}
+.a4-page.tight .anchor{margin:3mm 0 2.5mm;padding:2mm 3mm}
+
+.a4-page.tight .work-table td:empty,.a4-page.tight .classify-table td:empty{height:7mm}
