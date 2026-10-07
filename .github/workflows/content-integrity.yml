@@ -82,6 +82,14 @@ jobs:
               print('Canonical district footer already present')
       - name: Render 192 pages and rebuild PDF
         run: python scripts/render-release.py
+      - name: Upload render diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: render-diagnostics-${{ github.sha }}
+          path: .qa/release-report.json
+          if-no-files-found: warn
+          retention-days: 7
       - name: Verify generated release
         run: |
           python scripts/check-content.py
