@@ -78,6 +78,24 @@ if anis.is_file():
     if not data.startswith(b"\xff\xd8") or not data.endswith(b"\xff\xd9"):
         errors.append("cone/visual-assets/anis-basics.jpg is truncated or not a complete JPEG")
 
+# Guard the basic geometric meanings taught before any formula is used.
+page5 = cone / "page-5.html"
+if page5.is_file():
+    text = page5.read_text(encoding="utf-8")
+    forbidden = [
+        "מהמרכז אל שפת הבסיס / מן הקודקוד אל המרכז",
+        "האנך מן הקודקוד אל מרכז הבסיס / הקו המשופע על המעטפת",
+    ]
+    if any(value in text for value in forbidden):
+        errors.append("cone/page-5.html mixes radius/height with other cone dimensions")
+    required = [
+        "קטע ממרכז הבסיס אל נקודה על שפת הבסיס",
+        "האנך מן הקודקוד אל מרכז הבסיס",
+        "קטע מן הקודקוד אל נקודה על שפת הבסיס",
+    ]
+    if any(value not in text for value in required):
+        errors.append("cone/page-5.html must keep the canonical radius, height and slant-height definitions")
+
 # Guard the exact terminology used in the cone-volume formula lesson.
 # Diameter must be converted to radius; slant height is not the perpendicular height in V=(1/3)πr²h.
 page12 = cone / "page-12.html"
@@ -96,4 +114,4 @@ if errors:
         print(f"- {error}")
     sys.exit(1)
 
-print("OK: cone/ contains exactly 46 standalone A4 pages; manifest, local references, required assets and core volume terminology are valid.")
+print("OK: cone/ contains exactly 46 standalone A4 pages; manifest, local references, required assets and core cone terminology are valid.")
