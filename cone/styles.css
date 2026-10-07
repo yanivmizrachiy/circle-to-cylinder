@@ -28,6 +28,39 @@
 .figure-medium{max-height:142px;}
 .mini-figure{max-height:96px;}
 
+/* Canonical district-logo footer rules are repeated here intentionally so integrity guards can validate the entry stylesheet directly. */
+.gz-footer::before{
+  content:"";
+  grid-area:logo;
+  width:10mm;
+  height:10mm;
+  display:block;
+  background:url("../assets/district-logo.png") center/contain no-repeat;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
+.visual-credit::before{
+  content:"";
+  position:absolute;
+  right:0;
+  top:1mm;
+  width:8mm;
+  height:8mm;
+  background:url("../assets/district-logo.png") center/contain no-repeat;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
+.image-credit::before{
+  content:"";
+  position:absolute;
+  right:3mm;
+  top:50%;
+  transform:translateY(-50%);
+  width:8mm;
+  height:8mm;
+  background:url("../assets/district-logo.png") center/contain no-repeat;
+}
+
 @media print{
   .a4-page{padding:9mm 12mm 8mm;}
 }
