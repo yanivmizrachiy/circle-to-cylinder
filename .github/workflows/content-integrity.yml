@@ -1,17 +1,86 @@
 name: Content integrity
+
 on:
   push:
     branches:
       - main
       - 'consolidate/**'
+      - 'release/**'
   pull_request:
+
+concurrency:
+  group: content-integrity-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
+  release-render:
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && startsWith(github.ref, 'refs/heads/release/') && github.actor != 'github-actions[bot]')
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Verify self-contained release SSOT
+        run: python scripts/check-release-ssot.py
+      - name: Install release QA dependencies
+        run: |
+          python -m pip install --disable-pip-version-check pypdf playwright
+          python -m playwright install --with-deps chromium
+      - name: Render committed 192-page release and rebuild PDF
+        run: python scripts/render-release.py
+      - name: Upload render diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: render-diagnostics-${{ github.sha }}
+          path: .qa/release-report.json
+          if-no-files-found: warn
+          retention-days: 7
+      - name: Verify generated release
+        run: |
+          python scripts/check-release-ssot.py
+          python scripts/check-content.py
+          python scripts/check-cone-package.py
+      - name: Upload verified release artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: verified-release-${{ github.sha }}
+          path: |
+            .qa/release-report.json
+            assets/circle-to-cylinder.pdf
+          if-no-files-found: error
+          retention-days: 14
+      - name: Commit verified generated PDF
+        if: github.event_name == 'push'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add assets/circle-to-cylinder.pdf
+          if git diff --cached --quiet; then
+            echo 'Verified PDF already matches committed release.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'build(release): verified 192-page PDF'
+          git push origin HEAD:${GITHUB_REF_NAME}
+
   verify-content:
+    if: github.event_name == 'push' && (!startsWith(github.ref, 'refs/heads/release/') || github.actor == 'github-actions[bot]')
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
+      - run: python -m pip install --disable-pip-version-check pypdf
+      - run: python scripts/check-release-ssot.py
       - run: python scripts/check-content.py
       - run: python scripts/check-cone-package.py

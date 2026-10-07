@@ -5,6 +5,9 @@ dist/
 __pycache__/
 *.pyc
 
+# QA / generated local reports
+.qa/
+
 # os
 .DS_Store
 Thumbs.db

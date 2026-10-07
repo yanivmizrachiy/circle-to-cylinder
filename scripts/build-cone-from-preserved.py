@@ -9,11 +9,18 @@ SOURCE_ROOT = ROOT / "source/razpages-cone-5f67398"
 SOURCE_CONE = SOURCE_ROOT / "workbooks/cone"
 SOURCE_VISUAL = SOURCE_ROOT / "workbooks/visual-assets"
 TARGET = ROOT / "cone"
+EXCLUDED_CORRUPT_ASSETS = {"anis-basics.jpg", "anis-basics.svg"}
 
 
 def fail(message):
     print(f"CONE BUILD FAILED: {message}", file=sys.stderr)
     raise SystemExit(1)
+
+
+def ignore_corrupt_historical_assets(directory, names):
+    if pathlib.Path(directory).resolve() != SOURCE_VISUAL.resolve():
+        return set()
+    return {name for name in names if name in EXCLUDED_CORRUPT_ASSETS}
 
 
 if TARGET.exists():
@@ -40,7 +47,11 @@ if numbers != list(range(1, 47)):
 TARGET.mkdir()
 shutil.copy2(SOURCE_CONE / "styles.css", TARGET / "styles.css")
 shutil.copytree(SOURCE_CONE / "assets", TARGET / "assets")
-shutil.copytree(SOURCE_VISUAL, TARGET / "visual-assets")
+shutil.copytree(
+    SOURCE_VISUAL,
+    TARGET / "visual-assets",
+    ignore=ignore_corrupt_historical_assets,
+)
 
 head = '''<!doctype html>
 <html lang="he" dir="rtl">
@@ -63,12 +74,22 @@ for number, block in found:
 metadata = {
     "canonicalRepository": "yanivmizrachiy/circle-to-cylinder",
     "canonicalRoot": "cone",
-    "sourceOfTruth": True,
+    "canonicalPackage": True,
+    "releaseSequenceAuthority": "../content-manifest.json",
+    "contentEditingAuthority": "page-N.html",
+    "historicalSourceImmutable": True,
     "pageCount": 46,
     "generatedFrom": "source/razpages-cone-5f67398/workbooks/cone/index.html",
     "sourceRepository": "yanivmizrachiy/razpages",
     "sourceCommit": "5f67398bcb100dd36e2275b34f4312e7f145e14e",
-    "generationPolicy": "Initial lossless page split only. Future edits belong in cone/; preserved source remains immutable.",
+    "historicalRecoveryExclusions": sorted(
+        f"visual-assets/{name}" for name in EXCLUDED_CORRUPT_ASSETS
+    ),
+    "generationPolicy": (
+        "Historical recovery split only. Known corrupt historical assets are excluded from the active recovery output; "
+        "future edits belong in cone/page-N.html; preserved source remains immutable. "
+        "content-manifest.json alone controls release order."
+    ),
 }
 (TARGET / "manifest.json").write_text(
     json.dumps(metadata, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
@@ -89,4 +110,12 @@ for required in [
     if not required.is_file():
         fail(f"required generated asset missing: {required.relative_to(ROOT)}")
 
-print("OK: generated canonical cone/ with 46 standalone A4 pages and local assets; no existing content overwritten.")
+for excluded in EXCLUDED_CORRUPT_ASSETS:
+    if (TARGET / "visual-assets" / excluded).exists():
+        fail(f"corrupt historical asset leaked into recovery output: visual-assets/{excluded}")
+
+print(
+    "OK: generated the 46-page historical recovery split without overwriting existing content or copying known corrupt assets. "
+    "This output is not release-ready until canonical edits are reapplied and "
+    "scripts/check-cone-package.py plus the full release renderer pass."
+)

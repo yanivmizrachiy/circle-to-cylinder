@@ -1,8 +1,8 @@
 {
-  "version": 1,
+  "version": 3,
   "sections": [
-    {"id":"circle","label":"מעגל","ranges":[{"prefix":"maagal/page-","from":1,"toManifest":"maagal/manifest.json","suffix":".html"}]},
+    {"id":"circle","label":"מעגל","ranges":[{"prefix":"maagal/page-","from":1,"to":99,"suffix":".html"}]},
     {"id":"cylinder","label":"גליל","ranges":[{"prefix":"gold/page-","from":1,"to":7,"suffix":".html"},{"prefix":"galil/page-","from":1,"to":39,"suffix":".html"}]},
-    {"id":"cone","label":"חרוט","pages":["gold/page-8.html"]}
+    {"id":"cone","label":"חרוט","ranges":[{"prefix":"cone/page-","from":1,"to":46,"suffix":".html"}],"pages":["gold/page-8.html"]}
   ]
 }
