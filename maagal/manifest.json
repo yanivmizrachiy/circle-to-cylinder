@@ -45,7 +45,7 @@
       "previousPageCount": 106
     },
     "originalCircle": {"pages":88,"preservedRelativeOrder":true,"archive":"source/original-88/"},
-    "targilim": {"sourcePath":"generator/g8-01.js","sourceCommit":"88352a5671fc5df7dc812136e686176a26c5fb0a","families":["G8-06","G8-05","G8-01"],"canonicalPages":[21,42,43]},
+    "targilim": {"sourcePath":"generator/g8-01.js","sourceCommit":"88352a5671fc5df7dc812136e686176a26c5fb0a","families":["G8-06","G8-05","G8-01"],"canonicalPages":[30,51,52]},
     "bbb": {"sourcePath":"geometry8/topics/t01_circle.py","sourceCommit":"ad12425c6b2e1d4dac84030a5cd865c2b03d3804","archive":"source/bbb/","canonicalRange":[1,15],"merged":"עמוד-198 אוחד לתוך עמוד-197 (עמוד 2)","continuation":"עמוד 9 (מקור 205) הוא המשך שאלת המכרז מעמוד 8 (מקור 204) — אותם נתוני בריכה/טיילת; נוספה כותרת .section-cap-cont 'המשך עמוד 8' בראש התוכן.","solids":"עמודים 10–15 (מקורות עמוד-206..211) הם מקטע 'גליל וחרוט' — כל 7 תרגילי הגופים מ-t01_circle.py (section 3), שנשאבו ועוצבו בסגנון ה-bbb שלנו (שאלה אחת/שתיים לעמוד). עמוד 10 פותח בכותרת .section-cap 'גליל וחרוט'. מיפוי: 10=שני גלילים נפח/מעטפת, 11=גובה מים+שני כלים (גליל בתיבה/תיבה בגליל), 12=ארבעה גלילים עם משולשים, 13=צנצנות דבש, 14=גביע חרוט, 15=גלגול דף לגליל. שלושה איורים שהיו רסטר במקור (p15b/p16/p17) שורטטו מחדש כ-SVG וקטורי נקי; שלושה איורים נוספים נבנו עם הסרת מספרי מידה מהציור (הנתונים בטקסט בלבד)."}
   }
 }

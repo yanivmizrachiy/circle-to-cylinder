@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Heebo:wght@400;500;600;700&display=swap');
+
 /* ============================================================================
    גליל — גיליון סגנון יחיד (SSOT ויזואלי)
    כל צבע, מרווח, גודל-גופן ועובי-קו מוגדרים כאן פעם אחת בלבד.
@@ -7,7 +9,8 @@
 
 :root{
   /* --- צבעי מותג (כחול אחיד יחיד לכל הפרויקט) --- */
-  --blue:#1e3a8a;          /* הכחול הראשי: כותרת, סמן-נקודה, מסגרות הדגשה, קו הפוטר */
+  --blue:#1d4ed8;          /* הכחול הראשי: כותרת, סמן-נקודה, מסגרות הדגשה, קו הפוטר */
+  --blue-deep:#1e3a8a;     /* כחול עמוק */
   --blue-soft:#1d4ed8;     /* כחול משני רך (קו תחתון של הכותרת) */
   --ink:#111827;           /* צבע טקסט/שרטוט ראשי */
   --muted:#475569;         /* טקסט משני (פוטר, כיתובים) */
@@ -15,6 +18,7 @@
   --line-soft:#e2e8f0;     /* מפרידים עדינים */
   --paper:#fff;            /* רקע נייר */
   --panel:#f8fafc;         /* רקע לוחות/תיבות רכות */
+  --grid:#d7e0ef;          /* קווי רשת המשבצות של גולד */
   --grid-ink:rgba(30,58,138,.09); /* קווי רשת המשבצות באזור העבודה */
   --footer-blue:#1d4ed8;   /* קו הפוטר המחוזי (נוסח מחייב — ראו .gz-footer) */
 
@@ -24,6 +28,15 @@
   --cell:5.5mm;               /* צלע משבצת באזור עבודה */
   --radius:3mm;               /* רדיוס פינות סטנדרטי */
 }
+
+.grid-paper{min-height:24mm;border:1px solid var(--line);border-radius:2mm;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:5mm 5mm;background-position:top right;background-color:#fff}
+.q-dot{display:inline-block;flex:0 0 auto;width:2.6mm;height:2.6mm;border-radius:50%;background:var(--blue);vertical-align:middle;margin-inline-end:2.5mm;transform:translateY(-0.4mm)}
+.ans-line{display:flex;align-items:baseline;gap:2mm;margin:2.5mm 0 0;font-size:13.5px;font-weight:400}
+.ans-lead{flex:0 0 auto;font-weight:400}
+.ans-blank{flex:0 0 auto;width:34mm;border-bottom:1.5px solid var(--muted);align-self:flex-end;margin-bottom:1mm}
+.unit{font-size:13.5px;font-weight:400;color:var(--muted);min-width:12mm}
 
 @page{size:A4;margin:0}
 *{box-sizing:border-box}
@@ -124,12 +137,13 @@ body{direction:rtl;font-family:"Rubik","Heebo","Noto Sans Hebrew",Arial,sans-ser
 .solve{margin:2.5mm 0 1mm}
 .solve-lab{color:var(--blue);font-weight:600;margin-bottom:1.5mm}
 .solve-lab.explain::before{content:""}
-.work-grid{height:36mm;border:1px solid var(--line);border-radius:2mm;background-color:var(--paper);
-  background-image:repeating-linear-gradient(to right,var(--grid-ink) 0 1px,transparent 1px var(--cell)),
-                   repeating-linear-gradient(to bottom,var(--grid-ink) 0 1px,transparent 1px var(--cell))}
-.work-grid.sm{height:26mm}
-.work-grid.lg{height:48mm}
-.answer-sentence{margin-top:2mm;font-weight:500}
-.ansline{display:inline-block;min-width:22mm;height:5.5mm;border-bottom:2px solid var(--blue);vertical-align:baseline;margin:0 2mm}
+.work-grid{height:36mm;border:1px solid var(--line);border-radius:2mm;background-color:#fff;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),
+                   linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:5mm 5mm;background-position:top right}
+.work-grid.sm{height:24mm}
+.work-grid.lg{height:44mm}
+.answer-sentence{margin-top:2.5mm;font-weight:400;font-size:13.5px;display:flex;align-items:baseline;gap:2mm}
+.ansline{display:inline-block;width:34mm;min-width:34mm;height:0;border-bottom:1.5px solid var(--muted);vertical-align:baseline;margin:0 2mm}
 
 @media print{body{background:#fff}.a4-page{margin:0;box-shadow:none}}
