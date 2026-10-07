@@ -47,14 +47,12 @@ for section in sections:
     # Canonical manifest semantics are ranges first, then explicit pages.
     # Keep this identical to index.html and scripts/render-release.py.
     for page_range in section.get("ranges", []):
+        if "toManifest" in page_range:
+            errors.append(
+                f"release SSOT must be self-contained; toManifest is forbidden in {section.get('id')}"
+            )
+            continue
         end = page_range.get("to")
-        if page_range.get("toManifest"):
-            if page_range["toManifest"] != "maagal/manifest.json":
-                errors.append(
-                    f"unsupported external manifest reference: {page_range['toManifest']}"
-                )
-                continue
-            end = int(circle.get("pageCount", 0))
         if end is None:
             errors.append(f"range in {section.get('id')} has no end")
             continue
@@ -109,6 +107,23 @@ for page in sorted(actual_gold - expected_gold):
 for page in listed:
     if "://" in page or page.startswith("/") or ".." in pathlib.PurePosixPath(page).parts:
         errors.append(f"non-local manifest path is forbidden: {page}")
+
+# The root viewer must consume the publication manifest directly and only.
+viewer_path = root / "index.html"
+if not viewer_path.is_file():
+    errors.append("root viewer is missing: index.html")
+else:
+    viewer = viewer_path.read_text(encoding="utf-8")
+    if "content-manifest.json" not in viewer:
+        errors.append("root viewer must load content-manifest.json")
+    if "maagal/manifest.json" in viewer:
+        errors.append("root viewer must not depend on maagal/manifest.json")
+    if "toManifest" in viewer:
+        errors.append("root viewer must not implement deprecated toManifest semantics")
+    if "loading='lazy'" not in viewer and 'loading="lazy"' not in viewer:
+        errors.append("root viewer iframes must use lazy loading")
+    if "function pump" in viewer or "setTimeout(pump" in viewer:
+        errors.append("root viewer must not eagerly pump-load the full workbook")
 
 # The downloadable PDF must be derived from and match the active manifest page count.
 pdf_path = root / "assets/circle-to-cylinder.pdf"
@@ -217,6 +232,7 @@ print(
     f"cylinder={counts.get('cylinder', 0)}, "
     f"cone={counts.get('cone', 0)}; "
     "192-page release lock and PDF count match; authority split is clean; "
+    "root viewer consumes only the publication SSOT and lazy-loads pages; "
     "recovered 46-page cone source is preserved byte-for-byte; "
     "no missing, duplicate, external or unlisted gold pages."
 )
