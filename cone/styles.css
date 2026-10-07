@@ -2,7 +2,7 @@
 
 /* A4 fit guard: preserve the Studio visual system while restoring reliable single-page print geometry. */
 .a4-page{
-  padding:9mm 12mm 9mm;
+  padding:9mm 12mm 8mm;
   line-height:1.34;
 }
 .header-container{
@@ -11,7 +11,7 @@
 }
 .sheet-content{
   gap:5px;
-  padding-bottom:14mm;
+  padding-bottom:10mm;
 }
 .q-card{
   padding:7px 9px 7px;
@@ -29,5 +29,5 @@
 .mini-figure{max-height:96px;}
 
 @media print{
-  .a4-page{padding:9mm 12mm 9mm;}
+  .a4-page{padding:9mm 12mm 8mm;}
 }
