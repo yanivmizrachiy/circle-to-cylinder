@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>חרוט — פיתגורס, נפח ויחסי הגדלה</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <defs>
+    <marker id="ah4" markerWidth="9" markerHeight="9" refX="4.5" refY="4.5" orient="auto">
+      <path d="M1 1 L8 4.5 L1 8 Z" fill="#1d4ed8"/>
+    </marker>
+  </defs>
+</svg>
+
+<main class="a4-page flow">
+  <header class="page-header">
+    <div class="header-titles">
+      <h1 class="page-title">חרוט</h1>
+      <p class="page-subtitle">שאלות מתוך תוכנית הלימודים</p>
+    </div>
+    <div class="page-number" aria-label="עמוד 8">8</div>
+  </header>
+
+  <div class="calc-list">
+
+    <section class="calc">
+      <div class="calc-main">
+        <p class="calc-given">נתון: גביע וופל בצורת חרוט. רדיוס פתח הגביע 6 ס״מ, ואורך הוופל מהשפה עד הקודקוד (היוצרת) 10 ס״מ.</p>
+
+        <div class="steps">
+          <div class="step">
+            <p class="q-line"><span class="q-dot"></span>חשבו את גובה הגביע h בעזרת משפט פיתגורס על החתך הצירי:</p>
+            <div class="grid-paper"></div>
+            <p class="ans-line"><span class="ans-lead">h =</span><span class="blank ans-blank"></span><span class="unit">ס״מ</span></p>
+          </div>
+          <div class="step">
+            <p class="q-line"><span class="q-dot"></span>חשבו כמה סמ״ק גלידה נכנסים בחלל הגביע:</p>
+            <div class="grid-paper"></div>
+            <p class="ans-line"><span class="ans-lead">נפח הגלידה =</span><span class="blank ans-blank"></span><span class="unit">סמ״ק</span></p>
+          </div>
+        </div>
+
+        <p class="q-line"><span class="q-dot"></span>לגביע "משפחתי" מציעים שתי אפשרויות: א' — הכפלת הגובה פי 2; ב' — הכפלת הרדיוס פי 2. הבעלים טוען שבשתיהן הנפח יגדל באותה מידה. האם צודק?</p>
+        <div class="mc-list">
+          <div class="mc"><span class="rad"></span><span>כן</span></div>
+          <div class="mc"><span class="rad"></span><span>לא</span></div>
+        </div>
+        <div class="justify"><span class="j-lead">הסבירו:</span><span class="j-line"></span><span class="j-line"></span></div>
+
+        <p class="q-line"><span class="q-dot"></span>חשבו את הנפח עבור אפשרות ב', ופי כמה הוא גדול מהנפח המקורי:</p>
+        <div class="ans-grid">
+          <p class="ans-line"><span class="ans-lead">נפח (אפשרות ב') =</span><span class="blank ans-blank"></span><span class="unit">סמ״ק</span></p>
+          <p class="ans-line"><span class="ans-lead">גדול מהמקורי פי</span><span class="blank ans-blank"></span></p>
+        </div>
+      </div>
+
+      <div class="calc-fig">
+        <svg viewBox="0 0 200 250" role="img" aria-label="גביע חרוט הפוך: רדיוס הפתח 6 ס״מ, יוצרת 10 ס״מ, גובה h והחתך הצירי">
+          <ellipse class="cyl-base-fill" cx="100" cy="52" rx="58" ry="15"/>
+          <line class="cyl" x1="42" y1="52" x2="100" y2="214"/>
+          <line class="cyl" x1="158" y1="52" x2="100" y2="214"/>
+          <ellipse class="cyl" cx="100" cy="52" rx="58" ry="15"/>
+          <line x1="100" y1="52" x2="100" y2="214" stroke="#1d4ed8" stroke-width="1.8" stroke-dasharray="6 5" fill="none"/>
+          <path d="M110 52 L110 62 L100 62" fill="none" stroke="#64748b" stroke-width="1.4"/>
+          <line class="cyl-dim" x1="100" y1="52" x2="158" y2="52" marker-end="url(#ah4)"/>
+          <circle class="dot" cx="100" cy="52" r="3"/>
+          <text class="lbl-dim" x="128" y="24" text-anchor="middle">r = &#x2067;6 ס״מ&#x2069;</text>
+          <text class="lbl-dim" x="86" y="140" text-anchor="end">h = ?</text>
+          <text class="lbl-he" x="150" y="118" text-anchor="start">10 ס״מ</text>
+          <circle class="dot" cx="100" cy="214" r="3"/>
+        </svg>
+      </div>
+    </section>
+
+  </div>
+</main>
+</body>
+</html>

@@ -23,7 +23,7 @@ html,body{overflow-x:hidden;max-width:100%}
 </head><body>
 <main class="book" id="book" aria-label="כל עמודי החוברת"></main>
 <script>
-const PAGE_W=794,PAGE_H=1123,GOLD=8,GALIL=39;
+const PAGE_W=794,PAGE_H=1123,GOLD_CYL=7,GALIL=39;
 const book=document.getElementById('book');
 let pages=[],slots=[];
 function displayWidth(){const cs=getComputedStyle(book);const pad=parseFloat(cs.paddingLeft)+parseFloat(cs.paddingRight);return Math.max(200,Math.min(PAGE_W,Math.floor(book.clientWidth-pad)));}
@@ -41,7 +41,7 @@ function startLoading(){
 function build(){book.replaceChildren();slots=[];for(let i=0;i<pages.length;i++){const n=i+1;const slot=document.createElement('section');slot.className='slot';slot.id='p'+n;slot._page=n;slot._src=pages[i];slot.setAttribute('data-page',n);const ph=document.createElement('div');ph.className='ph';ph.textContent=`עמוד ${n}`;slot.appendChild(ph);book.appendChild(slot);sizeSlot(slot);slots.push(slot);}startLoading();if(location.hash){let k=0;const jump=function(){const t=document.getElementById(location.hash.slice(1));if(t)t.scrollIntoView();if(++k<8)setTimeout(jump,90);};setTimeout(jump,60);}}
 window.addEventListener('hashchange',function(){const t=document.getElementById(location.hash.slice(1));if(t)t.scrollIntoView();});
 let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{slots.forEach(sl=>{sizeSlot(sl);if(sl._loaded)fitIframe(sl);});},150);});
-function assemble(maagalCount){pages=[];for(let n=1;n<=maagalCount;n++)pages.push(`maagal/page-${n}.html`);for(let n=1;n<=GOLD;n++)pages.push(`gold/page-${n}.html`);for(let n=1;n<=GALIL;n++)pages.push(`galil/page-${n}.html`);build();}
+function assemble(maagalCount){pages=[];for(let n=1;n<=maagalCount;n++)pages.push(`maagal/page-${n}.html`);for(let n=1;n<=GOLD_CYL;n++)pages.push(`gold/page-${n}.html`);for(let n=1;n<=GALIL;n++)pages.push(`galil/page-${n}.html`);pages.push('gold/page-8.html');build();}
 fetch('maagal/manifest.json',{cache:'no-store'}).then(r=>r.json()).then(m=>{assemble(Number(m.pageCount)||99);}).catch(e=>{assemble(99);});
 </script>
 </body></html>
