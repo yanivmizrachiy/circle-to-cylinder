@@ -9,9 +9,5 @@
   "generatedFrom": "source/razpages-cone-5f67398/workbooks/cone/index.html",
   "sourceRepository": "yanivmizrachiy/razpages",
   "sourceCommit": "5f67398bcb100dd36e2275b34f4312e7f145e14e",
-  "inactiveHistoricalAssets": [
-    "visual-assets/anis-basics.jpg",
-    "visual-assets/anis-basics.svg"
-  ],
   "generationPolicy": "Initial lossless page split only. Future edits belong in cone/page-N.html; preserved source remains immutable. content-manifest.json alone controls whether and where these pages appear in the released workbook."
 }
