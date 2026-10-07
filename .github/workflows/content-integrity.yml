@@ -10,7 +10,7 @@ on:
 
 jobs:
   release-render:
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/release/') && github.actor != 'github-actions[bot]'
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && startsWith(github.ref, 'refs/heads/release/') && github.actor != 'github-actions[bot]')
     permissions:
       contents: write
     runs-on: ubuntu-latest
@@ -73,14 +73,18 @@ jobs:
         run: |
           python scripts/check-content.py
           python scripts/check-cone-package.py
-      - name: Upload QA report
+      - name: Upload verified release artifact
         uses: actions/upload-artifact@v4
         with:
-          name: release-qa-${{ github.sha }}
-          path: .qa/release-report.json
+          name: verified-release-${{ github.sha }}
+          path: |
+            .qa/release-report.json
+            assets/circle-to-cylinder.pdf
+            cone/styles.css
           if-no-files-found: error
           retention-days: 14
       - name: Commit verified generated assets
+        if: github.event_name == 'push'
         shell: bash
         run: |
           set -euo pipefail
@@ -95,7 +99,7 @@ jobs:
           git push origin HEAD:${GITHUB_REF_NAME}
 
   verify-content:
-    if: github.event_name != 'push' || !startsWith(github.ref, 'refs/heads/release/') || github.actor == 'github-actions[bot]'
+    if: github.event_name == 'push' && (!startsWith(github.ref, 'refs/heads/release/') || github.actor == 'github-actions[bot]')
     permissions:
       contents: read
     runs-on: ubuntu-latest
