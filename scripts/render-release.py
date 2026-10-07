@@ -77,6 +77,17 @@ def qa_metrics(page):
     )
 
 
+def write_report(report_path, report):
+    if not report_path:
+        return
+    path = pathlib.Path(report_path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps(report, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+
 def check_viewer(browser, base_url, pages, starts):
     errors = []
     page = browser.new_page(viewport={"width": 1280, "height": 900})
@@ -131,11 +142,13 @@ def render_release(output_pdf, report_path=None):
     pages, starts = expand_manifest()
     errors = []
     report = {
+        "status": "running",
         "total": len(pages),
         "starts": starts,
         "first": pages[0] if pages else None,
         "last": pages[-1] if pages else None,
         "pages": [],
+        "errors": [],
     }
 
     if len(pages) != EXPECTED_TOTAL:
@@ -145,6 +158,9 @@ def render_release(output_pdf, report_path=None):
     missing = [path for path in pages if not (ROOT / path).is_file()]
     errors.extend(f"manifest page missing: {path}" for path in missing)
     if errors:
+        report["status"] = "failed"
+        report["errors"] = errors
+        write_report(report_path, report)
         raise RuntimeError("; ".join(errors))
 
     server, base_url = start_server()
@@ -238,13 +254,9 @@ def render_release(output_pdf, report_path=None):
             browser.close()
 
             if errors:
-                if report_path:
-                    report["errors"] = errors
-                    pathlib.Path(report_path).parent.mkdir(parents=True, exist_ok=True)
-                    pathlib.Path(report_path).write_text(
-                        json.dumps(report, ensure_ascii=False, indent=2) + "\n",
-                        encoding="utf-8",
-                    )
+                report["status"] = "failed"
+                report["errors"] = errors
+                write_report(report_path, report)
                 raise RuntimeError("\n".join(errors))
 
             writer = PdfWriter()
@@ -256,22 +268,29 @@ def render_release(output_pdf, report_path=None):
 
             final_count = len(PdfReader(str(output_pdf)).pages)
             if final_count != len(pages):
-                raise RuntimeError(
+                errors.append(
                     f"merged PDF has {final_count} pages, expected {len(pages)}"
                 )
+                report["status"] = "failed"
+                report["errors"] = errors
+                report["pdfPages"] = final_count
+                write_report(report_path, report)
+                raise RuntimeError(errors[-1])
 
+            report["status"] = "passed"
             report["pdfPages"] = final_count
             report["errors"] = []
-            if report_path:
-                pathlib.Path(report_path).parent.mkdir(parents=True, exist_ok=True)
-                pathlib.Path(report_path).write_text(
-                    json.dumps(report, ensure_ascii=False, indent=2) + "\n",
-                    encoding="utf-8",
-                )
+            write_report(report_path, report)
             print(
                 f"OK: Chromium validated {len(pages)} A4 pages; viewer starts={starts}; "
                 f"merged PDF has {final_count} pages."
             )
+    except Exception as exc:
+        if report.get("status") != "failed":
+            report["status"] = "failed"
+            report["errors"] = [str(exc)]
+            write_report(report_path, report)
+        raise
     finally:
         server.shutdown()
         server.server_close()
