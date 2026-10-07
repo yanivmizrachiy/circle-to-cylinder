@@ -8,6 +8,10 @@ on:
       - 'release/**'
   pull_request:
 
+concurrency:
+  group: content-integrity-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   release-render:
     if: github.event_name == 'pull_request' || (github.event_name == 'push' && startsWith(github.ref, 'refs/heads/release/') && github.actor != 'github-actions[bot]')
