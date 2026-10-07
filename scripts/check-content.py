@@ -13,15 +13,27 @@ circle = json.loads((root / "maagal/manifest.json").read_text(encoding="utf-8"))
 
 errors = []
 
-# Single-source-of-truth guard: canonical metadata must point back to this repo.
+# Authority guard: RULES.md owns policy, content-manifest.json owns publication order,
+# and maagal/manifest.json is routing metadata for the circle loaders only.
 if circle.get("canonicalRepository") != "yanivmizrachiy/circle-to-cylinder":
     errors.append(
         "maagal/manifest.json canonicalRepository must be yanivmizrachiy/circle-to-cylinder"
     )
 if circle.get("canonicalRoot") != "maagal":
     errors.append("maagal/manifest.json canonicalRoot must be maagal")
-if circle.get("sourceOfTruth") is not True:
-    errors.append("maagal/manifest.json sourceOfTruth must be true")
+if circle.get("role") != "local-circle-routing":
+    errors.append("maagal/manifest.json role must be local-circle-routing")
+if circle.get("rulesFile") != "../RULES.md":
+    errors.append("maagal/manifest.json rulesFile must point to ../RULES.md")
+if circle.get("publicationManifest") != "../content-manifest.json":
+    errors.append(
+        "maagal/manifest.json publicationManifest must point to ../content-manifest.json"
+    )
+for stale_key in ("sourceOfTruth", "singleWorkbook", "canonicalLanguage", "designRules", "viewer"):
+    if stale_key in circle:
+        errors.append(
+            f"maagal/manifest.json must not duplicate global authority/policy key: {stale_key}"
+        )
 
 sections = manifest.get("sections") or []
 ids = [section.get("id") for section in sections]
@@ -113,7 +125,7 @@ else:
                 f"downloadable PDF page count mismatch: {pdf_pages} != active manifest {len(listed)}"
             )
 
-# Keep human-readable SSOT docs aligned with the release count.
+# Keep human-readable authority docs aligned with the release count.
 for doc_name in ["RULES.md", "README.md"]:
     doc_path = root / doc_name
     if not doc_path.is_file():
@@ -204,7 +216,7 @@ print(
     f"circle={counts.get('circle', 0)}, "
     f"cylinder={counts.get('cylinder', 0)}, "
     f"cone={counts.get('cone', 0)}; "
-    "192-page release lock and PDF count match; SSOT is local; "
+    "192-page release lock and PDF count match; authority split is clean; "
     "recovered 46-page cone source is preserved byte-for-byte; "
     "no missing, duplicate, external or unlisted gold pages."
 )
