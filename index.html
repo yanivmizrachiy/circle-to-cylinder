@@ -48,7 +48,7 @@ html,body{overflow-x:hidden;max-width:100%}
 </nav>
 <main class="book" id="book" aria-label="כל עמודי החוברת"></main>
 <script>
-const PAGE_W=794,PAGE_H=1123,GOLD_CYL=7,GALIL=39;
+const PAGE_W=794,PAGE_H=1123;
 const book=document.getElementById('book');
 let pages=[],slots=[];
 let SEC={circle:1,cylinder:100,cone:146};
@@ -75,7 +75,11 @@ function startLoading(){
 function build(){book.replaceChildren();slots=[];for(let i=0;i<pages.length;i++){const n=i+1;const slot=document.createElement('section');slot.className='slot';slot.id='p'+n;slot._page=n;slot._src=pages[i];slot.setAttribute('data-page',n);const ph=document.createElement('div');ph.className='ph';slot.appendChild(ph);book.appendChild(slot);sizeSlot(slot);slots.push(slot);}startLoading();setActive('circle');if(location.hash){let k=0;const j=function(){const t=document.getElementById(location.hash.slice(1));if(t)t.scrollIntoView();if(++k<8)setTimeout(j,90);};setTimeout(j,60);}}
 window.addEventListener('hashchange',function(){const t=document.getElementById(location.hash.slice(1));if(t)t.scrollIntoView();});
 let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{slots.forEach(sl=>{sizeSlot(sl);if(sl._loaded)fitIframe(sl);});},150);});
-function assemble(maagalCount){pages=[];for(let n=1;n<=maagalCount;n++)pages.push(`maagal/page-${n}.html`);for(let n=1;n<=GOLD_CYL;n++)pages.push(`gold/page-${n}.html`);for(let n=1;n<=GALIL;n++)pages.push(`galil/page-${n}.html`);pages.push('gold/page-8.html');SEC={circle:1,cylinder:maagalCount+1,cone:maagalCount+GOLD_CYL+GALIL+1};build();}
-fetch('maagal/manifest.json',{cache:'no-store'}).then(r=>r.json()).then(m=>{assemble(Number(m.pageCount)||99);}).catch(e=>{assemble(99);});
+function expandRange(r,maagalCount){const end=r.toManifest?maagalCount:Number(r.to);const out=[];for(let n=Number(r.from);n<=end;n++)out.push(r.prefix+n+(r.suffix||''));return out;}
+function assembleFromManifest(manifest,maagalCount){pages=[];SEC={};manifest.sections.forEach(function(sec){SEC[sec.id]=pages.length+1;(sec.ranges||[]).forEach(function(r){pages.push.apply(pages,expandRange(r,maagalCount));});(sec.pages||[]).forEach(function(p){pages.push(p);});});if(!SEC.cone||!manifest.sections.find(s=>s.id==='cone'&&(s.pages||[]).length)){throw new Error('Cone section is missing or empty');}build();}
+Promise.all([
+ fetch('content-manifest.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('content manifest');return r.json();}),
+ fetch('maagal/manifest.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('circle manifest');return r.json();})
+]).then(([content,circle])=>assembleFromManifest(content,Number(circle.pageCount)||99)).catch(function(e){book.innerHTML='<p style="padding:32px;font-size:20px">שגיאה בטעינת החוברת. מבנה התוכן אינו תקין.</p>';console.error(e);});
 </script>
 </body></html>
