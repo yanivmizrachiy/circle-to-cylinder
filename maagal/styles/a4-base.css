@@ -44,11 +44,24 @@ html, body {
    ה-footer פורץ את ריפוד הצד (18mm) של .a4-page כדי שהקו יהיה מקצה-לקצה;
    הטקסט נשאר ממורכז בעזרת padding פנימי. תיקון קבוע — לא תלוי בתוכן. */
 .a4-page > .gz-footer {
+    position: relative;
     flex: 0 0 auto;
     margin: auto -18mm 0 -18mm;
     padding: 2.2mm 18mm 0 18mm;
     border-top: 2px solid #1e3a8a;
     text-align: center;
+}
+
+.a4-page > .gz-footer::before {
+    content: "";
+    position: absolute;
+    right: 12mm;
+    top: 4px;
+    width: 8mm;
+    height: 8mm;
+    background: url('../../assets/district-logo.png') center/contain no-repeat;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
 }
 
 .a4-page > .gz-footer .f1 {
