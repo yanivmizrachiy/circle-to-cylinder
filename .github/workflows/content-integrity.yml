@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   release-render:
-    if: github.event_name == 'pull_request' || (github.event_name == 'push' && startsWith(github.ref, 'refs/heads/release/') && github.actor != 'github-actions[bot]')
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/')) && github.actor != 'github-actions[bot]')
     permissions:
       contents: write
     runs-on: ubuntu-latest
@@ -31,6 +31,8 @@ jobs:
         run: |
           python -m pip install --disable-pip-version-check pypdf playwright
           python -m playwright install --with-deps chromium
+      - name: Verify viewer runtime behavior
+        run: python scripts/check-viewer-runtime.py
       - name: Render committed 192-page release and rebuild PDF
         run: python scripts/render-release.py
       - name: Upload render diagnostics
@@ -71,7 +73,7 @@ jobs:
           git push origin HEAD:${GITHUB_REF_NAME}
 
   verify-content:
-    if: github.event_name == 'push' && (!startsWith(github.ref, 'refs/heads/release/') || github.actor == 'github-actions[bot]')
+    if: github.event_name == 'push' && (github.actor == 'github-actions[bot]' || (github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/heads/release/')))
     permissions:
       contents: read
     runs-on: ubuntu-latest
