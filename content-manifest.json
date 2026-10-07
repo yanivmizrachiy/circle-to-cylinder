@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "sections": [
+    {"id":"circle","label":"מעגל","ranges":[{"prefix":"maagal/page-","from":1,"toManifest":"maagal/manifest.json","suffix":".html"}]},
+    {"id":"cylinder","label":"גליל","ranges":[{"prefix":"gold/page-","from":1,"to":7,"suffix":".html"},{"prefix":"galil/page-","from":1,"to":39,"suffix":".html"}]},
+    {"id":"cone","label":"חרוט","pages":["gold/page-8.html"]}
+  ]
+}
