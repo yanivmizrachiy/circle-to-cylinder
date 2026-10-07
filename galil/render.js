@@ -4,7 +4,7 @@
    כל עמוד מכיל אי-נתונים אחד: <script type="application/json" id="page">{...}</script>
    המנוע קורא אותו ובונה markup תקני אוטומטית. כללי ה-SSOT נאכפים כאן פעם אחת:
      • סמן משימה = נקודה כחולה (לעולם לא מספרים)   [כללי מספור]
-     • כפל מוצג כ-·  ('×' / '\\cdot' מומרים אוטומטית)  [כלל סימון כפל]
+     • כפל מוצג כ-·  ('×' / '\cdot' מומרים אוטומטית)  [כלל סימון כפל]
      • אזור פתרון = "תרגילים:" → רשת משבצות → משפט-השלמה עם יחידה
      • הסבר = "הסבירו:" → רשת משבצות
      • כותרת, מספר-עמוד (aria-label), פוטר — נוספים אוטומטית
@@ -22,11 +22,11 @@
     '</footer>';
 
   /* ---- כלי-עזר לאכיפת SSOT ---- */
-  const MULT = /×|∙|\\cdot/g;                 // כל צורות הכפל → ·
+  const MULT = /×|∙/g;                         // תווי כפל יוניקוד → · (טקסט רגיל)
   function M(s) {                              // נירמול מתמטי (רשת-ביטחון)
     if (s == null) return "";
-    s = String(s).replace(MULT, "·");
-    if (/\\bd\\b/.test(s) && /קוטר|diameter/.test(s) === false && /[×·]|=|π/.test(s)) {
+    s = String(s).replace(MULT, "·").replace(/\\times/g, "\\cdot"); // LaTeX: \times → \cdot (מתרנדר כ-·)
+    if (/\bd\b/.test(s) && /קוטר|diameter/.test(s) === false && /[×·]|=|π/.test(s)) {
       // התרעה בלבד: סימון קוטר כ-d אסור; יש לכתוב "קוטר"
       console.warn("[SSOT] ייתכן סימון קוטר אסור 'd':", s);
     }
@@ -57,7 +57,7 @@
         `</div>`;
     },
 
-    html: (b) => M(b.html),                    // פתח-מילוט: markup מדויק מותאם-אישי
+    html: (b) => M(b.html),                    // פתח-מילוט: markup מדויק מותאם-אישית
 
     table: (b) => {
       const head = b.head ? `<tr>${b.head.map((h) => `<th>${T(h)}</th>`).join("")}</tr>` : "";
@@ -148,9 +148,9 @@
     document.body.appendChild(main);
     document.title = (page.title || "גליל").replace(/<[^>]+>/g, "");
 
-    // MathJax רק אם העמוד משתמש ב-\\( ... \\)
-    if (/\\\\\\(/.test(main.innerHTML) && !window.MathJax) {
-      window.MathJax = { tex: { inlineMath: [["\\\\(", "\\\\)"]] } };
+    // MathJax רק אם העמוד משתמש ב-\( ... \)
+    if (/\\\(/.test(main.innerHTML) && !window.MathJax) {
+      window.MathJax = { tex: { inlineMath: [["\\(", "\\)"]] } };
       const s = document.createElement("script");
       s.src = "vendor/mathjax/tex-mml-chtml.js"; s.async = true; s.id = "MathJax-script";
       document.head.appendChild(s);
