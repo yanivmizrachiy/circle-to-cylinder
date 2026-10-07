@@ -46,7 +46,7 @@ forbidden_historical_refs = {
 credit1 = 'יניב רז - מדריך מחוזי חט"ב בעיר ירושלים'
 credit2 = 'הדרכה במחוז ירושלים והעיר ירושלים - מנח"י, בהובלת איילת קריספין'
 image_credit_pages = {9, 16, 22}
-visual_credit_pages = {11, 29}
+visual_credit_pages = {11, 29, 45, 46}
 
 # These broken/empty historical assets are preserved only under source/ for provenance.
 # They must not reappear in the active canonical cone package.
