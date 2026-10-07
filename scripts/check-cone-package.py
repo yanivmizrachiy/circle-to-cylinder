@@ -78,6 +78,15 @@ if anis.is_file():
     if not data.startswith(b"\xff\xd8") or not data.endswith(b"\xff\xd9"):
         errors.append("cone/visual-assets/anis-basics.jpg is truncated or not a complete JPEG")
 
+# Guard the distinction between the disk (base) and its boundary circle.
+page1 = cone / "page-1.html"
+if page1.is_file():
+    text = page1.read_text(encoding="utf-8")
+    if "בסיס החרוט הוא  - מעגל" in text:
+        errors.append("cone/page-1.html incorrectly calls the cone base a circle boundary instead of a disk")
+    if "בסיס החרוט הוא  - עיגול" not in text:
+        errors.append("cone/page-1.html must state that the cone base is an עיגול")
+
 # Guard the basic geometric meanings taught before any formula is used.
 page5 = cone / "page-5.html"
 if page5.is_file():
