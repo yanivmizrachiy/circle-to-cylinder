@@ -3,26 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>מעגל → גליל · חוברת עבודה</title>
+<title>מעגל אל גליל</title>
 <style>
-  :root{--blue:#1d4ed8;--ink:#1e3a8a;--muted:#475569;--line:#cbd5e1;--panel:#eff4ff;--bg:#eef2f7}
+  :root{--blue:#1d4ed8;--ink:#1e3a8a;--muted:#475569;--line:#cbd5e1;--panel:#eff4ff}
   *{box-sizing:border-box}
   body{margin:0;min-height:100vh;font-family:"Rubik","Heebo","Noto Sans Hebrew",Arial,sans-serif;
        background:linear-gradient(160deg,#eef2f7,#dbe6fb);color:#111827;display:grid;place-items:center;padding:24px}
-  .wrap{width:100%;max-width:760px}
+  .wrap{width:100%;max-width:720px}
   header{text-align:center;margin-bottom:26px}
-  h1{font-size:34px;margin:0 0 6px;color:var(--ink)}
-  .sub{color:var(--muted);font-size:16px;margin:0}
+  h1{font-size:34px;margin:0;color:var(--ink)}
   .cards{display:grid;grid-template-columns:1fr 1fr;gap:18px}
   @media(max-width:560px){.cards{grid-template-columns:1fr}h1{font-size:28px}}
   a.card{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);
-         border-radius:16px;padding:22px 20px;box-shadow:0 2px 10px rgba(30,58,138,.07);transition:transform .12s,box-shadow .12s}
+         border-radius:16px;padding:28px 20px;text-align:center;box-shadow:0 2px 10px rgba(30,58,138,.07);transition:transform .12s,box-shadow .12s}
   a.card:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(30,58,138,.15);border-color:var(--blue)}
   .tag{display:inline-block;font-size:13px;font-weight:600;color:var(--blue);background:var(--panel);
        border:1px solid #c7d7fb;border-radius:999px;padding:2px 11px;margin-bottom:10px}
-  .card h2{margin:0 0 6px;font-size:22px;color:var(--ink)}
-  .card p{margin:0;color:var(--muted);font-size:14.5px;line-height:1.5}
-  .go{margin-top:12px;font-weight:600;color:var(--blue)}
+  .card h2{margin:0;font-size:23px;color:var(--ink)}
   footer{text-align:center;margin-top:26px;color:var(--muted);font-size:12.5px;line-height:1.6}
   footer a{color:var(--blue)}
 </style>
@@ -30,26 +27,21 @@
 <body>
 <div class="wrap">
   <header>
-    <h1>מעגל → גליל</h1>
-    <p class="sub">חוברת עבודה מתמטית מדורגת · עברית · A4 להדפסה</p>
+    <h1>מעגל אל גליל</h1>
   </header>
   <div class="cards">
     <a class="card" href="maagal/index.html">
       <span class="tag">99 עמודים</span>
       <h2>חוברת המעגל</h2>
-      <p>יסודות, היקף, שטח, מעגל במערכת צירים — מהקל אל המורכב.</p>
-      <div class="go">פתיחה ←</div>
     </a>
     <a class="card" href="galil/index.html">
       <span class="tag">39 עמודים</span>
       <h2>חוברת הגליל</h2>
-      <p>נפח, שטח פנים, והמעבר מהמעגל אל הגליל.</p>
-      <div class="go">פתיחה ←</div>
     </a>
   </div>
   <footer>
     יניב רז — מדריך מחוזי חט״ב · מנח״י, ירושלים<br>
-    קוד ומקור אמת: <a href="https://github.com/yanivmizrachiy/circle-to-cylinder">github.com/yanivmizrachiy/circle-to-cylinder</a>
+    <a href="https://github.com/yanivmizrachiy/circle-to-cylinder">github.com/yanivmizrachiy/circle-to-cylinder</a>
   </footer>
 </div>
 </body>
