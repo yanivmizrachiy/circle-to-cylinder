@@ -1,0 +1,14 @@
+{
+  "name": "circle-to-cylinder",
+  "version": "1.0.0",
+  "description": "חוברת עבודה מתמטית מדורגת בעברית מהמעגל אל הגליל",
+  "type": "module",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "build": "node -e 'console.log(\"Build complete\")'"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "name": "מעגל אל גליל",
+  "description": "מעגל אל גליל — חוברת עבודה מתמטית מדורגת בעברית מהמעגל אל הגליל",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
