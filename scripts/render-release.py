@@ -16,15 +16,19 @@ EXPECTED_TOTAL = 192
 
 def expand_manifest():
     content = json.loads((ROOT / "content-manifest.json").read_text(encoding="utf-8"))
-    circle = json.loads((ROOT / "maagal/manifest.json").read_text(encoding="utf-8"))
-    circle_count = int(circle.get("pageCount", 0))
     pages = []
     starts = {}
     for section in content.get("sections", []):
         section_id = section["id"]
         starts[section_id] = len(pages) + 1
         for item in section.get("ranges", []):
-            end = circle_count if item.get("toManifest") else int(item["to"])
+            if "toManifest" in item:
+                raise RuntimeError(
+                    f"release manifest must be self-contained; toManifest found in {section_id}"
+                )
+            if item.get("to") is None:
+                raise RuntimeError(f"release range in {section_id} has no explicit 'to'")
+            end = int(item["to"])
             for number in range(int(item["from"]), end + 1):
                 pages.append(f"{item['prefix']}{number}{item.get('suffix', '')}")
         pages.extend(section.get("pages", []))
@@ -62,17 +66,48 @@ def wait_for_page_ready(page):
 def qa_metrics(page):
     return page.locator(".a4-page").evaluate(
         """
-        el => ({
-          clientWidth: el.clientWidth,
-          clientHeight: el.clientHeight,
-          scrollWidth: el.scrollWidth,
-          scrollHeight: el.scrollHeight,
-          rectWidth: el.getBoundingClientRect().width,
-          rectHeight: el.getBoundingClientRect().height,
-          brokenImages: Array.from(document.images)
-            .filter(img => !img.complete || img.naturalWidth === 0)
-            .map(img => img.getAttribute('src') || '')
-        })
+        el => {
+          const directFooter = Array.from(el.children).find(
+            child => child.classList && child.classList.contains('gz-footer')
+          );
+          let footerOverlap = 0;
+          if (directFooter && getComputedStyle(directFooter).display !== 'none') {
+            const content = Array.from(el.children).find(
+              child => child.classList && (
+                child.classList.contains('sheet-content') ||
+                child.classList.contains('ayelet-source-sheet')
+              )
+            );
+            if (content) {
+              const visibleChildren = Array.from(content.children).filter(child => {
+                const style = getComputedStyle(child);
+                const rect = child.getBoundingClientRect();
+                return style.display !== 'none' && style.visibility !== 'hidden' && rect.height > 0;
+              });
+              if (visibleChildren.length) {
+                const lastBottom = Math.max(
+                  ...visibleChildren.map(child => child.getBoundingClientRect().bottom)
+                );
+                footerOverlap = Math.max(
+                  0,
+                  Math.ceil(lastBottom - directFooter.getBoundingClientRect().top)
+                );
+              }
+            }
+          }
+          return {
+            clientWidth: el.clientWidth,
+            clientHeight: el.clientHeight,
+            scrollWidth: el.scrollWidth,
+            scrollHeight: el.scrollHeight,
+            rectWidth: el.getBoundingClientRect().width,
+            rectHeight: el.getBoundingClientRect().height,
+            footerOverlap,
+            brokenImages: Array.from(document.images)
+              .filter(img => !img.complete || img.naturalWidth === 0)
+              .map(img => img.getAttribute('src') || '')
+          };
+        }
         """
     )
 
@@ -212,6 +247,10 @@ def render_release(output_pdf, report_path=None):
                     errors.append(
                         f"page {index} {relative}: vertical A4 overflow {overflow_y}px"
                     )
+                if metrics["footerOverlap"] > 1:
+                    errors.append(
+                        f"page {index} {relative}: footer overlaps content by {metrics['footerOverlap']}px"
+                    )
                 for src in metrics["brokenImages"]:
                     errors.append(f"page {index} {relative}: broken image {src}")
 
@@ -246,6 +285,7 @@ def render_release(output_pdf, report_path=None):
                         "a4Height": metrics["clientHeight"],
                         "overflowX": overflow_x,
                         "overflowY": overflow_y,
+                        "footerOverlap": metrics["footerOverlap"],
                     }
                 )
 
@@ -282,8 +322,8 @@ def render_release(output_pdf, report_path=None):
             report["errors"] = []
             write_report(report_path, report)
             print(
-                f"OK: Chromium validated {len(pages)} A4 pages; viewer starts={starts}; "
-                f"merged PDF has {final_count} pages."
+                f"OK: Chromium validated {len(pages)} A4 pages with no footer overlap; "
+                f"viewer starts={starts}; merged PDF has {final_count} pages."
             )
     except Exception as exc:
         if report.get("status") != "failed":
