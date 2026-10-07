@@ -23,103 +23,9 @@ jobs:
           python-version: '3.x'
       - name: Install release QA dependencies
         run: |
-          python -m pip install --disable-pip-version-check pypdf playwright pillow
+          python -m pip install --disable-pip-version-check pypdf playwright
           python -m playwright install --with-deps chromium
-          if ! command -v ffmpeg >/dev/null 2>&1; then
-            sudo apt-get update -qq
-            sudo apt-get install -y -qq ffmpeg
-          fi
-      - name: Repair known corrupted Anis JPEG when safe
-        shell: python
-        run: |
-          from pathlib import Path
-          import shutil
-          import subprocess
-          from PIL import Image
-
-          path = Path('cone/visual-assets/anis-basics.jpg')
-          data = path.read_bytes()
-          if not data.startswith(b'\xff\xd8'):
-              raise SystemExit('anis-basics.jpg is not a JPEG; refusing automatic repair')
-
-          try:
-              with Image.open(path) as image:
-                  image.verify()
-              if data.endswith(b'\xff\xd9'):
-                  print('anis-basics.jpg is already a complete decodable JPEG')
-                  raise SystemExit(0)
-          except Exception:
-              pass
-
-          ffmpeg = shutil.which('ffmpeg')
-          if not ffmpeg:
-              raise SystemExit('ffmpeg unavailable; refusing to invent a replacement image')
-
-          png = path.with_suffix('.salvaged.png')
-          proc = subprocess.run(
-              [ffmpeg, '-y', '-v', 'error', '-err_detect', 'ignore_err', '-i', str(path), '-frames:v', '1', str(png)],
-              text=True,
-              capture_output=True,
-          )
-          if proc.returncode != 0 or not png.is_file() or png.stat().st_size == 0:
-              raise SystemExit('ffmpeg could not salvage anis-basics.jpg from existing pixels: ' + proc.stderr[-1000:])
-
-          with Image.open(png) as image:
-              image.load()
-              width, height = image.size
-              if width < 500 or height < 500:
-                  raise SystemExit(f'salvaged image has implausible size {width}x{height}; refusing repair')
-              image.convert('RGB').save(path, format='JPEG', quality=95, optimize=True)
-          png.unlink(missing_ok=True)
-
-          with Image.open(path) as check:
-              check.verify()
-          if not path.read_bytes().endswith(b'\xff\xd9'):
-              raise SystemExit('repaired anis-basics.jpg is still incomplete')
-          print(f'Salvaged anis-basics.jpg from existing pixels ({width}x{height})')
-      - name: Apply canonical district footer to cone
-        shell: python
-        run: |
-          from pathlib import Path
-          path = Path('cone/styles.css')
-          text = path.read_text(encoding='utf-8')
-          marker = '/* CANONICAL-DISTRICT-FOOTER-192 */'
-          if marker not in text:
-              text += r'''
-
-          /* CANONICAL-DISTRICT-FOOTER-192 */
-          .gz-footer {
-            right:10mm;
-            left:10mm;
-            bottom:0;
-            min-height:16mm;
-            padding:3mm 0;
-            display:grid;
-            grid-template-columns:max-content 10mm;
-            grid-template-rows:auto auto;
-            grid-template-areas:"f1 logo" "f2 logo";
-            justify-content:center;
-            align-items:center;
-            column-gap:2mm;
-            direction:ltr;
-            border-top:2px solid #1e3a8a;
-          }
-          .gz-footer::before {
-            content:"";
-            grid-area:logo;
-            width:10mm;
-            height:10mm;
-            display:block;
-            background:url("../assets/district-logo.png") center/contain no-repeat;
-          }
-          .gz-footer .f1 { grid-area:f1; direction:rtl; text-align:center; }
-          .gz-footer .f2 { grid-area:f2; direction:rtl; text-align:center; }
-          '''
-              path.write_text(text, encoding='utf-8')
-              print('Added canonical district footer to cone/styles.css')
-          else:
-              print('Canonical district footer already present')
-      - name: Render 192 pages and rebuild PDF
+      - name: Render committed 192-page release and rebuild PDF
         run: python scripts/render-release.py
       - name: Upload render diagnostics
         if: always()
@@ -140,23 +46,21 @@ jobs:
           path: |
             .qa/release-report.json
             assets/circle-to-cylinder.pdf
-            cone/styles.css
-            cone/visual-assets/anis-basics.jpg
           if-no-files-found: error
           retention-days: 14
-      - name: Commit verified generated assets
+      - name: Commit verified generated PDF
         if: github.event_name == 'push'
         shell: bash
         run: |
           set -euo pipefail
-          git add cone/styles.css cone/visual-assets/anis-basics.jpg assets/circle-to-cylinder.pdf
+          git add assets/circle-to-cylinder.pdf
           if git diff --cached --quiet; then
-            echo 'No generated release changes to commit.'
+            echo 'Verified PDF already matches committed release.'
             exit 0
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit -m 'build(release): verified 192-page PDF, cone footer and repaired image'
+          git commit -m 'build(release): verified 192-page PDF'
           git push origin HEAD:${GITHUB_REF_NAME}
 
   verify-content:
