@@ -84,7 +84,7 @@
     // רשימת טענות אנכית, כל אחת עם תיבת-סימון
     choices: (b) =>
       `<div class="choice-list">${(b.opts || []).map((o) =>
-        `<div class="choice-row" style="justify-content:flex-start">${T(o)} <span class="mark-box"></span></div>`)
+        `<div class="choice-row" style="justify-content:flex-start"><span class="mark-box"></span> ${T(o)}</div>`)
         .join("")}</div>`,
 
     // שרטוט יחיד (SVG מוכן, ללא מספרי מידה על הציור)
@@ -127,7 +127,8 @@
   }
 
   function renderTask(tk) {
-    const body = `${tk.q ? `<p class="instruction">${fillInline(tk.q)}</p>` : ""}${renderBlocks(tk.blocks)}`;
+    const q = tk.q ? tk.q.replace(/[\s.?!:：]+$/, "") + ":" : "";  // הוראה מסתיימת תמיד ב-':' (לא '.'/'?')
+    const body = `${q ? `<p class="instruction">${fillInline(q)}</p>` : ""}${renderBlocks(tk.blocks)}`;
     return `<section class="task${tk.think ? " thinking" : ""}"><div class="task-row">` +
       `<span class="qmark"></span><div class="task-body">${body}</div></div></section>`;
   }
