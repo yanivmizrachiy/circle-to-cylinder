@@ -60,14 +60,22 @@ missing = [page for page in listed if not (root / page).is_file()]
 if missing:
     errors.extend(f"missing listed page: {page}" for page in missing)
 
-# Protect the known-good current book while cone consolidation is performed.
-minimums = {"circle": 99, "cylinder": 46, "cone": 1}
-for section_id, minimum in minimums.items():
+# Release lock: the current downloadable PDF and RULES.md both define a 146-page
+# live workbook. Do not activate staged cone pages (or otherwise change section
+# counts) unless the PDF, RULES and this lock are updated atomically in one change.
+expected_active_counts = {"circle": 99, "cylinder": 46, "cone": 1}
+for section_id, expected in expected_active_counts.items():
     actual = len(section_pages.get(section_id, []))
-    if actual < minimum:
+    if actual != expected:
         errors.append(
-            f"{section_id} page count regressed: {actual} < protected minimum {minimum}"
+            f"active {section_id} page count changed: {actual} != release lock {expected}; "
+            "update PDF + RULES + integrity lock atomically before changing the live sequence"
         )
+if len(listed) != 146:
+    errors.append(
+        f"active workbook page count changed: {len(listed)} != release lock 146; "
+        "the downloadable PDF must be rebuilt and verified in the same change"
+    )
 
 # Every gold page must be represented in the canonical manifest.
 expected_gold = {page for page in listed if page.startswith("gold/")}
@@ -162,6 +170,7 @@ print(
     f"circle={counts.get('circle', 0)}, "
     f"cylinder={counts.get('cylinder', 0)}, "
     f"cone={counts.get('cone', 0)}; "
-    "SSOT is local; recovered 46-page cone source is preserved byte-for-byte; "
+    "146-page release lock intact; SSOT is local; "
+    "recovered 46-page cone source is preserved byte-for-byte; "
     "no missing, duplicate, external or unlisted gold pages."
 )
