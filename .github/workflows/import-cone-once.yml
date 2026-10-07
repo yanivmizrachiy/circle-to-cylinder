@@ -1,0 +1,71 @@
+name: Preserve legacy cone source once
+
+on:
+  push:
+    branches:
+      - 'consolidate/single-source-of-truth-2026-10-07'
+    paths:
+      - '.github/workflows/import-cone-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  preserve-cone:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout canonical repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Copy exact cone source from frozen razpages commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          SOURCE_COMMIT='5f67398bcb100dd36e2275b34f4312e7f145e14e'
+          DEST='source/razpages-cone-5f67398'
+
+          if [ -e "$DEST" ]; then
+            echo "Destination already exists; refusing to overwrite preserved source."
+            exit 0
+          fi
+
+          git clone --filter=blob:none --no-checkout https://github.com/yanivmizrachiy/razpages.git /tmp/razpages
+          git -C /tmp/razpages checkout "$SOURCE_COMMIT" -- workbooks/cone workbooks/visual-assets
+
+          mkdir -p "$DEST/workbooks"
+          cp -a /tmp/razpages/workbooks/cone "$DEST/workbooks/cone"
+          cp -a /tmp/razpages/workbooks/visual-assets "$DEST/workbooks/visual-assets"
+
+          cat > "$DEST/SOURCE.json" <<'JSON'
+          {
+            "repository": "yanivmizrachiy/razpages",
+            "commit": "5f67398bcb100dd36e2275b34f4312e7f145e14e",
+            "sourcePaths": [
+              "workbooks/cone",
+              "workbooks/visual-assets"
+            ],
+            "conePages": 46,
+            "purpose": "Immutable preservation copy before canonical integration into yanivmizrachiy/circle-to-cylinder"
+          }
+          JSON
+
+          test -f "$DEST/workbooks/cone/index.html"
+          test -f "$DEST/workbooks/cone/styles.css"
+          test -f "$DEST/workbooks/cone/reader.js"
+          grep -q 'data-local-page="46"' "$DEST/workbooks/cone/index.html"
+
+      - name: Commit preservation copy to consolidation branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add source/razpages-cone-5f67398
+          if git diff --cached --quiet; then
+            echo "No preservation changes to commit."
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'chore(source): preserve 46-page cone source [cone-import]'
+          git push origin HEAD:${GITHUB_REF_NAME}
