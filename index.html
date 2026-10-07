@@ -8,24 +8,39 @@
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#f3f6fb;font-family:'Rubik','Heebo','Noto Sans Hebrew',Arial,sans-serif;color:#152033}
-.book{max-width:1060px;margin:14px auto;padding:0 10px;display:flex;flex-direction:column;align-items:center;gap:16px}
-.slot{position:relative;width:794px;max-width:100%;background:#fff;border:1px solid #cdd9e8;border-radius:12px;box-shadow:0 10px 34px rgba(36,56,86,.08);overflow:hidden}
+.nav{position:sticky;top:0;z-index:50;display:flex;justify-content:center;background:#fff;border-bottom:3px solid #1e3a8a;box-shadow:0 2px 12px rgba(30,58,138,.15)}
+.nav button{flex:1 1 0;max-width:300px;font-family:inherit;font-size:22px;font-weight:800;color:#1e3a8a;background:#fff;border:0;padding:18px 12px;cursor:pointer;transition:background .15s;letter-spacing:.5px}
+.nav button + button{border-inline-start:3px solid #1e3a8a}
+.nav button:hover{background:#eaf1fc}
+.nav button:active{background:#d7e4f7}
+.book{max-width:1060px;margin:0 auto 24px;padding:0 10px;display:flex;flex-direction:column;align-items:center;gap:0}
+.slot{position:relative;width:794px;max-width:100%;background:#fff;overflow:hidden;scroll-margin-top:84px}
+.slot + .slot{border-top:3px solid #1e3a8a}
 .slot iframe{display:block;width:100%;height:100%;border:0;background:#fff;overflow:hidden;pointer-events:none}
 html,body{overflow-x:hidden;max-width:100%}
 .slot .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#9aa8bc;font-weight:700;font-size:15px}
-@media(max-width:760px){.book{margin-top:8px;padding:0 6px;gap:12px}.slot{border-radius:8px}}
+@media(max-width:760px){.book{margin-top:8px;padding:0 6px;gap:12px}.slot{border-radius:8px}.nav button{font-size:17px;padding:14px 6px}}
 @media print{
+ .nav{display:none}
  body{background:#fff}
  .book{margin:0;padding:0;max-width:none;gap:0}
  .slot{width:100%!important;border:none;border-radius:0;box-shadow:none;break-after:page;page-break-after:always}
+ .slot + .slot{border-top:0}
 }
 </style>
 </head><body>
+<nav class="nav" aria-label="ניווט מהיר בין חלקי החוברת">
+ <button type="button" onclick="jump('circle')">מעגל</button>
+ <button type="button" onclick="jump('cylinder')">גליל</button>
+ <button type="button" onclick="jump('cone')">חרוט</button>
+</nav>
 <main class="book" id="book" aria-label="כל עמודי החוברת"></main>
 <script>
 const PAGE_W=794,PAGE_H=1123,GOLD_CYL=7,GALIL=39;
 const book=document.getElementById('book');
 let pages=[],slots=[];
+let SEC={circle:1,cylinder:100,cone:146};
+function jump(sec){const n=SEC[sec]||1;const t=document.getElementById('p'+n);if(!t)return;if(!t._loaded)loadSlot(t);t.scrollIntoView({behavior:'smooth',block:'start'});}
 function displayWidth(){const cs=getComputedStyle(book);const pad=parseFloat(cs.paddingLeft)+parseFloat(cs.paddingRight);return Math.max(200,Math.min(PAGE_W,Math.floor(book.clientWidth-pad)));}
 function sizeSlot(slot){const dw=displayWidth(),scale=dw/PAGE_W;slot.style.width=dw+'px';slot.style.height=Math.round(PAGE_H*scale)+'px';}
 function fitIframe(slot){const f=slot._frame;if(!f)return false;try{const doc=f.contentDocument;if(!doc)return false;const p=doc.querySelector('.a4-page');if(!p)return false;const target=f.clientWidth||displayWidth(),pw=p.offsetWidth||PAGE_W,ph=p.offsetHeight||PAGE_H,scale=target/pw;const de=doc.documentElement,bd=doc.body;de.style.overflow='hidden';de.style.margin='0';de.style.padding='0';if(bd){bd.style.margin='0';bd.style.padding='0';bd.style.position='relative';bd.style.overflow='hidden';bd.style.width=target+'px';bd.style.height=Math.ceil(ph*scale)+'px';}p.style.margin='0';p.style.position='absolute';p.style.left='0';p.style.top='0';p.style.transformOrigin='top left';p.style.transform='scale('+scale+')';slot.style.height=Math.round(ph*scale)+'px';const el=slot.querySelector('.ph');if(el)el.remove();return true;}catch(e){return false;}}
@@ -41,7 +56,7 @@ function startLoading(){
 function build(){book.replaceChildren();slots=[];for(let i=0;i<pages.length;i++){const n=i+1;const slot=document.createElement('section');slot.className='slot';slot.id='p'+n;slot._page=n;slot._src=pages[i];slot.setAttribute('data-page',n);const ph=document.createElement('div');ph.className='ph';ph.textContent=`עמוד ${n}`;slot.appendChild(ph);book.appendChild(slot);sizeSlot(slot);slots.push(slot);}startLoading();if(location.hash){let k=0;const jump=function(){const t=document.getElementById(location.hash.slice(1));if(t)t.scrollIntoView();if(++k<8)setTimeout(jump,90);};setTimeout(jump,60);}}
 window.addEventListener('hashchange',function(){const t=document.getElementById(location.hash.slice(1));if(t)t.scrollIntoView();});
 let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{slots.forEach(sl=>{sizeSlot(sl);if(sl._loaded)fitIframe(sl);});},150);});
-function assemble(maagalCount){pages=[];for(let n=1;n<=maagalCount;n++)pages.push(`maagal/page-${n}.html`);for(let n=1;n<=GOLD_CYL;n++)pages.push(`gold/page-${n}.html`);for(let n=1;n<=GALIL;n++)pages.push(`galil/page-${n}.html`);pages.push('gold/page-8.html');build();}
+function assemble(maagalCount){pages=[];for(let n=1;n<=maagalCount;n++)pages.push(`maagal/page-${n}.html`);for(let n=1;n<=GOLD_CYL;n++)pages.push(`gold/page-${n}.html`);for(let n=1;n<=GALIL;n++)pages.push(`galil/page-${n}.html`);pages.push('gold/page-8.html');SEC={circle:1,cylinder:maagalCount+1,cone:maagalCount+GOLD_CYL+GALIL+1};build();}
 fetch('maagal/manifest.json',{cache:'no-store'}).then(r=>r.json()).then(m=>{assemble(Number(m.pageCount)||99);}).catch(e=>{assemble(99);});
 </script>
 </body></html>
