@@ -70,10 +70,30 @@ for path in required_assets:
     if not path.is_file():
         errors.append(f"required canonical cone asset missing: {path.relative_to(root)}")
 
+# The Anis illustration was historically present but truncated. Presence alone is not enough:
+# require JPEG SOI + EOI markers so Chromium can decode it before a release is accepted.
+anis = cone / "visual-assets/anis-basics.jpg"
+if anis.is_file():
+    data = anis.read_bytes()
+    if not data.startswith(b"\xff\xd8") or not data.endswith(b"\xff\xd9"):
+        errors.append("cone/visual-assets/anis-basics.jpg is truncated or not a complete JPEG")
+
+# Guard the exact terminology used in the cone-volume formula lesson.
+# Diameter must be converted to radius; slant height is not the perpendicular height in V=(1/3)πr²h.
+page12 = cone / "page-12.html"
+if page12.is_file():
+    text = page12.read_text(encoding="utf-8")
+    if "רדיוס הבסיס / קוטר הבסיס" in text:
+        errors.append("cone/page-12.html incorrectly treats diameter as the formula radius")
+    if "גובה החרוט / היוצר" in text:
+        errors.append("cone/page-12.html incorrectly treats slant height as the formula height")
+    if "רדיוס הבסיס</td>" not in text or "הגובה המאונך של החרוט</td>" not in text:
+        errors.append("cone/page-12.html must state radius and perpendicular height explicitly")
+
 if errors:
     print("CONE PACKAGE INTEGRITY FAILED")
     for error in errors:
         print(f"- {error}")
     sys.exit(1)
 
-print("OK: cone/ contains exactly 46 standalone A4 pages; manifest and local asset references are valid.")
+print("OK: cone/ contains exactly 46 standalone A4 pages; manifest, local references, required assets and core volume terminology are valid.")
