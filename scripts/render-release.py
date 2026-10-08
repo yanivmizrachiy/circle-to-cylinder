@@ -304,7 +304,7 @@ def render_release(output_pdf, report_path=None):
                 writer.append(str(part))
             # Lossless de-duplication of repeated fonts/images/resources from 192 one-page PDFs.
             if hasattr(writer, "compress_identical_objects"):
-                writer.compress_identical_objects(remove_identicals=True, remove_orphans=True)
+                writer.compress_identical_objects(remove_duplicates=True, remove_unreferenced=True)
             pathlib.Path(output_pdf).parent.mkdir(parents=True, exist_ok=True)
             with pathlib.Path(output_pdf).open("wb") as handle:
                 writer.write(handle)
