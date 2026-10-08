@@ -28,6 +28,65 @@
 .figure-medium{max-height:142px;}
 .mini-figure{max-height:96px;}
 
+/* Page 1: restore the previously designed Ayelet companion layout using the current Studio system. */
+[data-local-page="1"] .sheet-content{
+  display:flex;
+  flex-direction:column;
+  gap:3mm;
+  padding-bottom:11mm;
+}
+[data-local-page="1"] .q-card{
+  background:#fff;
+}
+[data-local-page="1"] .source-steps-list{
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+  margin-top:4px;
+  font-size:13px;
+  line-height:1.38;
+}
+[data-local-page="1"] .answer-line{
+  margin:4px 0;
+  min-height:19px;
+}
+[data-local-page="1"] .ayelet-unified-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 138px;
+  gap:13px;
+  align-items:center;
+}
+[data-local-page="1"] .ayelet-unified-copy{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+[data-local-page="1"] .highlight-lead{
+  margin:0 0 2px;
+  color:var(--brand-dark);
+  font-size:14.5px;
+  font-weight:700;
+}
+[data-local-page="1"] .ayelet-original-cone-img{
+  display:block;
+  width:auto;
+  max-width:100%;
+  max-height:112px;
+  height:auto;
+  margin:0 auto;
+  object-fit:contain;
+  filter:drop-shadow(0 3px 8px rgba(15,23,42,.12));
+}
+[data-local-page="1"] .page1-concepts{
+  gap:6px;
+}
+[data-local-page="1"] .page1-concepts .q-card{
+  height:100%;
+}
+[data-local-page="1"] .page1-inquiry-card{
+  border-color:color-mix(in srgb,var(--brand) 45%,var(--line));
+}
+
 /* Canonical district-logo footer rules are repeated here intentionally so integrity guards can validate the entry stylesheet directly. */
 .gz-footer::before{
   content:"";
