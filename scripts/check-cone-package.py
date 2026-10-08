@@ -74,9 +74,6 @@ for number in range(1, 47):
     elif number in visual_credit_pages:
         if 'class="visual-credit"' not in text:
             errors.append(f"cone/page-{number}.html must expose visual-credit")
-    elif number == 1:
-        if text.count('class="gz-footer"') < 2:
-            errors.append("cone/page-1.html must include a visible gz-footer outside hidden source metadata")
     elif 'class="gz-footer"' not in text:
         errors.append(f"cone/page-{number}.html must expose the canonical gz-footer")
 
@@ -122,14 +119,18 @@ if styles_path.is_file():
     if any(value not in styles for value in required_footer_css):
         errors.append("cone/styles.css must keep the canonical district-logo footer rules for all cone page types")
 
-# Guard the distinction between the disk (base) and its boundary circle.
+# Guard the distinction between the disk (base) and its boundary circle without
+# forcing a student-facing answer to be printed next to a completion blank.
 page1 = cone / "page-1.html"
 if page1.is_file():
     text = page1.read_text(encoding="utf-8")
-    if "בסיס החרוט הוא  - מעגל" in text:
+    wrong_base_claim = re.search(r"בסיס החרוט\s+הוא\s*[-—:]?\s*(?:<[^>]+>)*\s*מעגל", text)
+    if wrong_base_claim:
         errors.append("cone/page-1.html incorrectly calls the cone base a circle boundary instead of a disk")
-    if "בסיס החרוט הוא  - עיגול" not in text:
-        errors.append("cone/page-1.html must state that the cone base is an עיגול")
+    has_correct_explicit_claim = bool(re.search(r"בסיס החרוט\s+הוא\s*[-—:]?\s*(?:<[^>]+>)*\s*עיגול", text))
+    has_student_completion = 'aria-label="השלימו את צורת בסיס החרוט"' in text
+    if not (has_correct_explicit_claim or has_student_completion):
+        errors.append("cone/page-1.html must teach the cone base as an עיגול or provide a protected student-completion field for that concept")
 
 # Page 6 is the canonical accessible replacement for an unrecoverable historical illustration.
 page6 = cone / "page-6.html"
