@@ -7,6 +7,8 @@ from collections import Counter
 
 from pypdf import PdfReader
 
+from release_fingerprint import compute_release_fingerprint
+
 root = pathlib.Path(__file__).resolve().parents[1]
 manifest = json.loads((root / "content-manifest.json").read_text(encoding="utf-8"))
 circle = json.loads((root / "maagal/manifest.json").read_text(encoding="utf-8"))
@@ -151,19 +153,33 @@ for page_path in sorted(expected_gold):
         if not plain.endswith(":"):
             errors.append(f"gold prompt must end with colon: {page_path}: {plain}")
 
-# The downloadable PDF must be derived from and match the active manifest page count.
+# The downloadable PDF must match both the page count and the exact local render inputs.
 pdf_path = root / "assets/circle-to-cylinder.pdf"
 if not pdf_path.is_file():
     errors.append("downloadable PDF is missing: assets/circle-to-cylinder.pdf")
 else:
     try:
-        pdf_pages = len(PdfReader(str(pdf_path)).pages)
+        pdf_reader = PdfReader(str(pdf_path))
+        pdf_pages = len(pdf_reader.pages)
+        pdf_metadata = pdf_reader.metadata or {}
     except Exception as exc:
         errors.append(f"downloadable PDF cannot be read: {exc}")
     else:
         if pdf_pages != len(listed):
             errors.append(
                 f"downloadable PDF page count mismatch: {pdf_pages} != active manifest {len(listed)}"
+            )
+        expected_fingerprint = compute_release_fingerprint(root)
+        actual_fingerprint = pdf_metadata.get("/WorkbookSourceSHA256")
+        if actual_fingerprint != expected_fingerprint:
+            errors.append(
+                "downloadable PDF source fingerprint mismatch: "
+                f"{actual_fingerprint!r} != {expected_fingerprint!r}; rebuild the PDF from current sources"
+            )
+        declared_count = pdf_metadata.get("/WorkbookPageCount")
+        if declared_count != str(len(listed)):
+            errors.append(
+                f"downloadable PDF metadata page count mismatch: {declared_count!r} != {len(listed)!r}"
             )
 
 # Keep human-readable authority docs aligned with the release count.
