@@ -7,6 +7,7 @@ import tempfile
 import threading
 import urllib.parse
 
+from release_fingerprint import compute_release_fingerprint
 from pypdf import PdfReader, PdfWriter
 from playwright.sync_api import sync_playwright
 
@@ -304,7 +305,14 @@ def render_release(output_pdf, report_path=None):
                 writer.append(str(part))
             # Lossless de-duplication of repeated fonts/images/resources from 192 one-page PDFs.
             if hasattr(writer, "compress_identical_objects"):
-                writer.compress_identical_objects(remove_identicals=True, remove_orphans=True)
+                writer.compress_identical_objects(remove_duplicates=True, remove_unreferenced=True)
+            source_fingerprint = compute_release_fingerprint(ROOT)
+            writer.add_metadata(
+                {
+                    "/WorkbookSourceSHA256": source_fingerprint,
+                    "/WorkbookPageCount": str(len(pages)),
+                }
+            )
             pathlib.Path(output_pdf).parent.mkdir(parents=True, exist_ok=True)
             with pathlib.Path(output_pdf).open("wb") as handle:
                 writer.write(handle)
@@ -322,6 +330,7 @@ def render_release(output_pdf, report_path=None):
 
             report["status"] = "passed"
             report["pdfPages"] = final_count
+            report["sourceFingerprint"] = source_fingerprint
             report["errors"] = []
             write_report(report_path, report)
             print(
