@@ -34,7 +34,9 @@ jobs:
       - name: Verify viewer runtime behavior
         run: python scripts/check-viewer-runtime.py
       - name: Render committed 192-page release and rebuild PDF
-        run: python scripts/render-release.py
+        run: |
+          python scripts/render-release.py
+          python scripts/release-lock.py write
       - name: Upload render diagnostics
         if: always()
         uses: actions/upload-artifact@v4
@@ -48,6 +50,7 @@ jobs:
           python scripts/check-release-ssot.py
           python scripts/check-content.py
           python scripts/check-cone-package.py
+          python scripts/release-lock.py check
       - name: Upload verified release artifact
         uses: actions/upload-artifact@v4
         with:
@@ -55,16 +58,17 @@ jobs:
           path: |
             .qa/release-report.json
             assets/circle-to-cylinder.pdf
+            assets/circle-to-cylinder.pdf.lock.json
           if-no-files-found: error
           retention-days: 14
-      - name: Commit verified generated PDF
+      - name: Commit verified generated PDF and lock
         if: github.event_name == 'push'
         shell: bash
         run: |
           set -euo pipefail
-          git add assets/circle-to-cylinder.pdf
+          git add assets/circle-to-cylinder.pdf assets/circle-to-cylinder.pdf.lock.json
           if git diff --cached --quiet; then
-            echo 'Verified PDF already matches committed release.'
+            echo 'Verified PDF and source lock already match committed release.'
             exit 0
           fi
           rendered_sha="${GITHUB_SHA}"
@@ -76,7 +80,7 @@ jobs:
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit -m 'build(release): verified 192-page PDF'
+          git commit -m 'build(release): verified 192-page PDF and source lock'
           if git push origin HEAD:${GITHUB_REF_NAME}; then
             exit 0
           fi
@@ -102,3 +106,6 @@ jobs:
       - run: python scripts/check-release-ssot.py
       - run: python scripts/check-content.py
       - run: python scripts/check-cone-package.py
+      - name: Verify committed PDF/source lock
+        if: github.actor == 'github-actions[bot]'
+        run: python scripts/release-lock.py check
