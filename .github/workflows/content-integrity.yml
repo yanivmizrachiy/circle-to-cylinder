@@ -66,24 +66,33 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          git add assets/circle-to-cylinder.pdf assets/circle-to-cylinder.pdf.lock.json
-          if git diff --cached --quiet; then
-            echo 'Verified PDF and source lock already match committed release.'
-            exit 0
-          fi
           rendered_sha="${GITHUB_SHA}"
           remote_ref="refs/heads/${GITHUB_REF_NAME}"
+          remote_tracking_ref="refs/remotes/origin/${GITHUB_REF_NAME}"
           remote_sha="$(git ls-remote origin "${remote_ref}" | cut -f1)"
           if [[ -n "${remote_sha}" && "${remote_sha}" != "${rendered_sha}" ]]; then
             echo "Remote ${GITHUB_REF_NAME} advanced from ${rendered_sha} to ${remote_sha}; a newer run owns PDF publication."
             exit 0
           fi
+
+          git add assets/circle-to-cylinder.pdf assets/circle-to-cylinder.pdf.lock.json
+          if git diff --cached --quiet; then
+            python scripts/release-lock.py check
+            echo 'Verified PDF and source lock already match the current release.'
+            exit 0
+          fi
+
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git commit -m 'build(release): verified 192-page PDF and source lock'
           if git push origin HEAD:${GITHUB_REF_NAME}; then
+            git fetch --no-tags origin "+${remote_ref}:${remote_tracking_ref}"
+            git checkout --detach "${remote_tracking_ref}"
+            python scripts/release-lock.py check
+            echo 'Verified the PDF/source lock from the published remote commit.'
             exit 0
           fi
+
           latest_sha="$(git ls-remote origin "${remote_ref}" | cut -f1)"
           if [[ -n "${latest_sha}" && "${latest_sha}" != "${rendered_sha}" ]]; then
             echo "Remote advanced during PDF publication to ${latest_sha}; skipping stale PDF commit without failing the release."
@@ -93,7 +102,7 @@ jobs:
           exit 1
 
   verify-content:
-    if: github.event_name == 'push' && (github.actor == 'github-actions[bot]' || (github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/heads/release/')))
+    if: github.event_name == 'push' && github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/heads/release/')
     permissions:
       contents: read
     runs-on: ubuntu-latest
@@ -106,6 +115,3 @@ jobs:
       - run: python scripts/check-release-ssot.py
       - run: python scripts/check-content.py
       - run: python scripts/check-cone-package.py
-      - name: Verify committed PDF/source lock
-        if: github.actor == 'github-actions[bot]'
-        run: python scripts/release-lock.py check
