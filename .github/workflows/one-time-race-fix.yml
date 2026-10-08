@@ -1,0 +1,84 @@
+name: One-time PDF publish race fix
+
+on:
+  push:
+    branches:
+      - fix/pdf-publish-race-20261008
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Patch release publisher safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          workflow = Path('.github/workflows/content-integrity.yml')
+          text = workflow.read_text(encoding='utf-8')
+          old = '''          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'build(release): verified 192-page PDF'
+          git push origin HEAD:${GITHUB_REF_NAME}
+'''
+          new = '''          rendered_sha="${GITHUB_SHA}"
+          remote_ref="refs/heads/${GITHUB_REF_NAME}"
+          remote_sha="$(git ls-remote origin "${remote_ref}" | cut -f1)"
+          if [[ -n "${remote_sha}" && "${remote_sha}" != "${rendered_sha}" ]]; then
+            echo "Remote ${GITHUB_REF_NAME} advanced from ${rendered_sha} to ${remote_sha}; a newer run owns PDF publication."
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'build(release): verified 192-page PDF'
+          if git push origin HEAD:${GITHUB_REF_NAME}; then
+            exit 0
+          fi
+          latest_sha="$(git ls-remote origin "${remote_ref}" | cut -f1)"
+          if [[ -n "${latest_sha}" && "${latest_sha}" != "${rendered_sha}" ]]; then
+            echo "Remote advanced during PDF publication to ${latest_sha}; skipping stale PDF commit without failing the release."
+            exit 0
+          fi
+          echo 'PDF publication failed while the rendered source commit is still current.' >&2
+          exit 1
+'''
+          if old not in text:
+              raise SystemExit('workflow publish block changed; refusing blind patch')
+          workflow.write_text(text.replace(old, new, 1), encoding='utf-8')
+
+          render = Path('scripts/render-release.py')
+          text = render.read_text(encoding='utf-8')
+          old = 'writer.compress_identical_objects(remove_identicals=True, remove_orphans=True)'
+          new = 'writer.compress_identical_objects(remove_duplicates=True, remove_unreferenced=True)'
+          if old not in text:
+              raise SystemExit('pypdf compression call changed; refusing blind patch')
+          render.write_text(text.replace(old, new, 1), encoding='utf-8')
+          PY
+      - name: Static release verification
+        run: |
+          python -m pip install --disable-pip-version-check pypdf
+          python scripts/check-release-ssot.py
+          python scripts/check-content.py
+          python scripts/check-cone-package.py
+      - name: Remove one-time workflow and commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f .github/workflows/one-time-race-fix.yml
+          git add -A
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'fix(ci): avoid stale PDF publish races'
+          git push origin HEAD:${GITHUB_REF_NAME}
