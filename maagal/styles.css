@@ -13,7 +13,7 @@
 /* workspace-box injection removed (stale A4-utilization hack, caused overflow after redesign) */
 @media print{body{background:#fff}.a4-page{margin:0;box-shadow:none}}
 
-/* ===== כללי עיצוב אחידים — כל הדפים (SSOT: manifest.json → designRules, 2026-10-05) ===== */
+/* ===== כללי עיצוב אחידים — מונחה RULES.md; manifest.json משמש ניתוב מקומי בלבד ===== */
 /* אין מסגרות סביב שאלות (מכלי שאלה; תיבות הדגשה כמו anchor/thinking נשמרות) */
 .coord-card,.puzzle-card{border:none;background:transparent;padding:0}
 .coord-card{padding:0 0 1mm}

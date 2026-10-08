@@ -125,6 +125,32 @@ else:
     if "function pump" in viewer or "setTimeout(pump" in viewer:
         errors.append("root viewer must not eagerly pump-load the full workbook")
 
+# Active typography/prompt policy guard.
+# Historical preserved sources stay untouched; canonical direct pages must use RULES.md units.
+bad_units = ("ס״מ²", "ס״מ³", 'ס"מ²', 'ס"מ³')
+for page_path in listed:
+    if page_path.startswith(("cone/", "galil/", "gold/")):
+        text = (root / page_path).read_text(encoding="utf-8")
+        for bad in bad_units:
+            if bad in text:
+                errors.append(f"non-canonical unit {bad!r} in active page: {page_path}")
+
+# Circle keeps historical source files immutable; every active loader must normalize visible legacy units.
+for page_path in section_pages.get("circle", []):
+    text = (root / page_path).read_text(encoding="utf-8")
+    if ".replaceAll('ס״מ²','סמ״ר')" not in text or ".replaceAll('ס״מ³','סמ״ק')" not in text:
+        errors.append(f"circle loader does not normalize visible legacy units: {page_path}")
+
+# Gold prompts are canonical: q-line instructions must use a colon, never a question mark.
+for page_path in sorted(expected_gold):
+    text = (root / page_path).read_text(encoding="utf-8")
+    for match in re.finditer(r'<p class="q-line"[^>]*>(.*?)</p>', text, flags=re.S):
+        plain = re.sub(r"<[^>]+>", "", match.group(1)).strip()
+        if "?" in plain or "؟" in plain:
+            errors.append(f"question mark in canonical gold prompt: {page_path}: {plain}")
+        if not plain.endswith(":"):
+            errors.append(f"gold prompt must end with colon: {page_path}: {plain}")
+
 # The downloadable PDF must be derived from and match the active manifest page count.
 pdf_path = root / "assets/circle-to-cylinder.pdf"
 if not pdf_path.is_file():
